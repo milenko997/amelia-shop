@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html <?php language_attributes(); ?>>
+<head>
+	<meta charset="<?php bloginfo( 'charset' ); ?>">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="profile" href="https://gmpg.org/xfn/11">
+	<?php wp_head(); ?>
+</head>
+
+<body <?php body_class(); ?>>
+<?php wp_body_open(); ?>
+
+<div id="page" class="site">
+
+	<!-- Promo Strip -->
+	<div class="promo-strip">
+		<div class="promo-items">
+			<span class="promo-item">&#10024; <?php esc_html_e( 'Free shipping on orders over 50€', 'amelia-shop' ); ?></span>
+			<span class="promo-item">&#128197; <?php esc_html_e( '30-day free returns', 'amelia-shop' ); ?></span>
+			<span class="promo-item">&#128274; <?php esc_html_e( 'Secure checkout', 'amelia-shop' ); ?></span>
+		</div>
+	</div>
+
+	<!-- Site Header -->
+	<header id="masthead" class="site-header">
+		<div class="header-inner">
+
+			<!-- Logo -->
+			<div class="site-logo">
+				<a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home">
+					<?php if ( has_custom_logo() ) : ?>
+						<?php the_custom_logo(); ?>
+					<?php else : ?>
+						<span class="logo-text"><?php bloginfo( 'name' ); ?></span>
+					<?php endif; ?>
+				</a>
+			</div>
+
+			<!-- Primary Navigation -->
+			<nav class="primary-nav" id="primary-nav" aria-label="<?php esc_attr_e( 'Primary Navigation', 'amelia-shop' ); ?>">
+				<?php
+				wp_nav_menu( [
+					'theme_location' => 'primary',
+					'menu_class'     => '',
+					'container'      => false,
+					'fallback_cb'    => 'amelia_fallback_menu',
+				] );
+				?>
+			</nav>
+
+			<!-- Header Actions -->
+			<div class="header-actions">
+
+				<!-- Search -->
+				<button class="header-icon-btn" id="search-toggle" aria-label="<?php esc_attr_e( 'Search', 'amelia-shop' ); ?>">
+					<svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+				</button>
+
+				<!-- Account -->
+				<a href="<?php echo esc_url( get_permalink( get_option( 'woocommerce_myaccount_page_id' ) ) ); ?>" class="header-icon-btn" aria-label="<?php esc_attr_e( 'My Account', 'amelia-shop' ); ?>">
+					<svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+				</a>
+
+				<!-- Cart -->
+				<?php if ( class_exists( 'WooCommerce' ) ) : ?>
+				<a href="<?php echo esc_url( wc_get_cart_url() ); ?>" class="header-icon-btn" aria-label="<?php esc_attr_e( 'Cart', 'amelia-shop' ); ?>">
+					<svg viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+					<?php $count = amelia_cart_count(); ?>
+					<?php if ( $count > 0 ) : ?>
+					<span class="cart-count" id="cart-count"><?php echo esc_html( $count ); ?></span>
+					<?php endif; ?>
+				</a>
+				<?php endif; ?>
+
+				<!-- Mobile Toggle -->
+				<button class="mobile-menu-toggle" id="mobile-menu-toggle" aria-label="<?php esc_attr_e( 'Toggle Menu', 'amelia-shop' ); ?>" aria-expanded="false">
+					<span></span><span></span><span></span>
+				</button>
+			</div>
+		</div>
+
+		<!-- Search Dropdown -->
+		<div id="search-dropdown" class="search-dropdown" hidden>
+			<div class="container">
+				<?php get_search_form(); ?>
+			</div>
+		</div>
+	</header>
+
+<?php
+function amelia_fallback_menu() {
+	echo '<ul>';
+	echo '<li><a href="' . esc_url( home_url( '/' ) ) . '">' . esc_html__( 'Home', 'amelia-shop' ) . '</a></li>';
+	if ( class_exists( 'WooCommerce' ) ) {
+		echo '<li><a href="' . esc_url( get_permalink( wc_get_page_id( 'shop' ) ) ) . '">' . esc_html__( 'Shop', 'amelia-shop' ) . '</a></li>';
+	}
+	echo '</ul>';
+}
