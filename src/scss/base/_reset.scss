@@ -1,0 +1,73 @@
+@use '../abstracts/variables' as v;
+
+// ============================================================
+// CSS Custom Properties (runtime theming)
+// ============================================================
+:root {
+	--color-primary:       #{v.$color-primary};
+	--color-primary-dark:  #{v.$color-primary-dark};
+	--color-primary-light: #{v.$color-primary-light};
+	--color-secondary:     #{v.$color-secondary};
+	--color-accent:        #{v.$color-accent};
+	--color-bg:            #{v.$color-bg};
+	--color-bg-alt:        #{v.$color-bg-alt};
+	--color-white:         #{v.$color-white};
+	--color-text:          #{v.$color-text};
+	--color-text-light:    #{v.$color-text-light};
+	--color-border:        #{v.$color-border};
+	--color-error:         #{v.$color-error};
+	--color-success:       #{v.$color-success};
+	--font-heading:        #{v.$font-heading};
+	--font-body:           #{v.$font-body};
+	--radius-sm:           #{v.$radius-sm};
+	--radius-md:           #{v.$radius-md};
+	--radius-lg:           #{v.$radius-lg};
+	--radius-full:         #{v.$radius-full};
+	--shadow-sm:           #{v.$shadow-sm};
+	--shadow-md:           #{v.$shadow-md};
+	--shadow-lg:           #{v.$shadow-lg};
+	--transition:          #{v.$transition};
+	--container:           #{v.$container};
+}
+
+// ============================================================
+// Box model & reset
+// ============================================================
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
+
+html {
+	scroll-behavior: smooth;
+	font-size: 16px;
+}
+
+body {
+	font-family: v.$font-body;
+	font-size: 1rem;
+	line-height: 1.7;
+	color: v.$color-text;
+	background: v.$color-bg;
+	-webkit-font-smoothing: antialiased;
+}
+
+img {
+	max-width: 100%;
+	height: auto;
+	display: block;
+}
+
+a {
+	color: v.$color-primary-dark;
+	text-decoration: none;
+	transition: color v.$transition;
+
+	&:hover { color: v.$color-primary; }
+}
+
+ul,
+ol { list-style: none; }

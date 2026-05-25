@@ -1,0 +1,126 @@
+@use '../abstracts/variables' as v;
+@use '../abstracts/mixins' as m;
+
+// ============================================================
+// Site footer
+// ============================================================
+.site-footer {
+	background: v.$color-secondary;
+	color: rgba(255, 255, 255, 0.8);
+	padding: 4rem 0 0;
+}
+
+.footer-grid {
+	display: grid;
+	grid-template-columns: 2fr repeat(3, 1fr);
+	gap: 3rem;
+	max-width: v.$container;
+	margin: 0 auto;
+	padding: 0 1.5rem 3rem;
+
+	@include m.respond-to(lg) { grid-template-columns: 1fr 1fr; }
+	@include m.respond-to(md) { grid-template-columns: 1fr; }
+}
+
+// ============================================================
+// Brand column
+// ============================================================
+.footer-brand {
+	.logo-text {
+		font-family: v.$font-heading;
+		font-size: 1.5rem;
+		color: v.$color-white;
+		display: block;
+		margin-bottom: 1rem;
+
+		span { color: v.$color-primary-light; }
+	}
+
+	p {
+		font-size: 0.875rem;
+		line-height: 1.8;
+		margin-bottom: 1.5rem;
+	}
+}
+
+// ============================================================
+// Social links
+// ============================================================
+.social-links { display: flex; gap: 0.75rem; }
+
+.social-link {
+	@include m.flex-center;
+	width: 38px;
+	height: 38px;
+	background: rgba(255, 255, 255, 0.1);
+	border-radius: 50%;
+	color: rgba(255, 255, 255, 0.8);
+	transition: background v.$transition, color v.$transition;
+	text-decoration: none;
+
+	&:hover { background: v.$color-primary; color: v.$color-white; }
+
+	svg { width: 17px; height: 17px; stroke: currentColor; fill: none; stroke-width: 1.8; }
+}
+
+// ============================================================
+// Footer columns
+// ============================================================
+.footer-col {
+	h4 {
+		font-size: 0.9rem;
+		font-weight: 700;
+		letter-spacing: 0.08em;
+		text-transform: uppercase;
+		color: v.$color-white;
+		margin-bottom: 1.25rem;
+	}
+
+	ul li { margin-bottom: 0.5rem; }
+
+	a {
+		font-size: 0.875rem;
+		color: rgba(255, 255, 255, 0.7);
+		transition: color v.$transition;
+
+		&:hover { color: v.$color-primary-light; }
+	}
+}
+
+// ============================================================
+// Footer bottom bar
+// ============================================================
+.footer-bottom {
+	@include m.flex-between;
+	flex-wrap: wrap;
+	gap: 0.75rem;
+	border-top: 1px solid rgba(255, 255, 255, 0.1);
+	padding: 1.25rem 1.5rem;
+	max-width: v.$container;
+	margin: 0 auto;
+	font-size: 0.8rem;
+	color: rgba(255, 255, 255, 0.5);
+
+	a {
+		color: rgba(255, 255, 255, 0.5);
+		&:hover { color: v.$color-primary-light; }
+	}
+}
+
+.payment-icons {
+	display: flex;
+	gap: 0.5rem;
+	align-items: center;
+}
+
+.payment-icon {
+	height: 24px;
+	padding: 0.2rem 0.5rem;
+	background: rgba(255, 255, 255, 0.15);
+	border-radius: v.$radius-sm;
+	font-size: 0.7rem;
+	font-weight: 700;
+	color: rgba(255, 255, 255, 0.8);
+	display: flex;
+	align-items: center;
+}

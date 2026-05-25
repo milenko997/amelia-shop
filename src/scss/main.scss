@@ -1,0 +1,42 @@
+// ============================================================
+// Amelia Shop — main SCSS entry
+// 7-1 pattern: abstracts / base / components / layout /
+//              sections / blocks / vendors
+// ============================================================
+
+// 1. Abstracts (no CSS output — variables, mixins, functions)
+@use 'abstracts/variables';
+@use 'abstracts/mixins';
+@use 'abstracts/functions';
+
+// 2. Base
+@use 'base/reset';
+@use 'base/typography';
+
+// 3. Components
+@use 'components/buttons';
+@use 'components/badges';
+@use 'components/forms';
+@use 'components/pagination';
+
+// 4. Layout
+@use 'layout/grid';
+@use 'layout/sidebar';
+@use 'layout/header';
+@use 'layout/footer';
+
+// 5. Sections
+@use 'sections/promo-strip';
+
+// 6. Blocks (frontend styles for Gutenberg blocks)
+@use 'blocks/hero';
+@use 'blocks/category-grid';
+@use 'blocks/features-strip';
+@use 'blocks/newsletter';
+
+// 7. Vendors
+@use 'vendors/woocommerce-base';
+@use 'vendors/woocommerce-product';
+@use 'vendors/woocommerce-single';
+@use 'vendors/woocommerce-cart';
+@use 'vendors/woocommerce-account';

@@ -1,0 +1,22 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "amelia/category-grid",
+  "version": "1.0.0",
+  "title": "Amelia Grid Kategorija",
+  "category": "amelia",
+  "description": "Dinamički prikazuje WooCommerce kategorije proizvoda u grid-u.",
+  "textdomain": "amelia-shop",
+  "editorScript": "file:./index.js",
+  "render": "file:./render.php",
+  "attributes": {
+    "count":     { "type": "number",  "default": 6 },
+    "columns":   { "type": "number",  "default": 3 },
+    "orderby":   { "type": "string",  "default": "name" },
+    "hideEmpty": { "type": "boolean", "default": false }
+  },
+  "supports": {
+    "html":  false,
+    "align": ["wide", "full"]
+  }
+}

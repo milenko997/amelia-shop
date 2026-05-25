@@ -1,0 +1,20 @@
+// ============================================================
+// Clamp fluid font size
+// ============================================================
+@function fluid($min-size, $max-size, $min-vw: 480px, $max-vw: 1280px) {
+	$slope: math.div(($max-size - $min-size), ($max-vw - $min-vw));
+	$intercept: $min-size - $slope * $min-vw;
+
+	@return clamp(
+		#{$min-size},
+		#{$intercept} + #{$slope * 100}vw,
+		#{$max-size}
+	);
+}
+
+// ============================================================
+// Convert px to rem
+// ============================================================
+@function rem($px, $base: 16) {
+	@return math.div($px, $base) * 1rem;
+}

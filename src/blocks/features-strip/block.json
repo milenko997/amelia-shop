@@ -1,0 +1,27 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "amelia/features-strip",
+  "version": "1.0.0",
+  "title": "Amelia Traka Pogodnosti",
+  "category": "amelia",
+  "description": "4 ikone sa tekstom: besplatna dostava, povraćaj, plaćanje, podrška.",
+  "textdomain": "amelia-shop",
+  "editorScript": "file:./index.js",
+  "attributes": {
+    "align": { "type": "string", "default": "full" },
+    "features": {
+      "type": "array",
+      "default": [
+        { "icon": "truck",   "title": "Besplatna dostava",  "subtitle": "Za narudžbine iznad 50€" },
+        { "icon": "refresh", "title": "Povraćaj robe",      "subtitle": "30 dana, bez komplikacija" },
+        { "icon": "lock",    "title": "Sigurno plaćanje",   "subtitle": "SSL zaštićena kupovina" },
+        { "icon": "phone",   "title": "Korisnička podrška", "subtitle": "Pon–Pet, 9–18h" }
+      ]
+    }
+  },
+  "supports": {
+    "html":  false,
+    "align": ["wide", "full"]
+  }
+}

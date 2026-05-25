@@ -1,0 +1,74 @@
+@use '../abstracts/variables' as v;
+@use '../abstracts/mixins' as m;
+
+.hero {
+	position: relative;
+	min-height: 600px;
+	display: flex;
+	align-items: center;
+	background: linear-gradient(135deg, v.$color-bg-alt 0%, v.$color-primary-light 100%);
+	overflow: hidden;
+
+	@include m.respond-to(md) { min-height: 420px; }
+}
+
+.hero-bg {
+	position: absolute;
+	inset: 0;
+	background-size: cover;
+	background-position: center;
+	opacity: 0.25;
+}
+
+.hero-content {
+	position: relative;
+	max-width: v.$container;
+	margin: 0 auto;
+	padding: 4rem 1.5rem;
+	text-align: center;
+}
+
+.hero-badge {
+	display: inline-block;
+	padding: 0.35rem 1rem;
+	background: v.$color-accent;
+	color: v.$color-white;
+	font-size: 0.75rem;
+	font-weight: 700;
+	letter-spacing: 0.1em;
+	text-transform: uppercase;
+	border-radius: v.$radius-full;
+	margin-bottom: 1.25rem;
+}
+
+.hero h1 {
+	font-size: clamp(2.5rem, 6vw, 5rem);
+	margin-bottom: 1.25rem;
+	color: v.$color-secondary;
+
+	em {
+		font-style: italic;
+		color: v.$color-primary-dark;
+	}
+
+	@include m.respond-to(sm) { font-size: 2rem; }
+}
+
+.hero p {
+	font-size: 1.125rem;
+	color: v.$color-text-light;
+	max-width: 540px;
+	margin: 0 auto 2rem;
+}
+
+.hero-actions {
+	display: flex;
+	gap: 1rem;
+	justify-content: center;
+	flex-wrap: wrap;
+
+	@include m.respond-to(sm) {
+		flex-direction: column;
+		align-items: center;
+	}
+}

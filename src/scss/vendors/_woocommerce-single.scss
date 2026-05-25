@@ -1,0 +1,89 @@
+@use '../abstracts/variables' as v;
+@use '../abstracts/mixins' as m;
+
+.woocommerce div.product {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 4rem;
+	align-items: start;
+
+	@include m.respond-to(lg) {
+		grid-template-columns: 1fr;
+		gap: 2rem;
+	}
+
+	.woocommerce-product-gallery {
+		border-radius: v.$radius-lg;
+		overflow: hidden;
+		position: sticky;
+		top: 6rem;
+
+		@include m.respond-to(lg) { position: static; }
+
+		__image img { border-radius: v.$radius-lg; }
+	}
+
+	.summary { padding-top: 0.5rem; }
+
+	.product_title { font-size: clamp(1.5rem, 2.5vw, 2.25rem); margin-bottom: 0.75rem; }
+
+	.price {
+		font-size: 1.5rem;
+		font-weight: 700;
+		color: v.$color-primary-dark;
+		margin-bottom: 1.25rem;
+		display: block;
+	}
+
+	.woocommerce-product-rating { margin-bottom: 1.25rem; }
+
+	.woocommerce-product-details__short-description {
+		color: v.$color-text-light;
+		margin-bottom: 1.75rem;
+		line-height: 1.8;
+	}
+
+	form.cart {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 1rem;
+		align-items: center;
+		margin-bottom: 1.5rem;
+
+		.qty {
+			width: 80px;
+			padding: 0.65rem 0.75rem;
+			border: 2px solid v.$color-border;
+			border-radius: v.$radius-md;
+			font-size: 1rem;
+			text-align: center;
+		}
+
+		.single_add_to_cart_button { flex: 1; min-width: 200px; }
+	}
+
+	.variations {
+		width: 100%;
+		margin-bottom: 1.25rem;
+		border: none;
+
+		td,
+		th {
+			padding: 0.5rem 0;
+			border: none;
+			vertical-align: middle;
+		}
+
+		label { font-weight: 600; font-size: 0.875rem; color: v.$color-secondary; }
+	}
+}
+
+.product-meta {
+	border-top: 1px solid v.$color-border;
+	padding-top: 1.25rem;
+	font-size: 0.875rem;
+	color: v.$color-text-light;
+
+	span { display: block; margin-bottom: 0.35rem; }
+	a { color: v.$color-primary-dark; }
+}

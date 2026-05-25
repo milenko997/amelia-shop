@@ -1,0 +1,28 @@
+@use '../abstracts/variables' as v;
+
+.badge {
+	display: inline-block;
+	padding: 0.2rem 0.6rem;
+	font-size: 0.7rem;
+	font-weight: 700;
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+	border-radius: v.$radius-full;
+
+	&-new     { background: v.$color-primary;  color: #fff; }
+	&-sale    { background: #e74c3c;            color: #fff; }
+	&-popular { background: v.$color-accent;   color: #fff; }
+}
+
+// ============================================================
+// WooCommerce on-sale / new badges
+// ============================================================
+.product-badges {
+	position: absolute;
+	top: 0.75rem;
+	left: 0.75rem;
+	display: flex;
+	flex-direction: column;
+	gap: 0.35rem;
+	z-index: 2;
+}

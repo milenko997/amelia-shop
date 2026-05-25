@@ -1,0 +1,26 @@
+@use '../abstracts/variables' as v;
+
+.promo-strip {
+	background: v.$color-secondary;
+	color: v.$color-white;
+	padding: 0.65rem 0;
+	text-align: center;
+	font-size: 0.8rem;
+	font-weight: 600;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+}
+
+.promo-items {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 3rem;
+	flex-wrap: wrap;
+}
+
+.promo-item {
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+}

@@ -1,0 +1,78 @@
+@use 'variables' as v;
+
+// ============================================================
+// Responsive breakpoints
+// ============================================================
+@mixin respond-to($bp) {
+	@if $bp == sm  { @media (max-width: #{v.$bp-sm})  { @content; } }
+	@else if $bp == md  { @media (max-width: #{v.$bp-md})  { @content; } }
+	@else if $bp == lg  { @media (max-width: #{v.$bp-lg})  { @content; } }
+	@else if $bp == xl  { @media (max-width: #{v.$bp-xl})  { @content; } }
+}
+
+// ============================================================
+// Layout helpers
+// ============================================================
+@mixin flex-center {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+@mixin flex-between {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+@mixin container {
+	max-width: v.$container;
+	margin: 0 auto;
+	padding: 0 1.5rem;
+}
+
+// ============================================================
+// Typography
+// ============================================================
+@mixin heading {
+	font-family: v.$font-heading;
+	font-weight: 700;
+	line-height: 1.25;
+	color: v.$color-secondary;
+}
+
+@mixin eyebrow {
+	display: block;
+	font-size: 0.75rem;
+	font-weight: 700;
+	letter-spacing: 0.15em;
+	text-transform: uppercase;
+	color: v.$color-primary;
+}
+
+@mixin truncate {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+// ============================================================
+// Component helpers
+// ============================================================
+@mixin card-shadow {
+	box-shadow: v.$shadow-sm;
+	transition: box-shadow v.$transition, transform v.$transition;
+
+	&:hover {
+		box-shadow: v.$shadow-md;
+		transform: translateY(-4px);
+	}
+}
+
+@mixin overlay-gradient($direction: to top) {
+	background: linear-gradient(
+		$direction,
+		rgba(44, 44, 44, 0.75) 0%,
+		transparent 55%
+	);
+}

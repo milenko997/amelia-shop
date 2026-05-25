@@ -1,0 +1,37 @@
+@use '../abstracts/variables' as v;
+
+.shop-sidebar .widget {
+	background: v.$color-white;
+	border-radius: v.$radius-lg;
+	padding: 1.5rem;
+	margin-bottom: 1.5rem;
+	box-shadow: v.$shadow-sm;
+}
+
+.shop-sidebar .widget-title {
+	font-size: 1rem;
+	font-weight: 700;
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+	color: v.$color-secondary;
+	margin-bottom: 1rem;
+	padding-bottom: 0.75rem;
+	border-bottom: 2px solid v.$color-primary-light;
+}
+
+.shop-sidebar {
+	.woocommerce-widget-layered-nav-list li,
+	.product-categories li {
+		padding: 0.35rem 0;
+		border-bottom: 1px solid v.$color-border;
+
+		&:last-child { border: none; }
+	}
+
+	a {
+		color: v.$color-text;
+		font-size: 0.9rem;
+
+		&:hover { color: v.$color-primary; }
+	}
+}

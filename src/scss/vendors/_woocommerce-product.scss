@@ -1,0 +1,126 @@
+@use '../abstracts/variables' as v;
+@use '../abstracts/mixins' as m;
+
+// ============================================================
+// Product grid
+// ============================================================
+.woocommerce ul.products {
+	display: grid !important;
+	grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+	gap: 2rem;
+	list-style: none;
+	margin: 0;
+	padding: 0;
+
+	@include m.respond-to(md) {
+		grid-template-columns: repeat(2, 1fr);
+		gap: 1rem;
+	}
+
+	@include m.respond-to(sm) { grid-template-columns: 1fr; }
+}
+
+// ============================================================
+// Product card
+// ============================================================
+.woocommerce ul.products li.product {
+	background: v.$color-white;
+	border-radius: v.$radius-lg;
+	overflow: hidden;
+	box-shadow: v.$shadow-sm;
+	transition: box-shadow v.$transition, transform v.$transition;
+	display: flex;
+	flex-direction: column;
+	margin: 0;
+	float: none;
+	width: auto !important;
+
+	&:hover {
+		box-shadow: v.$shadow-md;
+		transform: translateY(-4px);
+	}
+
+	.product-image-wrap {
+		position: relative;
+		overflow: hidden;
+		aspect-ratio: 3 / 4;
+		background: v.$color-bg-alt;
+	}
+
+	a img {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		transition: transform 0.5s ease;
+	}
+
+	&:hover a img { transform: scale(1.05); }
+
+	.product-info {
+		padding: 1.25rem;
+		flex: 1;
+		display: flex;
+		flex-direction: column;
+	}
+
+	.woocommerce-loop-category__title,
+	.woocommerce-loop-product__title {
+		font-family: v.$font-heading;
+		font-size: 1rem;
+		font-weight: 600;
+		margin-bottom: 0.35rem;
+		color: v.$color-secondary;
+	}
+
+	.price {
+		font-size: 1rem;
+		font-weight: 700;
+		color: v.$color-primary-dark;
+		margin-bottom: 1rem;
+
+		del {
+			color: v.$color-text-light;
+			font-weight: 400;
+			font-size: 0.875rem;
+			margin-right: 0.35rem;
+		}
+	}
+
+	.star-rating { margin-bottom: 0.5rem; }
+
+	a.button,
+	button.button {
+		width: 100%;
+		margin-top: auto;
+		font-size: 0.8rem;
+		padding: 0.65rem 1rem;
+	}
+}
+
+// ============================================================
+// Wishlist button on product card
+// ============================================================
+.product-wishlist {
+	position: absolute;
+	top: 0.75rem;
+	right: 0.75rem;
+	z-index: 2;
+	background: v.$color-white;
+	border: none;
+	border-radius: 50%;
+	width: 36px;
+	height: 36px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
+	box-shadow: v.$shadow-sm;
+	transition: background v.$transition, transform v.$transition;
+
+	&:hover {
+		background: v.$color-primary-light;
+		transform: scale(1.1);
+	}
+
+	svg { width: 18px; height: 18px; stroke: v.$color-primary-dark; fill: none; stroke-width: 1.8; }
+}

@@ -1,0 +1,27 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "amelia/hero",
+  "version": "1.0.0",
+  "title": "Amelia Hero Baner",
+  "category": "amelia",
+  "description": "Hero sekcija sa naslovom, podnaslovom, bedžom i dugmadima.",
+  "textdomain": "amelia-shop",
+  "editorScript": "file:./index.js",
+  "attributes": {
+    "align":               { "type": "string", "default": "full" },
+    "badge":               { "type": "string", "default": "Nova kolekcija 2025" },
+    "title":               { "type": "string", "default": "Oseti se lepo," },
+    "titleItalic":         { "type": "string", "default": "svakog dana" },
+    "description":         { "type": "string", "default": "Otkrijte našu kolekciju donjeg veša, čarapa i pidžama dizajniranih za udobnost i eleganciju." },
+    "primaryButtonText":   { "type": "string", "default": "Kupuj odmah" },
+    "primaryButtonUrl":    { "type": "string", "default": "/prodavnica" },
+    "secondaryButtonText": { "type": "string", "default": "Pregledaj kategorije" },
+    "secondaryButtonUrl":  { "type": "string", "default": "#kategorije" }
+  },
+  "supports": {
+    "html":  false,
+    "align": ["wide", "full"],
+    "color": { "background": false, "text": false }
+  }
+}

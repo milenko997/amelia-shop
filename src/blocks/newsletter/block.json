@@ -1,0 +1,22 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "amelia/newsletter",
+  "version": "1.0.0",
+  "title": "Amelia Newsletter",
+  "category": "amelia",
+  "description": "Sekcija za prijavu na newsletter sa naslovom, opisom i formom.",
+  "textdomain": "amelia-shop",
+  "editorScript": "file:./index.js",
+  "attributes": {
+    "align":       { "type": "string", "default": "full" },
+    "title":       { "type": "string", "default": "Pridruži se Amelia porodici" },
+    "description": { "type": "string", "default": "Pretplati se i dobij 10% popusta na prvu narudžbinu, uz rani pristup novim kolekcijama." },
+    "buttonText":  { "type": "string", "default": "Pretplati se" },
+    "placeholder": { "type": "string", "default": "Vaša email adresa" }
+  },
+  "supports": {
+    "html":  false,
+    "align": ["wide", "full"]
+  }
+}

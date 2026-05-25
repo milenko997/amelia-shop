@@ -1,0 +1,186 @@
+@use '../abstracts/variables' as v;
+@use '../abstracts/mixins' as m;
+
+// ============================================================
+// Site header
+// ============================================================
+.site-header {
+	position: sticky;
+	top: 0;
+	z-index: 100;
+	background: v.$color-white;
+	border-bottom: 1px solid v.$color-border;
+	box-shadow: v.$shadow-sm;
+	transition: box-shadow v.$transition;
+
+	&.scrolled { box-shadow: v.$shadow-md; }
+}
+
+.header-inner {
+	@include m.flex-between;
+	gap: 1rem;
+	padding: 1rem 1.5rem;
+	max-width: v.$container;
+	margin: 0 auto;
+}
+
+// ============================================================
+// Logo
+// ============================================================
+.site-logo {
+	a {
+		display: flex;
+		align-items: center;
+		gap: 0.75rem;
+		text-decoration: none;
+	}
+
+	img { height: 48px; width: auto; }
+
+	.logo-text {
+		font-family: v.$font-heading;
+		font-size: 1.75rem;
+		font-weight: 700;
+		color: v.$color-secondary;
+		letter-spacing: 0.04em;
+
+		span { color: v.$color-primary; }
+	}
+}
+
+// ============================================================
+// Primary navigation
+// ============================================================
+.primary-nav ul {
+	display: flex;
+	align-items: center;
+	gap: 2rem;
+}
+
+.primary-nav a {
+	font-size: 0.875rem;
+	font-weight: 600;
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+	color: v.$color-text;
+	padding-bottom: 2px;
+	border-bottom: 2px solid transparent;
+	transition: color v.$transition, border-color v.$transition;
+
+	&:hover,
+	.current-menu-item > & {
+		color: v.$color-primary;
+		border-bottom-color: v.$color-primary;
+	}
+}
+
+// ============================================================
+// Header action icons
+// ============================================================
+.header-actions {
+	display: flex;
+	align-items: center;
+	gap: 1.25rem;
+}
+
+.header-icon-btn {
+	background: none;
+	border: none;
+	cursor: pointer;
+	position: relative;
+	color: v.$color-text;
+	display: flex;
+	align-items: center;
+	padding: 0.25rem;
+	transition: color v.$transition;
+
+	&:hover { color: v.$color-primary; }
+
+	svg {
+		width: 22px;
+		height: 22px;
+		stroke: currentColor;
+		fill: none;
+		stroke-width: 1.8;
+	}
+}
+
+.cart-count {
+	position: absolute;
+	top: -6px;
+	right: -8px;
+	background: v.$color-primary;
+	color: v.$color-white;
+	font-size: 0.65rem;
+	font-weight: 700;
+	width: 18px;
+	height: 18px;
+	border-radius: 50%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	line-height: 1;
+}
+
+// ============================================================
+// Search dropdown
+// ============================================================
+.search-dropdown {
+	background: v.$color-white;
+	border-top: 1px solid v.$color-border;
+	box-shadow: v.$shadow-md;
+}
+
+// ============================================================
+// Mobile menu toggle
+// ============================================================
+.mobile-menu-toggle {
+	display: none;
+	background: none;
+	border: none;
+	cursor: pointer;
+	flex-direction: column;
+	gap: 5px;
+	padding: 0.25rem;
+
+	span {
+		display: block;
+		width: 24px;
+		height: 2px;
+		background: v.$color-text;
+		border-radius: 2px;
+		transition: transform v.$transition, opacity v.$transition;
+	}
+}
+
+// ============================================================
+// Responsive
+// ============================================================
+@include m.respond-to(md) {
+	.primary-nav { display: none; }
+	.mobile-menu-toggle { display: flex; }
+}
+
+// Mobile nav open state
+.mobile-nav-open .primary-nav {
+	display: block;
+	position: fixed;
+	inset: 0;
+	background: v.$color-white;
+	z-index: 200;
+	padding: 5rem 2rem 2rem;
+	overflow-y: auto;
+
+	ul {
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 0;
+	}
+
+	a {
+		display: block;
+		padding: 1rem 0;
+		font-size: 1.25rem;
+		border-bottom: 1px solid v.$color-border;
+	}
+}
