@@ -1,4 +1,14 @@
-<?php get_header(); ?>
+<?php
+/**
+ * Template Name: Početna stranica
+ * Template Post Type: page
+ *
+ * Select this template in the page editor (Page Attributes → Template)
+ * to display the full homepage design on any page.
+ */
+
+get_header();
+?>
 
 <main id="main" class="site-main">
 
@@ -40,13 +50,18 @@
 					] );
 
 					$cat_icons = [
-						'donji-ves'   => '🩱',
-						'donje-rublje'=> '🩱',
-						'gace'        => '🩲',
-						'brushalteri' => '👙',
-						'carape'      => '🧦',
-						'pidzame'     => '🌙',
-						'default'     => '✨',
+						'donji-ves'    => '🩱',
+						'lingerie'     => '🩱',
+						'donje-rublje' => '🩱',
+						'gace'         => '🩲',
+						'underwear'    => '🩲',
+						'brushalteri'  => '👙',
+						'bras'         => '👙',
+						'carape'       => '🧦',
+						'socks'        => '🧦',
+						'pidzame'      => '🌙',
+						'pajamas'      => '🌙',
+						'default'      => '✨',
 					];
 
 					if ( ! empty( $categories ) && ! is_wp_error( $categories ) ) {
@@ -70,12 +85,12 @@
 						}
 					} else {
 						$defaults = [
-							[ 'Donji veš',  '🩱', '#' ],
-							[ 'Gaće',       '🩲', '#' ],
-							[ 'Brushalteri','👙', '#' ],
-							[ 'Čarape',     '🧦', '#' ],
-							[ 'Pidžame',    '🌙', '#' ],
-							[ 'Rasprodaja', '✨', '#' ],
+							[ 'Donji veš',   '🩱', '#' ],
+							[ 'Gaće',        '🩲', '#' ],
+							[ 'Brushalteri', '👙', '#' ],
+							[ 'Čarape',      '🧦', '#' ],
+							[ 'Pidžame',     '🌙', '#' ],
+							[ 'Rasprodaja',  '✨', '#' ],
 						];
 						foreach ( $defaults as $d ) {
 							echo '<a href="' . esc_url( $d[2] ) . '" class="category-card">';
@@ -115,41 +130,6 @@
 				<h2>Novi dolasci</h2>
 			</div>
 			<?php echo do_shortcode( '[products limit="4" columns="4" orderby="date" order="DESC"]' ); ?>
-		</div>
-	</section>
-	<?php endif; ?>
-
-	<!-- Blog posts -->
-	<?php
-	$blog_posts = new WP_Query( [
-		'post_type'      => 'post',
-		'posts_per_page' => 3,
-		'post_status'    => 'publish',
-	] );
-
-	if ( $blog_posts->have_posts() ) : ?>
-	<section class="section">
-		<div class="container">
-			<div class="section-header">
-				<span class="eyebrow">Blog</span>
-				<h2>Saveti o stilu i nezi</h2>
-			</div>
-			<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:2rem;">
-				<?php while ( $blog_posts->have_posts() ) : $blog_posts->the_post(); ?>
-				<article style="background:var(--color-white);border-radius:var(--radius-lg);overflow:hidden;box-shadow:var(--shadow-sm);">
-					<?php if ( has_post_thumbnail() ) : ?>
-					<a href="<?php the_permalink(); ?>">
-						<?php the_post_thumbnail( 'medium_large', [ 'style' => 'width:100%;height:220px;object-fit:cover;' ] ); ?>
-					</a>
-					<?php endif; ?>
-					<div style="padding:1.5rem;">
-						<h3 style="font-size:1.1rem;margin-bottom:.5rem;"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h3>
-						<p style="font-size:.875rem;color:var(--color-text-light);"><?php the_excerpt(); ?></p>
-						<a href="<?php the_permalink(); ?>" style="font-size:.8rem;font-weight:700;color:var(--color-primary-dark);text-transform:uppercase;letter-spacing:.06em;">Pročitaj više →</a>
-					</div>
-				</article>
-				<?php endwhile; wp_reset_postdata(); ?>
-			</div>
 		</div>
 	</section>
 	<?php endif; ?>

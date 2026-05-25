@@ -11,10 +11,13 @@
 				<?php endif; ?>
 				<h1 style="margin-bottom:1rem;"><?php the_title(); ?></h1>
 				<div style="font-size:.875rem;color:var(--color-text-light);margin-bottom:2rem;">
-					<?php echo esc_html( get_the_date() ); ?> &middot; <?php the_author(); ?>
+					<?php echo esc_html( get_the_date( 'd.m.Y.' ) ); ?> &middot; <?php the_author(); ?>
 				</div>
 				<div class="entry-content" style="line-height:1.9;font-size:1.05rem;">
 					<?php the_content(); ?>
+				</div>
+				<div style="margin-top:2rem;">
+					<a href="<?php echo esc_url( get_post_type_archive_link( 'post' ) ); ?>" style="color:var(--color-primary-dark);font-weight:600;">← Nazad na blog</a>
 				</div>
 			</article>
 		<?php endwhile; ?>

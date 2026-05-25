@@ -3,12 +3,7 @@
 <main id="main" class="site-main">
 	<div class="container" style="padding:3rem 1.5rem;">
 		<h1 style="margin-bottom:2rem;">
-			<?php
-			printf(
-				esc_html__( 'Search results for: "%s"', 'amelia-shop' ),
-				'<em>' . esc_html( get_search_query() ) . '</em>'
-			);
-			?>
+			Rezultati pretrage za: <em><?php echo esc_html( get_search_query() ); ?></em>
 		</h1>
 		<?php if ( have_posts() ) : ?>
 			<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:2rem;">
@@ -21,7 +16,7 @@
 			</div>
 			<?php the_posts_pagination(); ?>
 		<?php else : ?>
-			<p><?php esc_html_e( 'No results found. Try a different search term or browse our shop.', 'amelia-shop' ); ?></p>
+			<p>Nema rezultata. Pokušajte drugačiji termin ili pregledajte našu prodavnicu.</p>
 			<?php get_search_form(); ?>
 		<?php endif; ?>
 	</div>
