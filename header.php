@@ -12,16 +12,16 @@
 
 <div id="page" class="site">
 
-	<!-- Promo Strip -->
+	<!-- Promo strip -->
 	<div class="promo-strip">
 		<div class="promo-items">
-			<span class="promo-item">&#10024; <?php esc_html_e( 'Free shipping on orders over 50€', 'amelia-shop' ); ?></span>
-			<span class="promo-item">&#128197; <?php esc_html_e( '30-day free returns', 'amelia-shop' ); ?></span>
-			<span class="promo-item">&#128274; <?php esc_html_e( 'Secure checkout', 'amelia-shop' ); ?></span>
+			<span class="promo-item">&#10024; Besplatna dostava za narudžbine iznad 50€</span>
+			<span class="promo-item">&#128197; Besplatni povraćaj 30 dana</span>
+			<span class="promo-item">&#128274; Sigurna kupovina</span>
 		</div>
 	</div>
 
-	<!-- Site Header -->
+	<!-- Site header -->
 	<header id="masthead" class="site-header">
 		<div class="header-inner">
 
@@ -36,8 +36,8 @@
 				</a>
 			</div>
 
-			<!-- Primary Navigation -->
-			<nav class="primary-nav" id="primary-nav" aria-label="<?php esc_attr_e( 'Primary Navigation', 'amelia-shop' ); ?>">
+			<!-- Primary nav -->
+			<nav class="primary-nav" id="primary-nav" aria-label="Glavna navigacija">
 				<?php
 				wp_nav_menu( [
 					'theme_location' => 'primary',
@@ -48,22 +48,22 @@
 				?>
 			</nav>
 
-			<!-- Header Actions -->
+			<!-- Header actions -->
 			<div class="header-actions">
 
 				<!-- Search -->
-				<button class="header-icon-btn" id="search-toggle" aria-label="<?php esc_attr_e( 'Search', 'amelia-shop' ); ?>">
+				<button class="header-icon-btn" id="search-toggle" aria-label="Pretraga">
 					<svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
 				</button>
 
 				<!-- Account -->
-				<a href="<?php echo esc_url( get_permalink( get_option( 'woocommerce_myaccount_page_id' ) ) ); ?>" class="header-icon-btn" aria-label="<?php esc_attr_e( 'My Account', 'amelia-shop' ); ?>">
+				<a href="<?php echo esc_url( get_permalink( get_option( 'woocommerce_myaccount_page_id' ) ) ); ?>" class="header-icon-btn" aria-label="Moj nalog">
 					<svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
 				</a>
 
 				<!-- Cart -->
 				<?php if ( class_exists( 'WooCommerce' ) ) : ?>
-				<a href="<?php echo esc_url( wc_get_cart_url() ); ?>" class="header-icon-btn" aria-label="<?php esc_attr_e( 'Cart', 'amelia-shop' ); ?>">
+				<a href="<?php echo esc_url( wc_get_cart_url() ); ?>" class="header-icon-btn" aria-label="Korpa">
 					<svg viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
 					<?php $count = amelia_cart_count(); ?>
 					<?php if ( $count > 0 ) : ?>
@@ -72,14 +72,14 @@
 				</a>
 				<?php endif; ?>
 
-				<!-- Mobile Toggle -->
-				<button class="mobile-menu-toggle" id="mobile-menu-toggle" aria-label="<?php esc_attr_e( 'Toggle Menu', 'amelia-shop' ); ?>" aria-expanded="false">
+				<!-- Mobile toggle -->
+				<button class="mobile-menu-toggle" id="mobile-menu-toggle" aria-label="Otvori meni" aria-expanded="false">
 					<span></span><span></span><span></span>
 				</button>
 			</div>
 		</div>
 
-		<!-- Search Dropdown -->
+		<!-- Search dropdown -->
 		<div id="search-dropdown" class="search-dropdown" hidden>
 			<div class="container">
 				<?php get_search_form(); ?>
@@ -88,11 +88,27 @@
 	</header>
 
 <?php
-function amelia_fallback_menu() {
+/**
+ * Fallback menu — shown when no menu is assigned to the 'primary' location.
+ * Auto-detects and uses the first available custom menu if one exists.
+ */
+function amelia_fallback_menu( $args ) {
+	$menus = wp_get_nav_menus();
+
+	if ( ! empty( $menus ) ) {
+		$new_args = array_merge( (array) $args, [
+			'menu'        => $menus[0]->term_id,
+			'fallback_cb' => false,
+		] );
+		wp_nav_menu( $new_args );
+		return;
+	}
+
+	// No menu exists — show minimal navigation
 	echo '<ul>';
-	echo '<li><a href="' . esc_url( home_url( '/' ) ) . '">' . esc_html__( 'Home', 'amelia-shop' ) . '</a></li>';
+	echo '<li><a href="' . esc_url( home_url( '/' ) ) . '">Početna</a></li>';
 	if ( class_exists( 'WooCommerce' ) ) {
-		echo '<li><a href="' . esc_url( get_permalink( wc_get_page_id( 'shop' ) ) ) . '">' . esc_html__( 'Shop', 'amelia-shop' ) . '</a></li>';
+		echo '<li><a href="' . esc_url( get_permalink( wc_get_page_id( 'shop' ) ) ) . '">Prodavnica</a></li>';
 	}
 	echo '</ul>';
 }
