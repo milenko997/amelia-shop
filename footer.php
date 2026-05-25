@@ -1,65 +1,11 @@
-	<!-- Features Strip -->
-	<section class="features-strip">
-		<div class="features-grid container">
-			<div class="feature-item">
-				<div class="feature-icon">
-					<svg viewBox="0 0 24 24"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
-				</div>
-				<div class="feature-text">
-					<strong><?php esc_html_e( 'Free Shipping', 'amelia-shop' ); ?></strong>
-					<span><?php esc_html_e( 'On orders over 50€', 'amelia-shop' ); ?></span>
-				</div>
-			</div>
-			<div class="feature-item">
-				<div class="feature-icon">
-					<svg viewBox="0 0 24 24"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 102.13-9.36L1 10"/></svg>
-				</div>
-				<div class="feature-text">
-					<strong><?php esc_html_e( 'Easy Returns', 'amelia-shop' ); ?></strong>
-					<span><?php esc_html_e( '30 days, hassle-free', 'amelia-shop' ); ?></span>
-				</div>
-			</div>
-			<div class="feature-item">
-				<div class="feature-icon">
-					<svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
-				</div>
-				<div class="feature-text">
-					<strong><?php esc_html_e( 'Secure Payment', 'amelia-shop' ); ?></strong>
-					<span><?php esc_html_e( 'SSL encrypted checkout', 'amelia-shop' ); ?></span>
-				</div>
-			</div>
-			<div class="feature-item">
-				<div class="feature-icon">
-					<svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81a19.79 19.79 0 01-3.07-8.67A2 2 0 012 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L6.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/></svg>
-				</div>
-				<div class="feature-text">
-					<strong><?php esc_html_e( 'Customer Support', 'amelia-shop' ); ?></strong>
-					<span><?php esc_html_e( 'Mon–Fri, 9 am – 6 pm', 'amelia-shop' ); ?></span>
-				</div>
-			</div>
-		</div>
-	</section>
-
-	<!-- Newsletter -->
-	<section class="newsletter-section">
-		<div class="container">
-			<h2><?php esc_html_e( 'Join the Amelia Family', 'amelia-shop' ); ?></h2>
-			<p><?php esc_html_e( 'Subscribe and get 10% off your first order, plus early access to new collections.', 'amelia-shop' ); ?></p>
-			<form class="newsletter-form" action="#" method="post">
-				<input type="email" name="newsletter_email" placeholder="<?php esc_attr_e( 'Your email address', 'amelia-shop' ); ?>" required>
-				<button type="submit" class="btn"><?php esc_html_e( 'Subscribe', 'amelia-shop' ); ?></button>
-			</form>
-		</div>
-	</section>
-
-	<!-- Footer -->
+	<!-- Site footer -->
 	<footer id="colophon" class="site-footer">
 		<div class="footer-grid">
 
 			<!-- Brand -->
 			<div class="footer-brand">
 				<span class="logo-text"><?php bloginfo( 'name' ); ?></span>
-				<p><?php esc_html_e( 'Comfortable, elegant and sustainable everyday essentials — underwear, lingerie, socks and pajamas crafted with care.', 'amelia-shop' ); ?></p>
+				<p>Udobni, elegantni i kvalitetni svakodnevni artikli — donji veš, čarape i pidžame izrađeni s pažnjom.</p>
 				<div class="social-links">
 					<a href="#" class="social-link" aria-label="Instagram">
 						<svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
@@ -78,54 +24,54 @@
 
 			<!-- Footer col: Shop -->
 			<div class="footer-col">
-				<h4><?php esc_html_e( 'Shop', 'amelia-shop' ); ?></h4>
+				<h4>Prodavnica</h4>
 				<ul>
 					<?php if ( class_exists( 'WooCommerce' ) ) : ?>
-					<li><a href="<?php echo esc_url( get_permalink( wc_get_page_id( 'shop' ) ) ); ?>"><?php esc_html_e( 'All Products', 'amelia-shop' ); ?></a></li>
+					<li><a href="<?php echo esc_url( get_permalink( wc_get_page_id( 'shop' ) ) ); ?>">Svi proizvodi</a></li>
 					<?php endif; ?>
-					<li><a href="#"><?php esc_html_e( 'Lingerie', 'amelia-shop' ); ?></a></li>
-					<li><a href="#"><?php esc_html_e( 'Underwear', 'amelia-shop' ); ?></a></li>
-					<li><a href="#"><?php esc_html_e( 'Socks', 'amelia-shop' ); ?></a></li>
-					<li><a href="#"><?php esc_html_e( 'Pajamas', 'amelia-shop' ); ?></a></li>
-					<li><a href="#"><?php esc_html_e( 'Sale', 'amelia-shop' ); ?></a></li>
+					<li><a href="#">Donji veš</a></li>
+					<li><a href="#">Gaće</a></li>
+					<li><a href="#">Čarape</a></li>
+					<li><a href="#">Pidžame</a></li>
+					<li><a href="#">Rasprodaja</a></li>
 				</ul>
 			</div>
 
 			<!-- Footer col: Help -->
 			<div class="footer-col">
-				<h4><?php esc_html_e( 'Help', 'amelia-shop' ); ?></h4>
+				<h4>Pomoć</h4>
 				<ul>
-					<li><a href="#"><?php esc_html_e( 'Size Guide', 'amelia-shop' ); ?></a></li>
-					<li><a href="#"><?php esc_html_e( 'Shipping Info', 'amelia-shop' ); ?></a></li>
-					<li><a href="#"><?php esc_html_e( 'Returns & Exchanges', 'amelia-shop' ); ?></a></li>
-					<li><a href="#"><?php esc_html_e( 'FAQ', 'amelia-shop' ); ?></a></li>
-					<li><a href="#"><?php esc_html_e( 'Contact Us', 'amelia-shop' ); ?></a></li>
+					<li><a href="#">Vodič za veličine</a></li>
+					<li><a href="#">Informacije o dostavi</a></li>
+					<li><a href="#">Povraćaj i zamena</a></li>
+					<li><a href="#">Česta pitanja</a></li>
+					<li><a href="#">Kontakt</a></li>
 				</ul>
 			</div>
 
-			<!-- Footer col: Info -->
+			<!-- Footer col: Company -->
 			<div class="footer-col">
-				<h4><?php esc_html_e( 'Company', 'amelia-shop' ); ?></h4>
+				<h4>Kompanija</h4>
 				<ul>
-					<li><a href="#"><?php esc_html_e( 'About Us', 'amelia-shop' ); ?></a></li>
-					<li><a href="#"><?php esc_html_e( 'Sustainability', 'amelia-shop' ); ?></a></li>
-					<li><a href="#"><?php esc_html_e( 'Privacy Policy', 'amelia-shop' ); ?></a></li>
-					<li><a href="#"><?php esc_html_e( 'Terms & Conditions', 'amelia-shop' ); ?></a></li>
-					<li><a href="#"><?php esc_html_e( 'Cookie Policy', 'amelia-shop' ); ?></a></li>
+					<li><a href="#">O nama</a></li>
+					<li><a href="#">Održivost</a></li>
+					<li><a href="#">Politika privatnosti</a></li>
+					<li><a href="#">Uslovi korišćenja</a></li>
+					<li><a href="#">Politika kolačića</a></li>
 				</ul>
 			</div>
 		</div>
 
-		<!-- Footer Bottom -->
+		<!-- Footer bottom -->
 		<div class="footer-bottom">
-			<span>&copy; <?php echo esc_html( date( 'Y' ) ); ?> <?php bloginfo( 'name' ); ?>. <?php esc_html_e( 'All rights reserved.', 'amelia-shop' ); ?></span>
+			<span>&copy; <?php echo esc_html( date( 'Y' ) ); ?> <?php bloginfo( 'name' ); ?>. Sva prava zadržana.</span>
 			<div class="payment-icons">
 				<span class="payment-icon">VISA</span>
 				<span class="payment-icon">MC</span>
 				<span class="payment-icon">PayPal</span>
 				<span class="payment-icon">Maestro</span>
 			</div>
-			<a href="<?php echo esc_url( home_url( '/privacy-policy' ) ); ?>"><?php esc_html_e( 'Privacy', 'amelia-shop' ); ?></a>
+			<a href="<?php echo esc_url( home_url( '/politika-privatnosti' ) ); ?>">Privatnost</a>
 		</div>
 	</footer>
 
