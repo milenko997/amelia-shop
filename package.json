@@ -1,0 +1,15 @@
+{
+  "name": "amelia-shop",
+  "version": "1.0.0",
+  "description": "Custom WooCommerce theme for lingerie and underwear shop",
+  "private": true,
+  "scripts": {
+    "start":     "wp-scripts start",
+    "build":     "wp-scripts build",
+    "lint:css":  "wp-scripts lint-style 'src/scss/**/*.scss'",
+    "lint:js":   "wp-scripts lint-js 'src/js/**/*.js' 'src/blocks/**/*.js'"
+  },
+  "devDependencies": {
+    "@wordpress/scripts": "^30.0.0"
+  }
+}
