@@ -1,0 +1,142 @@
+@use '../abstracts/variables' as *;
+@use '../abstracts/mixins' as *;
+
+// ============================================================
+// Section — two-column grid (map | text)
+// Default: map LEFT, text RIGHT  (reversed attribute = true)
+// is-reversed class: text LEFT, map RIGHT
+// ============================================================
+.contact-section {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	align-items: stretch;
+	min-height: 540px;
+
+	&.is-reversed {
+		.contact-map-col  { order: 2; }
+		.contact-text-col { order: 1; }
+	}
+
+	@include respond-to(md) {
+		grid-template-columns: 1fr;
+		min-height: unset;
+
+		&.is-reversed {
+			.contact-map-col  { order: unset; }
+			.contact-text-col { order: unset; }
+		}
+	}
+}
+
+// ============================================================
+// Map column
+// ============================================================
+.contact-map-col {
+	overflow: hidden;
+	position: relative;
+
+	@include respond-to(md) { min-height: 360px; }
+
+	iframe {
+		width: 100%;
+		height: 100%;
+		border: none;
+		display: block;
+	}
+}
+
+.contact-map-placeholder {
+	width: 100%;
+	height: 100%;
+	min-height: 360px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: 1rem;
+	background: $color-bg-alt;
+
+	svg { color: $color-border; }
+
+	p {
+		color: $color-text-light;
+		font-size: 0.875rem;
+		text-align: center;
+		line-height: 1.6;
+	}
+}
+
+// ============================================================
+// Text column — text is on the RIGHT by default
+// ============================================================
+.contact-text-col {
+	display: flex;
+	align-items: center;
+	justify-content: flex-start;
+	padding: 5rem 2rem 5rem 5rem;
+
+	.is-reversed & {
+		justify-content: flex-end;
+		padding: 5rem 5rem 5rem 2rem;
+	}
+
+	@include respond-to(lg) {
+		padding: 4rem 2rem 4rem 3rem;
+		.is-reversed & { padding: 4rem 3rem 4rem 2rem; }
+	}
+
+	@include respond-to(md) {
+		padding: 3rem 2rem;
+		justify-content: flex-start;
+		.is-reversed & { padding: 3rem 2rem; }
+	}
+}
+
+.contact-text {
+	width: 100%;
+	max-width: 560px;
+	display: flex;
+	flex-direction: column;
+	gap: 2rem;
+}
+
+.contact-title {
+	font-family: $font-heading;
+	color: $color-secondary;
+	line-height: 1.2;
+	margin: 0;
+}
+
+// ============================================================
+// Detail groups (working hours / contact info)
+// ============================================================
+.contact-detail-group {
+	display: flex;
+	flex-direction: column;
+	gap: 0.5rem;
+	padding-top: 1.5rem;
+	border-top: 1px solid $color-border;
+}
+
+.contact-group-label {
+	display: block;
+	font-size: 0.7rem;
+	font-weight: 700;
+	letter-spacing: 0.12em;
+	text-transform: uppercase;
+	color: $color-primary-dark;
+}
+
+.contact-hours,
+.contact-info {
+	color: $color-text;
+	line-height: 1.8;
+	margin: 0;
+
+	p { margin: 0 0 0.5em; &:last-child { margin-bottom: 0; } }
+
+	a {
+		color: $color-primary-dark;
+		&:hover { color: $color-primary; }
+	}
+}

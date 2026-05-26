@@ -16,6 +16,7 @@ module.exports = {
 		'blocks/products/index':        path.resolve( __dirname, 'src/blocks/products/index.js' ),
 		'blocks/products/view':         path.resolve( __dirname, 'src/blocks/products/view.js' ),
 		'blocks/about-us/index':        path.resolve( __dirname, 'src/blocks/about-us/index.js' ),
+		'blocks/contact/index':         path.resolve( __dirname, 'src/blocks/contact/index.js' ),
 	},
 
 	output: {

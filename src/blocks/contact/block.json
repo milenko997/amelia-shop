@@ -1,0 +1,29 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "amelia/contact",
+  "version": "1.0.0",
+  "title": "Amelia Kontakt",
+  "category": "amelia",
+  "description": "Kontakt sekcija sa Google Maps mapom i kontakt informacijama.",
+  "textdomain": "amelia-shop",
+  "editorScript": "file:./index.js",
+  "render": "file:./render.php",
+  "attributes": {
+    "align":           { "type": "string",  "default": "full" },
+    "reversed":        { "type": "boolean", "default": true },
+    "title":           { "type": "string",  "default": "Kontaktirajte nas" },
+    "workingHours":    { "type": "string",  "default": "" },
+    "contactInfo":     { "type": "string",  "default": "" },
+    "mapEmbed":        { "type": "string",  "default": "" },
+    "titleFontSize":   { "type": "string",  "default": "2.5rem" },
+    "contentFontSize": { "type": "string",  "default": "1rem" },
+    "titleAlign":      { "type": "string",  "default": "left" },
+    "contentAlign":    { "type": "string",  "default": "left" }
+  },
+  "supports": {
+    "html":  false,
+    "align": ["wide", "full"],
+    "color": { "background": false, "text": false }
+  }
+}
