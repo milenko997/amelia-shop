@@ -1,11 +1,11 @@
-@use '../abstracts/variables' as v;
-@use '../abstracts/mixins' as m;
+@use '../abstracts/variables' as *;
+@use '../abstracts/mixins' as *;
 
 // ============================================================
 // Site footer
 // ============================================================
 .site-footer {
-	background: v.$color-secondary;
+	background: $color-secondary;
 	color: rgba(255, 255, 255, 0.8);
 	padding: 4rem 0 0;
 }
@@ -14,12 +14,12 @@
 	display: grid;
 	grid-template-columns: 2fr repeat(3, 1fr);
 	gap: 3rem;
-	max-width: v.$container;
+	max-width: $container;
 	margin: 0 auto;
 	padding: 0 1.5rem 3rem;
 
-	@include m.respond-to(lg) { grid-template-columns: 1fr 1fr; }
-	@include m.respond-to(md) { grid-template-columns: 1fr; }
+	@include respond-to(lg) { grid-template-columns: 1fr 1fr; }
+	@include respond-to(md) { grid-template-columns: 1fr; }
 }
 
 // ============================================================
@@ -27,13 +27,13 @@
 // ============================================================
 .footer-brand {
 	.logo-text {
-		font-family: v.$font-heading;
+		font-family: $font-heading;
 		font-size: 1.5rem;
-		color: v.$color-white;
+		color: $color-white;
 		display: block;
 		margin-bottom: 1rem;
 
-		span { color: v.$color-primary-light; }
+		span { color: $color-primary-light; }
 	}
 
 	p {
@@ -49,16 +49,16 @@
 .social-links { display: flex; gap: 0.75rem; }
 
 .social-link {
-	@include m.flex-center;
+	@include flex-center;
 	width: 38px;
 	height: 38px;
 	background: rgba(255, 255, 255, 0.1);
 	border-radius: 50%;
 	color: rgba(255, 255, 255, 0.8);
-	transition: background v.$transition, color v.$transition;
+	transition: background $transition, color $transition;
 	text-decoration: none;
 
-	&:hover { background: v.$color-primary; color: v.$color-white; }
+	&:hover { background: $color-primary; color: $color-white; }
 
 	svg { width: 17px; height: 17px; stroke: currentColor; fill: none; stroke-width: 1.8; }
 }
@@ -72,7 +72,7 @@
 		font-weight: 700;
 		letter-spacing: 0.08em;
 		text-transform: uppercase;
-		color: v.$color-white;
+		color: $color-white;
 		margin-bottom: 1.25rem;
 	}
 
@@ -81,9 +81,9 @@
 	a {
 		font-size: 0.875rem;
 		color: rgba(255, 255, 255, 0.7);
-		transition: color v.$transition;
+		transition: color $transition;
 
-		&:hover { color: v.$color-primary-light; }
+		&:hover { color: $color-primary-light; }
 	}
 }
 
@@ -91,19 +91,19 @@
 // Footer bottom bar
 // ============================================================
 .footer-bottom {
-	@include m.flex-between;
+	@include flex-between;
 	flex-wrap: wrap;
 	gap: 0.75rem;
 	border-top: 1px solid rgba(255, 255, 255, 0.1);
 	padding: 1.25rem 1.5rem;
-	max-width: v.$container;
+	max-width: $container;
 	margin: 0 auto;
 	font-size: 0.8rem;
 	color: rgba(255, 255, 255, 0.5);
 
 	a {
 		color: rgba(255, 255, 255, 0.5);
-		&:hover { color: v.$color-primary-light; }
+		&:hover { color: $color-primary-light; }
 	}
 }
 
@@ -117,7 +117,7 @@
 	height: 24px;
 	padding: 0.2rem 0.5rem;
 	background: rgba(255, 255, 255, 0.15);
-	border-radius: v.$radius-sm;
+	border-radius: $radius-sm;
 	font-size: 0.7rem;
 	font-weight: 700;
 	color: rgba(255, 255, 255, 0.8);

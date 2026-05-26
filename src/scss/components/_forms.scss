@@ -1,4 +1,4 @@
-@use '../abstracts/variables' as v;
+@use '../abstracts/variables' as *;
 
 // ============================================================
 // Generic inputs
@@ -6,7 +6,7 @@
 input,
 select,
 textarea {
-	font-family: v.$font-body;
+	font-family: $font-body;
 }
 
 // ============================================================
@@ -20,7 +20,7 @@ textarea {
 		font-size: 0.875rem;
 		font-weight: 600;
 		margin-bottom: 0.4rem;
-		color: v.$color-secondary;
+		color: $color-secondary;
 	}
 
 	input,
@@ -28,15 +28,15 @@ textarea {
 	textarea {
 		width: 100%;
 		padding: 0.75rem 1rem;
-		border: 2px solid v.$color-border;
-		border-radius: v.$radius-md;
+		border: 2px solid $color-border;
+		border-radius: $radius-md;
 		font-size: 0.9rem;
-		background: v.$color-white;
-		transition: border-color v.$transition;
+		background: $color-white;
+		transition: border-color $transition;
 
 		&:focus {
 			outline: none;
-			border-color: v.$color-primary;
+			border-color: $color-primary;
 		}
 	}
 }
@@ -56,9 +56,9 @@ textarea {
 .woocommerce div.product .variations select {
 	@extend %select-arrow;
 	padding: 0.6rem 2rem 0.6rem 0.9rem;
-	border: 2px solid v.$color-border;
-	border-radius: v.$radius-md;
-	background-color: v.$color-white;
+	border: 2px solid $color-border;
+	border-radius: $radius-md;
+	background-color: $color-white;
 	font-size: 0.875rem;
 	cursor: pointer;
 }

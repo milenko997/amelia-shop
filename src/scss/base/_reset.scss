@@ -1,33 +1,33 @@
-@use '../abstracts/variables' as v;
+@use '../abstracts/variables' as *;
 
 // ============================================================
 // CSS Custom Properties (runtime theming)
 // ============================================================
 :root {
-	--color-primary:       #{v.$color-primary};
-	--color-primary-dark:  #{v.$color-primary-dark};
-	--color-primary-light: #{v.$color-primary-light};
-	--color-secondary:     #{v.$color-secondary};
-	--color-accent:        #{v.$color-accent};
-	--color-bg:            #{v.$color-bg};
-	--color-bg-alt:        #{v.$color-bg-alt};
-	--color-white:         #{v.$color-white};
-	--color-text:          #{v.$color-text};
-	--color-text-light:    #{v.$color-text-light};
-	--color-border:        #{v.$color-border};
-	--color-error:         #{v.$color-error};
-	--color-success:       #{v.$color-success};
-	--font-heading:        #{v.$font-heading};
-	--font-body:           #{v.$font-body};
-	--radius-sm:           #{v.$radius-sm};
-	--radius-md:           #{v.$radius-md};
-	--radius-lg:           #{v.$radius-lg};
-	--radius-full:         #{v.$radius-full};
-	--shadow-sm:           #{v.$shadow-sm};
-	--shadow-md:           #{v.$shadow-md};
-	--shadow-lg:           #{v.$shadow-lg};
-	--transition:          #{v.$transition};
-	--container:           #{v.$container};
+	--color-primary:       #{$color-primary};
+	--color-primary-dark:  #{$color-primary-dark};
+	--color-primary-light: #{$color-primary-light};
+	--color-secondary:     #{$color-secondary};
+	--color-accent:        #{$color-accent};
+	--color-bg:            #{$color-bg};
+	--color-bg-alt:        #{$color-bg-alt};
+	--color-white:         #{$color-white};
+	--color-text:          #{$color-text};
+	--color-text-light:    #{$color-text-light};
+	--color-border:        #{$color-border};
+	--color-error:         #{$color-error};
+	--color-success:       #{$color-success};
+	--font-heading:        #{$font-heading};
+	--font-body:           #{$font-body};
+	--radius-sm:           #{$radius-sm};
+	--radius-md:           #{$radius-md};
+	--radius-lg:           #{$radius-lg};
+	--radius-full:         #{$radius-full};
+	--shadow-sm:           #{$shadow-sm};
+	--shadow-md:           #{$shadow-md};
+	--shadow-lg:           #{$shadow-lg};
+	--transition:          #{$transition};
+	--container:           #{$container};
 }
 
 // ============================================================
@@ -47,11 +47,11 @@ html {
 }
 
 body {
-	font-family: v.$font-body;
+	font-family: $font-body;
 	font-size: 1rem;
 	line-height: 1.7;
-	color: v.$color-text;
-	background: v.$color-bg;
+	color: $color-text;
+	background: $color-bg;
 	-webkit-font-smoothing: antialiased;
 }
 
@@ -62,11 +62,11 @@ img {
 }
 
 a {
-	color: v.$color-primary-dark;
+	color: $color-primary-dark;
 	text-decoration: none;
-	transition: color v.$transition;
+	transition: color $transition;
 
-	&:hover { color: v.$color-primary; }
+	&:hover { color: $color-primary; }
 }
 
 ul,

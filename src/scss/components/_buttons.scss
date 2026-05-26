@@ -1,4 +1,4 @@
-@use '../abstracts/variables' as v;
+@use '../abstracts/variables' as *;
 
 // ============================================================
 // Base button
@@ -9,21 +9,21 @@
 	justify-content: center;
 	gap: 0.5rem;
 	padding: 0.75rem 2rem;
-	font-family: v.$font-body;
+	font-family: $font-body;
 	font-size: 0.875rem;
 	font-weight: 600;
 	letter-spacing: 0.08em;
 	text-transform: uppercase;
-	border: 2px solid v.$color-primary;
-	background: v.$color-primary;
-	color: v.$color-white;
-	border-radius: v.$radius-full;
+	border: 2px solid $color-primary;
+	background: $color-primary;
+	color: $color-white;
+	border-radius: $radius-full;
 	cursor: pointer;
 	transition:
-		background v.$transition,
-		color v.$transition,
-		border-color v.$transition,
-		transform v.$transition;
+		background $transition,
+		color $transition,
+		border-color $transition,
+		transform $transition;
 	text-decoration: none;
 	line-height: 1;
 }
@@ -38,9 +38,9 @@ a.button,
 	@extend %btn-base;
 
 	&:hover {
-		background: v.$color-primary-dark;
-		border-color: v.$color-primary-dark;
-		color: v.$color-white;
+		background: $color-primary-dark;
+		border-color: $color-primary-dark;
+		color: $color-white;
 		transform: translateY(-1px);
 	}
 }
@@ -50,17 +50,17 @@ a.button,
 // ============================================================
 .btn-outline {
 	background: transparent;
-	color: v.$color-primary-dark;
+	color: $color-primary-dark;
 
 	&:hover {
-		background: v.$color-primary;
-		color: v.$color-white;
+		background: $color-primary;
+		color: $color-white;
 	}
 }
 
 .btn-secondary {
-	background: v.$color-secondary;
-	border-color: v.$color-secondary;
+	background: $color-secondary;
+	border-color: $color-secondary;
 
 	&:hover {
 		background: #444;

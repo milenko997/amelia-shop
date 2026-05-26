@@ -1,11 +1,11 @@
-@use '../abstracts/variables' as v;
-@use '../abstracts/mixins' as m;
+@use '../abstracts/variables' as *;
+@use '../abstracts/mixins' as *;
 
 // ============================================================
 // Headings
 // ============================================================
 h1, h2, h3, h4, h5, h6 {
-	@include m.heading;
+	@include heading;
 }
 
 // ============================================================
@@ -16,7 +16,7 @@ h1, h2, h3, h4, h5, h6 {
 	margin-bottom: 3rem;
 
 	.eyebrow {
-		@include m.eyebrow;
+		@include eyebrow;
 		margin-bottom: 0.5rem;
 	}
 
@@ -26,7 +26,7 @@ h1, h2, h3, h4, h5, h6 {
 	}
 
 	p {
-		color: v.$color-text-light;
+		color: $color-text-light;
 		max-width: 540px;
 		margin: 0 auto;
 	}
@@ -38,7 +38,7 @@ h1, h2, h3, h4, h5, h6 {
 .section {
 	padding: 5rem 0;
 
-	&-alt { background: v.$color-bg-alt; }
+	&-alt { background: $color-bg-alt; }
 }
 
 // ============================================================
@@ -46,12 +46,12 @@ h1, h2, h3, h4, h5, h6 {
 // ============================================================
 .woocommerce-breadcrumb {
 	font-size: 0.8rem;
-	color: v.$color-text-light;
+	color: $color-text-light;
 	margin-bottom: 1.5rem;
 	padding: 1rem 0;
 
 	a {
-		color: v.$color-text-light;
-		&:hover { color: v.$color-primary; }
+		color: $color-text-light;
+		&:hover { color: $color-primary; }
 	}
 }

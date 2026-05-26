@@ -1,4 +1,4 @@
-@use '../abstracts/variables' as v;
+@use '../abstracts/variables' as *;
 
 .badge {
 	display: inline-block;
@@ -7,11 +7,11 @@
 	font-weight: 700;
 	letter-spacing: 0.06em;
 	text-transform: uppercase;
-	border-radius: v.$radius-full;
+	border-radius: $radius-full;
 
-	&-new     { background: v.$color-primary;  color: #fff; }
+	&-new     { background: $color-primary;  color: #fff; }
 	&-sale    { background: #e74c3c;            color: #fff; }
-	&-popular { background: v.$color-accent;   color: #fff; }
+	&-popular { background: $color-accent;   color: #fff; }
 }
 
 // ============================================================

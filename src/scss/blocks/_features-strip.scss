@@ -1,18 +1,18 @@
-@use '../abstracts/variables' as v;
-@use '../abstracts/mixins' as m;
+@use '../abstracts/variables' as *;
+@use '../abstracts/mixins' as *;
 
 .features-strip {
-	background: v.$color-white;
-	border-top: 1px solid v.$color-border;
-	border-bottom: 1px solid v.$color-border;
+	background: $color-white;
+	border-top: 1px solid $color-border;
+	border-bottom: 1px solid $color-border;
 }
 
 .features-grid {
 	display: grid;
 	grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
 
-	@include m.respond-to(md) { grid-template-columns: 1fr 1fr; }
-	@include m.respond-to(sm) { grid-template-columns: 1fr; }
+	@include respond-to(md) { grid-template-columns: 1fr 1fr; }
+	@include respond-to(sm) { grid-template-columns: 1fr; }
 }
 
 .feature-item {
@@ -20,26 +20,26 @@
 	align-items: center;
 	gap: 1rem;
 	padding: 1.75rem 2rem;
-	border-right: 1px solid v.$color-border;
+	border-right: 1px solid $color-border;
 
 	&:last-child { border-right: none; }
 
-	@include m.respond-to(md) {
+	@include respond-to(md) {
 		border-right: none;
-		border-bottom: 1px solid v.$color-border;
+		border-bottom: 1px solid $color-border;
 	}
 }
 
 .feature-icon {
 	width: 48px;
 	height: 48px;
-	background: v.$color-primary-light;
+	background: $color-primary-light;
 	border-radius: 50%;
 	display: flex;
 	align-items: center;
 	justify-content: center;
 	flex-shrink: 0;
-	color: v.$color-primary-dark;
+	color: $color-primary-dark;
 
 	svg { width: 22px; height: 22px; stroke: currentColor; fill: none; stroke-width: 1.8; }
 }
@@ -49,9 +49,9 @@
 		display: block;
 		font-size: 0.9rem;
 		font-weight: 700;
-		color: v.$color-secondary;
+		color: $color-secondary;
 		margin-bottom: 0.15rem;
 	}
 
-	span { font-size: 0.8rem; color: v.$color-text-light; }
+	span { font-size: 0.8rem; color: $color-text-light; }
 }

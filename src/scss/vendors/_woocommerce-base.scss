@@ -1,5 +1,5 @@
-@use '../abstracts/variables' as v;
-@use '../abstracts/mixins' as m;
+@use '../abstracts/variables' as *;
+@use '../abstracts/mixins' as *;
 
 // ============================================================
 // WooCommerce — wrapper overrides
@@ -10,7 +10,7 @@
 // Notices
 // ============================================================
 %notice-base {
-	border-radius: v.$radius-md;
+	border-radius: $radius-md;
 	padding: 1rem 1.25rem;
 	margin-bottom: 1.5rem;
 	display: flex;
@@ -23,7 +23,7 @@
 .woocommerce-message {
 	@extend %notice-base;
 	background: #f0faf4;
-	border-left-color: v.$color-success;
+	border-left-color: $color-success;
 	color: #1a6b3c;
 }
 
@@ -37,21 +37,21 @@
 .woocommerce-error {
 	@extend %notice-base;
 	background: #fff5f5;
-	border-left-color: v.$color-error;
-	color: v.$color-error;
+	border-left-color: $color-error;
+	color: $color-error;
 }
 
 // ============================================================
 // Star ratings
 // ============================================================
-.woocommerce .star-rating { color: v.$color-accent; font-size: 0.875rem; }
+.woocommerce .star-rating { color: $color-accent; font-size: 0.875rem; }
 
 // ============================================================
 // Result count & ordering
 // ============================================================
 .woocommerce .woocommerce-result-count {
 	font-size: 0.875rem;
-	color: v.$color-text-light;
+	color: $color-text-light;
 	margin-bottom: 1.5rem;
 }
 
@@ -60,7 +60,7 @@
 // ============================================================
 .woocommerce-cart .woocommerce,
 .woocommerce-checkout .woocommerce {
-	max-width: v.$container;
+	max-width: $container;
 	margin: 3rem auto;
 	padding: 0 1.5rem;
 }

@@ -1,5 +1,5 @@
-@use '../abstracts/variables' as v;
-@use '../abstracts/mixins' as m;
+@use '../abstracts/variables' as *;
+@use '../abstracts/mixins' as *;
 
 // ============================================================
 // Product grid
@@ -12,23 +12,25 @@
 	margin: 0;
 	padding: 0;
 
-	@include m.respond-to(md) {
+	@include respond-to(md) {
 		grid-template-columns: repeat(2, 1fr);
 		gap: 1rem;
 	}
 
-	@include m.respond-to(sm) { grid-template-columns: 1fr; }
+	@include respond-to(sm) { grid-template-columns: 1fr; }
 }
 
 // ============================================================
-// Product card
+// Product card  (WooCommerce loop + amelia/products block)
 // ============================================================
-.woocommerce ul.products li.product {
-	background: v.$color-white;
-	border-radius: v.$radius-lg;
+.woocommerce ul.products li.product,
+.products-grid li.product,
+.products-swiper .product {
+	background: $color-white;
+	border-radius: $radius-lg;
 	overflow: hidden;
-	box-shadow: v.$shadow-sm;
-	transition: box-shadow v.$transition, transform v.$transition;
+	box-shadow: $shadow-sm;
+	transition: box-shadow $transition, transform $transition;
 	display: flex;
 	flex-direction: column;
 	margin: 0;
@@ -36,7 +38,7 @@
 	width: auto !important;
 
 	&:hover {
-		box-shadow: v.$shadow-md;
+		box-shadow: $shadow-md;
 		transform: translateY(-4px);
 	}
 
@@ -44,17 +46,19 @@
 		position: relative;
 		overflow: hidden;
 		aspect-ratio: 3 / 4;
-		background: v.$color-bg-alt;
+		background: $color-bg-alt;
 	}
 
-	a img {
+	a img,
+	.product-image-wrap > img {
 		width: 100%;
 		height: 100%;
 		object-fit: cover;
 		transition: transform 0.5s ease;
 	}
 
-	&:hover a img { transform: scale(1.05); }
+	&:hover a img,
+	&:hover .product-image-wrap img { transform: scale(1.05); }
 
 	.product-info {
 		padding: 1.25rem;
@@ -65,21 +69,21 @@
 
 	.woocommerce-loop-category__title,
 	.woocommerce-loop-product__title {
-		font-family: v.$font-heading;
+		font-family: $font-heading;
 		font-size: 1rem;
 		font-weight: 600;
 		margin-bottom: 0.35rem;
-		color: v.$color-secondary;
+		color: $color-secondary;
 	}
 
 	.price {
 		font-size: 1rem;
 		font-weight: 700;
-		color: v.$color-primary-dark;
+		color: $color-primary-dark;
 		margin-bottom: 1rem;
 
 		del {
-			color: v.$color-text-light;
+			color: $color-text-light;
 			font-weight: 400;
 			font-size: 0.875rem;
 			margin-right: 0.35rem;
@@ -89,7 +93,8 @@
 	.star-rating { margin-bottom: 0.5rem; }
 
 	a.button,
-	button.button {
+	button.button,
+	span.button {
 		width: 100%;
 		margin-top: auto;
 		font-size: 0.8rem;
@@ -105,7 +110,7 @@
 	top: 0.75rem;
 	right: 0.75rem;
 	z-index: 2;
-	background: v.$color-white;
+	background: $color-white;
 	border: none;
 	border-radius: 50%;
 	width: 36px;
@@ -114,13 +119,13 @@
 	align-items: center;
 	justify-content: center;
 	cursor: pointer;
-	box-shadow: v.$shadow-sm;
-	transition: background v.$transition, transform v.$transition;
+	box-shadow: $shadow-sm;
+	transition: background $transition, transform $transition;
 
 	&:hover {
-		background: v.$color-primary-light;
+		background: $color-primary-light;
 		transform: scale(1.1);
 	}
 
-	svg { width: 18px; height: 18px; stroke: v.$color-primary-dark; fill: none; stroke-width: 1.8; }
+	svg { width: 18px; height: 18px; stroke: $color-primary-dark; fill: none; stroke-width: 1.8; }
 }

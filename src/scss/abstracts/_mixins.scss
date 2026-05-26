@@ -1,13 +1,13 @@
-@use 'variables' as v;
+@use 'variables' as *;
 
 // ============================================================
 // Responsive breakpoints
 // ============================================================
 @mixin respond-to($bp) {
-	@if $bp == sm  { @media (max-width: #{v.$bp-sm})  { @content; } }
-	@else if $bp == md  { @media (max-width: #{v.$bp-md})  { @content; } }
-	@else if $bp == lg  { @media (max-width: #{v.$bp-lg})  { @content; } }
-	@else if $bp == xl  { @media (max-width: #{v.$bp-xl})  { @content; } }
+	@if $bp == sm  { @media (max-width: #{$bp-sm})  { @content; } }
+	@else if $bp == md  { @media (max-width: #{$bp-md})  { @content; } }
+	@else if $bp == lg  { @media (max-width: #{$bp-lg})  { @content; } }
+	@else if $bp == xl  { @media (max-width: #{$bp-xl})  { @content; } }
 }
 
 // ============================================================
@@ -26,7 +26,7 @@
 }
 
 @mixin container {
-	max-width: v.$container;
+	max-width: $container;
 	margin: 0 auto;
 	padding: 0 1.5rem;
 }
@@ -35,10 +35,10 @@
 // Typography
 // ============================================================
 @mixin heading {
-	font-family: v.$font-heading;
+	font-family: $font-heading;
 	font-weight: 700;
 	line-height: 1.25;
-	color: v.$color-secondary;
+	color: $color-secondary;
 }
 
 @mixin eyebrow {
@@ -47,7 +47,7 @@
 	font-weight: 700;
 	letter-spacing: 0.15em;
 	text-transform: uppercase;
-	color: v.$color-primary;
+	color: $color-primary;
 }
 
 @mixin truncate {
@@ -60,11 +60,11 @@
 // Component helpers
 // ============================================================
 @mixin card-shadow {
-	box-shadow: v.$shadow-sm;
-	transition: box-shadow v.$transition, transform v.$transition;
+	box-shadow: $shadow-sm;
+	transition: box-shadow $transition, transform $transition;
 
 	&:hover {
-		box-shadow: v.$shadow-md;
+		box-shadow: $shadow-md;
 		transform: translateY(-4px);
 	}
 }

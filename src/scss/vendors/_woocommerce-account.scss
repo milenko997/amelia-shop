@@ -1,23 +1,23 @@
-@use '../abstracts/variables' as v;
-@use '../abstracts/mixins' as m;
+@use '../abstracts/variables' as *;
+@use '../abstracts/mixins' as *;
 
 .woocommerce-account .woocommerce {
-	max-width: v.$container;
+	max-width: $container;
 	margin: 3rem auto;
 	padding: 0 1.5rem;
 	display: grid;
 	grid-template-columns: 240px 1fr;
 	gap: 3rem;
 
-	@include m.respond-to(md) { grid-template-columns: 1fr; }
+	@include respond-to(md) { grid-template-columns: 1fr; }
 }
 
 .woocommerce-MyAccount-navigation {
 	ul {
-		background: v.$color-white;
-		border-radius: v.$radius-lg;
+		background: $color-white;
+		border-radius: $radius-lg;
 		overflow: hidden;
-		box-shadow: v.$shadow-sm;
+		box-shadow: $shadow-sm;
 	}
 
 	li a {
@@ -27,21 +27,21 @@
 		padding: 0.9rem 1.25rem;
 		font-size: 0.875rem;
 		font-weight: 600;
-		color: v.$color-text;
-		border-bottom: 1px solid v.$color-border;
-		transition: background v.$transition, color v.$transition;
+		color: $color-text;
+		border-bottom: 1px solid $color-border;
+		transition: background $transition, color $transition;
 
-		&:hover { background: v.$color-primary-light; color: v.$color-primary-dark; }
+		&:hover { background: $color-primary-light; color: $color-primary-dark; }
 	}
 
 	li:last-child a { border-bottom: none; }
 
-	li.is-active a { background: v.$color-primary-light; color: v.$color-primary-dark; }
+	li.is-active a { background: $color-primary-light; color: $color-primary-dark; }
 }
 
 .woocommerce-MyAccount-content {
-	background: v.$color-white;
-	border-radius: v.$radius-lg;
+	background: $color-white;
+	border-radius: $radius-lg;
 	padding: 2rem;
-	box-shadow: v.$shadow-sm;
+	box-shadow: $shadow-sm;
 }

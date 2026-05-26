@@ -1,4 +1,4 @@
-@use '../abstracts/variables' as v;
+@use '../abstracts/variables' as *;
 
 .woocommerce nav.woocommerce-pagination ul {
 	display: flex;
@@ -15,20 +15,20 @@
 			justify-content: center;
 			width: 40px;
 			height: 40px;
-			border-radius: v.$radius-md;
+			border-radius: $radius-md;
 			font-size: 0.875rem;
 			font-weight: 600;
-			border: 2px solid v.$color-border;
-			background: v.$color-white;
-			color: v.$color-text;
-			transition: all v.$transition;
+			border: 2px solid $color-border;
+			background: $color-white;
+			color: $color-text;
+			transition: all $transition;
 		}
 
 		a:hover,
 		span.current {
-			background: v.$color-primary;
-			border-color: v.$color-primary;
-			color: v.$color-white;
+			background: $color-primary;
+			border-color: $color-primary;
+			color: $color-white;
 		}
 	}
 }

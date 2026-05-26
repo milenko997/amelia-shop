@@ -1,5 +1,5 @@
-@use '../abstracts/variables' as v;
-@use '../abstracts/mixins' as m;
+@use '../abstracts/variables' as *;
+@use '../abstracts/mixins' as *;
 
 .category-grid-section {
 	padding: 4rem 0;
@@ -10,16 +10,16 @@
 	grid-template-columns: repeat(var(--columns, 3), 1fr);
 	gap: 1.5rem;
 
-	@include m.respond-to(md) { grid-template-columns: repeat(2, 1fr); }
-	@include m.respond-to(sm) { grid-template-columns: 1fr; }
+	@include respond-to(md) { grid-template-columns: repeat(2, 1fr); }
+	@include respond-to(sm) { grid-template-columns: 1fr; }
 }
 
 .category-card {
 	position: relative;
-	border-radius: v.$radius-lg;
+	border-radius: $radius-lg;
 	overflow: hidden;
 	aspect-ratio: 3 / 4;
-	background: v.$color-bg-alt;
+	background: $color-bg-alt;
 	cursor: pointer;
 	text-decoration: none;
 	display: block;
@@ -36,7 +36,7 @@
 .category-card-overlay {
 	position: absolute;
 	inset: 0;
-	@include m.overlay-gradient;
+	@include overlay-gradient;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -51,7 +51,7 @@
 	}
 
 	h3 {
-		color: v.$color-white;
+		color: $color-white;
 		font-size: 1.25rem;
 		margin-bottom: 0.25rem;
 	}

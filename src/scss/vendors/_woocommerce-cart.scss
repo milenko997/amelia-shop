@@ -1,4 +1,4 @@
-@use '../abstracts/variables' as v;
+@use '../abstracts/variables' as *;
 
 // ============================================================
 // Cart & Order tables
@@ -6,26 +6,26 @@
 %shop-table {
 	width: 100%;
 	border-collapse: collapse;
-	background: v.$color-white;
-	border-radius: v.$radius-lg;
+	background: $color-white;
+	border-radius: $radius-lg;
 	overflow: hidden;
-	box-shadow: v.$shadow-sm;
+	box-shadow: $shadow-sm;
 
 	th {
-		background: v.$color-bg-alt;
+		background: $color-bg-alt;
 		padding: 1rem 1.25rem;
 		font-size: 0.8rem;
 		font-weight: 700;
 		letter-spacing: 0.08em;
 		text-transform: uppercase;
-		color: v.$color-text-light;
+		color: $color-text-light;
 		text-align: left;
-		border-bottom: 1px solid v.$color-border;
+		border-bottom: 1px solid $color-border;
 	}
 
 	td {
 		padding: 1.25rem;
-		border-bottom: 1px solid v.$color-border;
+		border-bottom: 1px solid $color-border;
 		vertical-align: middle;
 	}
 }
@@ -37,7 +37,7 @@
 	width: 80px;
 	height: 100px;
 	object-fit: cover;
-	border-radius: v.$radius-md;
+	border-radius: $radius-md;
 }
 
 // ============================================================
@@ -46,10 +46,10 @@
 .woocommerce .cart-collaterals { margin-top: 2rem; }
 
 .woocommerce .cart_totals {
-	background: v.$color-white;
-	border-radius: v.$radius-lg;
+	background: $color-white;
+	border-radius: $radius-lg;
 	padding: 2rem;
-	box-shadow: v.$shadow-sm;
+	box-shadow: $shadow-sm;
 	max-width: 440px;
 	margin-left: auto;
 
@@ -57,6 +57,6 @@
 		font-size: 1.25rem;
 		margin-bottom: 1.25rem;
 		padding-bottom: 0.75rem;
-		border-bottom: 1px solid v.$color-border;
+		border-bottom: 1px solid $color-border;
 	}
 }

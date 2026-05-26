@@ -1,8 +1,8 @@
-@use '../abstracts/variables' as v;
+@use '../abstracts/variables' as *;
 
 .promo-strip {
-	background: v.$color-secondary;
-	color: v.$color-white;
+	background: $color-secondary;
+	color: $color-white;
 	padding: 0.65rem 0;
 	text-align: center;
 	font-size: 0.8rem;

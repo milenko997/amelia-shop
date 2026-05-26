@@ -1,14 +1,14 @@
-@use '../abstracts/variables' as v;
-@use '../abstracts/mixins' as m;
+@use '../abstracts/variables' as *;
+@use '../abstracts/mixins' as *;
 
 .newsletter-section {
-	background: linear-gradient(135deg, v.$color-primary-dark 0%, v.$color-secondary 100%);
-	color: v.$color-white;
+	background: linear-gradient(135deg, $color-primary-dark 0%, $color-secondary 100%);
+	color: $color-white;
 	padding: 5rem 0;
 	text-align: center;
 
 	h2 {
-		color: v.$color-white;
+		color: $color-white;
 		font-size: 2rem;
 		margin-bottom: 0.75rem;
 	}
@@ -26,25 +26,25 @@
 	margin: 0 auto;
 	flex-wrap: wrap;
 
-	@include m.respond-to(sm) { flex-direction: column; }
+	@include respond-to(sm) { flex-direction: column; }
 
 	input {
 		flex: 1;
 		min-width: 240px;
 		padding: 0.85rem 1.25rem;
 		border: none;
-		border-radius: v.$radius-full;
-		font-family: v.$font-body;
+		border-radius: $radius-full;
+		font-family: $font-body;
 		font-size: 0.9rem;
 
-		&:focus { outline: 2px solid v.$color-accent; }
+		&:focus { outline: 2px solid $color-accent; }
 
-		@include m.respond-to(sm) { min-width: 100%; }
+		@include respond-to(sm) { min-width: 100%; }
 	}
 
 	.btn {
-		background: v.$color-accent;
-		border-color: v.$color-accent;
+		background: $color-accent;
+		border-color: $color-accent;
 		white-space: nowrap;
 
 		&:hover { background: #c4953e; border-color: #c4953e; }

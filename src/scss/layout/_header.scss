@@ -1,5 +1,5 @@
-@use '../abstracts/variables' as v;
-@use '../abstracts/mixins' as m;
+@use '../abstracts/variables' as *;
+@use '../abstracts/mixins' as *;
 
 // ============================================================
 // Site header
@@ -8,19 +8,19 @@
 	position: sticky;
 	top: 0;
 	z-index: 100;
-	background: v.$color-white;
-	border-bottom: 1px solid v.$color-border;
-	box-shadow: v.$shadow-sm;
-	transition: box-shadow v.$transition;
+	background: $color-white;
+	border-bottom: 1px solid $color-border;
+	box-shadow: $shadow-sm;
+	transition: box-shadow $transition;
 
-	&.scrolled { box-shadow: v.$shadow-md; }
+	&.scrolled { box-shadow: $shadow-md; }
 }
 
 .header-inner {
-	@include m.flex-between;
+	@include flex-between;
 	gap: 1rem;
 	padding: 1rem 1.5rem;
-	max-width: v.$container;
+	max-width: $container;
 	margin: 0 auto;
 }
 
@@ -38,13 +38,13 @@
 	img { height: 48px; width: auto; }
 
 	.logo-text {
-		font-family: v.$font-heading;
+		font-family: $font-heading;
 		font-size: 1.75rem;
 		font-weight: 700;
-		color: v.$color-secondary;
+		color: $color-secondary;
 		letter-spacing: 0.04em;
 
-		span { color: v.$color-primary; }
+		span { color: $color-primary; }
 	}
 }
 
@@ -62,15 +62,15 @@
 	font-weight: 600;
 	letter-spacing: 0.06em;
 	text-transform: uppercase;
-	color: v.$color-text;
+	color: $color-text;
 	padding-bottom: 2px;
 	border-bottom: 2px solid transparent;
-	transition: color v.$transition, border-color v.$transition;
+	transition: color $transition, border-color $transition;
 
 	&:hover,
 	.current-menu-item > & {
-		color: v.$color-primary;
-		border-bottom-color: v.$color-primary;
+		color: $color-primary;
+		border-bottom-color: $color-primary;
 	}
 }
 
@@ -88,13 +88,13 @@
 	border: none;
 	cursor: pointer;
 	position: relative;
-	color: v.$color-text;
+	color: $color-text;
 	display: flex;
 	align-items: center;
 	padding: 0.25rem;
-	transition: color v.$transition;
+	transition: color $transition;
 
-	&:hover { color: v.$color-primary; }
+	&:hover { color: $color-primary; }
 
 	svg {
 		width: 22px;
@@ -109,8 +109,8 @@
 	position: absolute;
 	top: -6px;
 	right: -8px;
-	background: v.$color-primary;
-	color: v.$color-white;
+	background: $color-primary;
+	color: $color-white;
 	font-size: 0.65rem;
 	font-weight: 700;
 	width: 18px;
@@ -126,9 +126,9 @@
 // Search dropdown
 // ============================================================
 .search-dropdown {
-	background: v.$color-white;
-	border-top: 1px solid v.$color-border;
-	box-shadow: v.$shadow-md;
+	background: $color-white;
+	border-top: 1px solid $color-border;
+	box-shadow: $shadow-md;
 }
 
 // ============================================================
@@ -147,16 +147,16 @@
 		display: block;
 		width: 24px;
 		height: 2px;
-		background: v.$color-text;
+		background: $color-text;
 		border-radius: 2px;
-		transition: transform v.$transition, opacity v.$transition;
+		transition: transform $transition, opacity $transition;
 	}
 }
 
 // ============================================================
 // Responsive
 // ============================================================
-@include m.respond-to(md) {
+@include respond-to(md) {
 	.primary-nav { display: none; }
 	.mobile-menu-toggle { display: flex; }
 }
@@ -166,7 +166,7 @@
 	display: block;
 	position: fixed;
 	inset: 0;
-	background: v.$color-white;
+	background: $color-white;
 	z-index: 200;
 	padding: 5rem 2rem 2rem;
 	overflow-y: auto;
@@ -181,6 +181,6 @@
 		display: block;
 		padding: 1rem 0;
 		font-size: 1.25rem;
-		border-bottom: 1px solid v.$color-border;
+		border-bottom: 1px solid $color-border;
 	}
 }
