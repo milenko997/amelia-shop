@@ -12,6 +12,7 @@ import {
 	FontSizePicker,
 	SelectControl,
 	Button,
+	ResponsiveWrapper,
 } from '@wordpress/components';
 
 const FONT_SIZES = [
@@ -54,6 +55,46 @@ export default function Edit( { attributes, setAttributes } ) {
 						] }
 						onChange={ ( v ) => setAttributes( { reversed: v === 'reversed' } ) }
 					/>
+				</PanelBody>
+
+				<PanelBody title="Slika">
+					<MediaUploadCheck>
+						<MediaUpload
+							onSelect={ ( media ) => setAttributes( {
+								mediaId:  media.id,
+								mediaUrl: media.url,
+								mediaAlt: media.alt || media.title,
+							} ) }
+							allowedTypes={ [ 'image' ] }
+							value={ mediaId }
+							render={ ( { open } ) => (
+								<>
+									{ mediaUrl && (
+										<ResponsiveWrapper naturalWidth={ 16 } naturalHeight={ 9 }>
+											<img src={ mediaUrl } alt={ mediaAlt } style={ { display: 'block', width: '100%' } } />
+										</ResponsiveWrapper>
+									) }
+									<Button
+										onClick={ open }
+										variant="secondary"
+										style={ { marginTop: mediaUrl ? '0.5rem' : 0, width: '100%', justifyContent: 'center' } }
+									>
+										{ mediaUrl ? 'Zameni sliku' : 'Dodaj sliku' }
+									</Button>
+								</>
+							) }
+						/>
+					</MediaUploadCheck>
+					{ mediaUrl && (
+						<Button
+							onClick={ () => setAttributes( { mediaId: 0, mediaUrl: '', mediaAlt: '' } ) }
+							variant="link"
+							isDestructive
+							style={ { marginTop: '0.35rem' } }
+						>
+							Ukloni sliku
+						</Button>
+					) }
 				</PanelBody>
 
 				<PanelBody title="Naslov" initialOpen={ false }>
@@ -119,10 +160,12 @@ export default function Edit( { attributes, setAttributes } ) {
 								allowedTypes={ [ 'image' ] }
 								value={ mediaId }
 								render={ ( { open } ) => (
-									<div className="about-us-image-wrap" onClick={ open }>
+									<div className="about-us-image-wrap">
 										<img src={ mediaUrl } alt={ mediaAlt } />
 										<div className="about-us-image-replace">
-											<Button variant="secondary">Zameni sliku</Button>
+											<Button variant="secondary" onClick={ open }>
+												Zameni sliku
+											</Button>
 										</div>
 									</div>
 								) }
