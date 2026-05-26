@@ -30,6 +30,7 @@
 
 // 6. Blocks (frontend styles for Gutenberg blocks)
 @use 'blocks/hero';
+@use 'blocks/about-us';
 @use 'blocks/category-grid';
 @use 'blocks/features-strip';
 @use 'blocks/newsletter';

@@ -5,11 +5,38 @@
 	@include container;
 }
 
-.site-main { min-height: 60vh; }
+.site-main {
+	min-height: 60vh;
+}
 
-// ============================================================
-// Shop layout — product grid + sidebar
-// ============================================================
+.page-content {
+	> * {
+		max-width: 900px;
+		margin-left: auto;
+		margin-right: auto;
+		padding-left: 1.5rem;
+		padding-right: 1.5rem;
+		box-sizing: border-box;
+	}
+
+	> .alignfull,
+	> .alignwide {
+		max-width: none;
+		margin-left: 0;
+		margin-right: 0;
+		padding-left: 0;
+		padding-right: 0;
+	}
+}
+
+.alignfull {
+	width: 100%;
+}
+
+.alignwide {
+	width: 100%;
+}
+
 .shop-layout {
 	display: grid;
 	grid-template-columns: 260px 1fr;

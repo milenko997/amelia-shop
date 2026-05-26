@@ -1,0 +1,30 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "amelia/about-us",
+  "version": "1.0.0",
+  "title": "Amelia O nama",
+  "category": "amelia",
+  "description": "Sekcija o nama sa naslovom, tekstom i slikom u dva stupca.",
+  "textdomain": "amelia-shop",
+  "editorScript": "file:./index.js",
+  "render": "file:./render.php",
+  "attributes": {
+    "align":           { "type": "string",  "default": "full" },
+    "title":           { "type": "string",  "default": "Naša priča" },
+    "content":         { "type": "string",  "default": "" },
+    "mediaId":         { "type": "number",  "default": 0 },
+    "mediaUrl":        { "type": "string",  "default": "" },
+    "mediaAlt":        { "type": "string",  "default": "" },
+    "reversed":        { "type": "boolean", "default": false },
+    "titleFontSize":   { "type": "string",  "default": "2.5rem" },
+    "contentFontSize": { "type": "string",  "default": "1rem" },
+    "titleAlign":      { "type": "string",  "default": "left" },
+    "contentAlign":    { "type": "string",  "default": "left" }
+  },
+  "supports": {
+    "html":  false,
+    "align": ["wide", "full"],
+    "color": { "background": false, "text": false }
+  }
+}
