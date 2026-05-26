@@ -1,0 +1,23 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "amelia/products",
+  "version": "1.0.0",
+  "title": "Amelia Proizvodi",
+  "category": "amelia",
+  "description": "Prikazuje odabrane proizvode u gridu ili slideru (6+ proizvoda).",
+  "textdomain": "amelia-shop",
+  "editorScript": "file:./index.js",
+  "viewScript": "file:./view.js",
+  "viewStyle":  "file:./view.css",
+  "render": "file:./render.php",
+  "attributes": {
+    "selectedProducts": { "type": "array",  "default": [], "items": { "type": "integer" } },
+    "orderby":          { "type": "string", "default": "date" },
+    "order":            { "type": "string", "default": "DESC" }
+  },
+  "supports": {
+    "html":  false,
+    "align": ["wide", "full"]
+  }
+}

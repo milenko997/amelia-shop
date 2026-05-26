@@ -12,7 +12,9 @@ module.exports = {
 		'blocks/hero/index':           path.resolve( __dirname, 'src/blocks/hero/index.js' ),
 		'blocks/category-grid/index':  path.resolve( __dirname, 'src/blocks/category-grid/index.js' ),
 		'blocks/features-strip/index': path.resolve( __dirname, 'src/blocks/features-strip/index.js' ),
-		'blocks/newsletter/index':     path.resolve( __dirname, 'src/blocks/newsletter/index.js' ),
+		'blocks/newsletter/index':      path.resolve( __dirname, 'src/blocks/newsletter/index.js' ),
+		'blocks/products/index':        path.resolve( __dirname, 'src/blocks/products/index.js' ),
+		'blocks/products/view':         path.resolve( __dirname, 'src/blocks/products/view.js' ),
 	},
 
 	output: {
