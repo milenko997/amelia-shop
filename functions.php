@@ -161,8 +161,10 @@ remove_action( 'woocommerce_before_main_content', 'woocommerce_output_content_wr
 remove_action( 'woocommerce_after_main_content',  'woocommerce_output_content_wrapper_end', 10 );
 remove_action( 'woocommerce_sidebar',             'woocommerce_get_sidebar',                10 );
 
-add_action( 'woocommerce_before_main_content', fn() => print( '<main id="main" class="site-main"><div class="container">' ), 10 );
-add_action( 'woocommerce_after_main_content',  fn() => print( '</div></main>' ),                                             10 );
+function amelia_wc_before_content() { echo '<main id="main" class="site-main"><div class="container">'; }
+function amelia_wc_after_content()  { echo '</div></main>'; }
+add_action( 'woocommerce_before_main_content', 'amelia_wc_before_content', 10 );
+add_action( 'woocommerce_after_main_content',  'amelia_wc_after_content',  10 );
 
 /* ============================================================
    WooCommerce — product card image wrap + badges
@@ -223,3 +225,185 @@ function amelia_body_classes( $classes ) {
 	return $classes;
 }
 add_filter( 'body_class', 'amelia_body_classes' );
+
+/* ============================================================
+   Shop — helper: product price range
+   ============================================================ */
+function amelia_get_price_range() {
+	global $wpdb;
+	$row = $wpdb->get_row(
+		"SELECT MIN(CAST(meta_value AS DECIMAL(10,2))) AS min_price,
+		        MAX(CAST(meta_value AS DECIMAL(10,2))) AS max_price
+		 FROM {$wpdb->postmeta}
+		 INNER JOIN {$wpdb->posts} ON post_id = ID
+		 WHERE meta_key = '_price'
+		   AND meta_value != ''
+		   AND CAST(meta_value AS DECIMAL(10,2)) > 0
+		   AND post_status = 'publish'"
+	);
+	// floor min so no product is excluded at the low end;
+	// ceil max so decimal prices (e.g. 2999.99) are always inside the slider range.
+	$min  = $row ? (int) floor( (float) $row->min_price ) : 0;
+	$max  = $row ? (int) ceil(  (float) $row->max_price ) : 10000;
+	if ( $min === $max ) { $min = 0; }
+	$range = $max - $min;
+	$step  = $range > 1000 ? 100 : ( $range > 100 ? 10 : 1 );
+	return compact( 'min', 'max', 'step' );
+}
+
+// Default catalog sort: newest first (matches AJAX default).
+add_filter( 'woocommerce_default_catalog_orderby', fn() => 'date' );
+
+// Products per page.
+add_filter( 'loop_shop_per_page', fn() => 21 );
+
+/* ============================================================
+   Shop — helper: top-level product categories
+   ============================================================ */
+function amelia_get_product_categories() {
+	return get_terms( [
+		'taxonomy'   => 'product_cat',
+		'hide_empty' => true,
+		'orderby'    => 'name',
+		'order'      => 'ASC',
+	] ) ?: [];
+}
+
+/* ============================================================
+   Shop — enqueue async filter script
+   ============================================================ */
+function amelia_shop_filter_scripts() {
+	if ( ! ( is_shop() || is_product_category() || is_product_tag() ) ) return;
+
+	$asset_file = AMELIA_BUILD . '/shop-filter.asset.php';
+	$asset      = file_exists( $asset_file ) ? require $asset_file : [ 'dependencies' => [], 'version' => AMELIA_VERSION ];
+
+	wp_enqueue_script(
+		'amelia-shop-filter',
+		AMELIA_BUILD_URI . '/shop-filter.js',
+		$asset['dependencies'],
+		$asset['version'],
+		true
+	);
+
+	$price_range = amelia_get_price_range();
+	wp_localize_script( 'amelia-shop-filter', 'ameliaShop', [
+		'ajaxUrl'  => admin_url( 'admin-ajax.php' ),
+		'nonce'    => wp_create_nonce( 'amelia_nonce' ),
+		'currency' => html_entity_decode( get_woocommerce_currency_symbol(), ENT_QUOTES ),
+		'currPos'  => get_option( 'woocommerce_currency_pos', 'right' ),
+		'priceMin' => $price_range['min'],
+		'priceMax' => $price_range['max'],
+	] );
+}
+add_action( 'wp_enqueue_scripts', 'amelia_shop_filter_scripts' );
+
+/* ============================================================
+   Shop — AJAX product filter
+   ============================================================ */
+function amelia_filter_products() {
+	check_ajax_referer( 'amelia_nonce', 'nonce' );
+
+	$per_page    = 21;
+	$price_range = amelia_get_price_range();
+	$min_price   = isset( $_POST['min_price'] ) ? (float) $_POST['min_price'] : $price_range['min'];
+	$max_price   = isset( $_POST['max_price'] ) ? (float) $_POST['max_price'] : $price_range['max'];
+	$at_min      = $min_price <= $price_range['min'];
+	$at_max      = $max_price >= $price_range['max'];
+	$categories  = isset( $_POST['categories'] ) ? array_map( 'intval', (array) $_POST['categories'] ) : [];
+	$page        = isset( $_POST['page'] ) ? max( 1, (int) $_POST['page'] ) : 1;
+	$orderby_raw = sanitize_text_field( $_POST['orderby'] ?? 'date:DESC' );
+	[ $orderby, $order ] = array_pad( explode( ':', $orderby_raw ), 2, 'DESC' );
+	$order = in_array( strtoupper( $order ), [ 'ASC', 'DESC' ], true ) ? strtoupper( $order ) : 'DESC';
+
+	$meta_orderby = '';
+	if ( $orderby === 'price' ) {
+		$meta_orderby = '_price';
+		$orderby      = 'meta_value_num';
+	} elseif ( ! in_array( $orderby, [ 'date', 'title', 'popularity', 'rating', 'rand' ], true ) ) {
+		$orderby = 'date';
+	}
+
+	// Mirror WooCommerce's catalog visibility — exclude products hidden from the catalog.
+	// Use term_taxonomy_id (most reliable) via wc_get_product_visibility_term_ids().
+	$visibility_term_ids = wc_get_product_visibility_term_ids();
+	$exclude_term_ids    = array_filter( [ $visibility_term_ids['exclude-from-catalog'] ?? 0 ] );
+
+	// Also exclude out-of-stock products when the WooCommerce setting is enabled.
+	if ( 'yes' === get_option( 'woocommerce_hide_out_of_stock_items' ) ) {
+		$exclude_term_ids[] = $visibility_term_ids['outofstock'] ?? 0;
+		$exclude_term_ids   = array_filter( $exclude_term_ids );
+	}
+
+	$args = [
+		'post_type'      => 'product',
+		'post_status'    => 'publish',
+		'posts_per_page' => $per_page,
+		'paged'          => $page,
+		'orderby'        => $orderby,
+		'order'          => $order,
+		'tax_query'      => [ 'relation' => 'AND', [
+			'taxonomy' => 'product_visibility',
+			'field'    => 'term_taxonomy_id',
+			'terms'    => $exclude_term_ids,
+			'operator' => 'NOT IN',
+		] ],
+	];
+
+	if ( $meta_orderby ) {
+		$args['meta_key'] = $meta_orderby;
+	}
+
+	// Only apply a price meta_query when the slider has actually been moved.
+	if ( ! $at_min || ! $at_max ) {
+		$price_clause = $at_max
+			? [ 'key' => '_price', 'value' => $min_price, 'compare' => '>=', 'type' => 'NUMERIC' ]
+			: [ 'key' => '_price', 'value' => [ $min_price, $max_price ], 'compare' => 'BETWEEN', 'type' => 'NUMERIC' ];
+		$args['meta_query'] = [ 'relation' => 'AND', $price_clause ];
+	}
+
+	if ( ! empty( $categories ) ) {
+		$args['tax_query'][] = [
+			'taxonomy' => 'product_cat',
+			'field'    => 'term_id',
+			'terms'    => $categories,
+		];
+	}
+
+	$query = new WP_Query( $args );
+
+	// Use WooCommerce's own loop open/close so that loop context (counter,
+	// columns, is_visible checks) is identical to the initial PHP page render.
+	ob_start();
+	if ( $query->have_posts() ) {
+		woocommerce_product_loop_start();
+		while ( $query->have_posts() ) {
+			$query->the_post();
+			wc_get_template_part( 'content', 'product' );
+		}
+		woocommerce_product_loop_end();
+	}
+	wp_reset_postdata();
+
+	$html  = ob_get_clean();
+	$total = (int) $query->found_posts;
+
+	wp_send_json_success( [
+		'html'    => $html,
+		'count'   => $total,
+		'hasMore' => $total > ( $page * $per_page ),
+		'page'    => $page,
+		'_debug'  => [
+			'query_ids'   => wp_list_pluck( $query->posts, 'ID' ),
+			'found_posts' => $total,
+			'args'        => [
+				'posts_per_page' => $args['posts_per_page'],
+				'paged'          => $args['paged'],
+				'orderby'        => $args['orderby'],
+				'order'          => $args['order'],
+			],
+		],
+	] );
+}
+add_action( 'wp_ajax_amelia_filter_products',        'amelia_filter_products' );
+add_action( 'wp_ajax_nopriv_amelia_filter_products', 'amelia_filter_products' );

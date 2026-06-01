@@ -1,16 +1,16 @@
 @use '../abstracts/variables' as *;
 @use '../abstracts/mixins' as *;
 
-// ============================================================
-// Product grid
-// ============================================================
 .woocommerce ul.products {
 	display: grid !important;
-	grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+	grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
 	gap: 2rem;
 	list-style: none;
 	margin: 0;
 	padding: 0;
+
+	&::before,
+	&::after { display: none !important; }
 
 	@include respond-to(md) {
 		grid-template-columns: repeat(2, 1fr);
@@ -20,9 +20,6 @@
 	@include respond-to(sm) { grid-template-columns: 1fr; }
 }
 
-// ============================================================
-// Product card  (WooCommerce loop + amelia/products block)
-// ============================================================
 .woocommerce ul.products li.product,
 .products-grid li.product,
 .products-swiper .product {
@@ -102,9 +99,6 @@
 	}
 }
 
-// ============================================================
-// Wishlist button on product card
-// ============================================================
 .product-wishlist {
 	position: absolute;
 	top: 0.75rem;

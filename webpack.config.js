@@ -6,7 +6,8 @@ module.exports = {
 
 	entry: {
 		// Theme JS + SCSS (SCSS imported inside main.js)
-		main: path.resolve( __dirname, 'src/js/main.js' ),
+		main:           path.resolve( __dirname, 'src/js/main.js' ),
+		'shop-filter':  path.resolve( __dirname, 'src/js/shop-filter.js' ),
 
 		// Gutenberg blocks
 		'blocks/hero/index':           path.resolve( __dirname, 'src/blocks/hero/index.js' ),
