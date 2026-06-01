@@ -36,7 +36,6 @@ function amelia_setup() {
 			'max_columns'     => 4,
 		],
 	] );
-	add_theme_support( 'wc-product-gallery-zoom' );
 	add_theme_support( 'wc-product-gallery-lightbox' );
 	add_theme_support( 'wc-product-gallery-slider' );
 
@@ -407,3 +406,16 @@ function amelia_filter_products() {
 }
 add_action( 'wp_ajax_amelia_filter_products',        'amelia_filter_products' );
 add_action( 'wp_ajax_nopriv_amelia_filter_products', 'amelia_filter_products' );
+
+add_action( 'wp', function () {
+	if ( ! is_product() ) return;
+	remove_action( 'woocommerce_after_single_product_summary', 'woocommerce_output_product_data_tabs', 10 );
+	remove_action( 'woocommerce_after_single_product_summary', 'woocommerce_upsell_display',           15 );
+	remove_action( 'woocommerce_after_single_product_summary', 'woocommerce_output_related_products',  20 );
+} );
+
+add_filter( 'woocommerce_output_related_products_args', function ( $args ) {
+	$args['posts_per_page'] = 5;
+	$args['columns']        = 5;
+	return $args;
+} );
