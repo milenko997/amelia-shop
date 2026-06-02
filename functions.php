@@ -287,12 +287,13 @@ function amelia_shop_filter_scripts() {
 
 	$price_range = amelia_get_price_range();
 	wp_localize_script( 'amelia-shop-filter', 'ameliaShop', [
-		'ajaxUrl'  => admin_url( 'admin-ajax.php' ),
-		'nonce'    => wp_create_nonce( 'amelia_nonce' ),
-		'currency' => html_entity_decode( get_woocommerce_currency_symbol(), ENT_QUOTES ),
-		'currPos'  => get_option( 'woocommerce_currency_pos', 'right' ),
-		'priceMin' => $price_range['min'],
-		'priceMax' => $price_range['max'],
+		'ajaxUrl'    => admin_url( 'admin-ajax.php' ),
+		'nonce'      => wp_create_nonce( 'amelia_nonce' ),
+		'currency'   => html_entity_decode( get_woocommerce_currency_symbol(), ENT_QUOTES ),
+		'currPos'    => get_option( 'woocommerce_currency_pos', 'right' ),
+		'priceMin'   => $price_range['min'],
+		'priceMax'   => $price_range['max'],
+		'categoryId' => is_product_category() ? (int) get_queried_object_id() : 0,
 	] );
 }
 add_action( 'wp_enqueue_scripts', 'amelia_shop_filter_scripts' );
@@ -309,7 +310,8 @@ function amelia_filter_products() {
 	$max_price   = isset( $_POST['max_price'] ) ? (float) $_POST['max_price'] : $price_range['max'];
 	$at_min      = $min_price <= $price_range['min'];
 	$at_max      = $max_price >= $price_range['max'];
-	$categories  = isset( $_POST['categories'] ) ? array_map( 'intval', (array) $_POST['categories'] ) : [];
+	$categories       = isset( $_POST['categories'] ) ? array_map( 'intval', (array) $_POST['categories'] ) : [];
+	$locked_category  = isset( $_POST['locked_category'] ) ? (int) $_POST['locked_category'] : 0;
 	$page        = isset( $_POST['page'] ) ? max( 1, (int) $_POST['page'] ) : 1;
 	$orderby_raw = sanitize_text_field( $_POST['orderby'] ?? 'date:DESC' );
 	[ $orderby, $order ] = array_pad( explode( ':', $orderby_raw ), 2, 'DESC' );
@@ -359,6 +361,14 @@ function amelia_filter_products() {
 			? [ 'key' => '_price', 'value' => $min_price, 'compare' => '>=', 'type' => 'NUMERIC' ]
 			: [ 'key' => '_price', 'value' => [ $min_price, $max_price ], 'compare' => 'BETWEEN', 'type' => 'NUMERIC' ];
 		$args['meta_query'] = [ 'relation' => 'AND', $price_clause ];
+	}
+
+	if ( $locked_category ) {
+		$args['tax_query'][] = [
+			'taxonomy' => 'product_cat',
+			'field'    => 'term_id',
+			'terms'    => [ $locked_category ],
+		];
 	}
 
 	if ( ! empty( $categories ) ) {

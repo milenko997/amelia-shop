@@ -128,6 +128,9 @@
 		body.append( 'max_price', maxInput.value );
 		body.append( 'orderby',   sortEl ? sortEl.value : 'date:DESC' );
 		body.append( 'page',      page );
+		if ( ameliaShop.categoryId ) {
+			body.append( 'locked_category', ameliaShop.categoryId );
+		}
 
 		form.querySelectorAll( 'input[name="categories[]"]:checked' ).forEach( function ( cb ) {
 			body.append( 'categories[]', cb.value );
