@@ -46,7 +46,7 @@ if ( $is_shop_archive ) :
 				<aside class="shop-sidebar" id="shop-sidebar">
 					<form id="shop-filter-form" class="shop-filter" novalidate>
 
-						<?php if ( ! empty( $product_cats ) ) : ?>
+						<?php if ( ! empty( $product_cats ) && ! is_product_category() ) : ?>
 						<div class="filter-group">
 							<h3 class="filter-title"><?php esc_html_e( 'Kategorije', 'amelia-shop' ); ?></h3>
 							<ul class="filter-cats">
