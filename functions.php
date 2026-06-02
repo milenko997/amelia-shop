@@ -228,18 +228,43 @@ add_filter( 'body_class', 'amelia_body_classes' );
 /* ============================================================
    Shop — helper: product price range
    ============================================================ */
-function amelia_get_price_range() {
+function amelia_get_price_range( $term_id = 0 ) {
 	global $wpdb;
-	$row = $wpdb->get_row(
-		"SELECT MIN(CAST(meta_value AS DECIMAL(10,2))) AS min_price,
-		        MAX(CAST(meta_value AS DECIMAL(10,2))) AS max_price
-		 FROM {$wpdb->postmeta}
-		 INNER JOIN {$wpdb->posts} ON post_id = ID
-		 WHERE meta_key = '_price'
-		   AND meta_value != ''
-		   AND CAST(meta_value AS DECIMAL(10,2)) > 0
-		   AND post_status = 'publish'"
-	);
+
+	if ( $term_id ) {
+		$child_ids = get_term_children( (int) $term_id, 'product_cat' );
+		$all_ids   = array_merge( [ (int) $term_id ], is_array( $child_ids ) ? $child_ids : [] );
+		$ph        = implode( ',', array_fill( 0, count( $all_ids ), '%d' ) );
+
+		$row = $wpdb->get_row( $wpdb->prepare(
+			// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+			"SELECT MIN(CAST(pm.meta_value AS DECIMAL(10,2))) AS min_price,
+			        MAX(CAST(pm.meta_value AS DECIMAL(10,2))) AS max_price
+			 FROM {$wpdb->postmeta} pm
+			 INNER JOIN {$wpdb->posts} p ON pm.post_id = p.ID
+			 INNER JOIN {$wpdb->term_relationships} tr ON tr.object_id = p.ID
+			 INNER JOIN {$wpdb->term_taxonomy} tt ON tr.term_taxonomy_id = tt.term_taxonomy_id
+			 WHERE pm.meta_key = '_price'
+			   AND pm.meta_value != ''
+			   AND CAST(pm.meta_value AS DECIMAL(10,2)) > 0
+			   AND p.post_status = 'publish'
+			   AND tt.taxonomy = 'product_cat'
+			   AND tt.term_id IN ($ph)",
+			...$all_ids
+		) );
+	} else {
+		$row = $wpdb->get_row(
+			"SELECT MIN(CAST(meta_value AS DECIMAL(10,2))) AS min_price,
+			        MAX(CAST(meta_value AS DECIMAL(10,2))) AS max_price
+			 FROM {$wpdb->postmeta}
+			 INNER JOIN {$wpdb->posts} ON post_id = ID
+			 WHERE meta_key = '_price'
+			   AND meta_value != ''
+			   AND CAST(meta_value AS DECIMAL(10,2)) > 0
+			   AND post_status = 'publish'"
+		);
+	}
+
 	// floor min so no product is excluded at the low end;
 	// ceil max so decimal prices (e.g. 2999.99) are always inside the slider range.
 	$min  = $row ? (int) floor( (float) $row->min_price ) : 0;
@@ -285,7 +310,8 @@ function amelia_shop_filter_scripts() {
 		true
 	);
 
-	$price_range = amelia_get_price_range();
+	$cat_id      = is_product_category() ? (int) get_queried_object_id() : 0;
+	$price_range = amelia_get_price_range( $cat_id );
 	wp_localize_script( 'amelia-shop-filter', 'ameliaShop', [
 		'ajaxUrl'    => admin_url( 'admin-ajax.php' ),
 		'nonce'      => wp_create_nonce( 'amelia_nonce' ),
@@ -293,7 +319,7 @@ function amelia_shop_filter_scripts() {
 		'currPos'    => get_option( 'woocommerce_currency_pos', 'right' ),
 		'priceMin'   => $price_range['min'],
 		'priceMax'   => $price_range['max'],
-		'categoryId' => is_product_category() ? (int) get_queried_object_id() : 0,
+		'categoryId' => $cat_id,
 	] );
 }
 add_action( 'wp_enqueue_scripts', 'amelia_shop_filter_scripts' );
@@ -304,14 +330,14 @@ add_action( 'wp_enqueue_scripts', 'amelia_shop_filter_scripts' );
 function amelia_filter_products() {
 	check_ajax_referer( 'amelia_nonce', 'nonce' );
 
-	$per_page    = 21;
-	$price_range = amelia_get_price_range();
-	$min_price   = isset( $_POST['min_price'] ) ? (float) $_POST['min_price'] : $price_range['min'];
-	$max_price   = isset( $_POST['max_price'] ) ? (float) $_POST['max_price'] : $price_range['max'];
-	$at_min      = $min_price <= $price_range['min'];
-	$at_max      = $max_price >= $price_range['max'];
-	$categories       = isset( $_POST['categories'] ) ? array_map( 'intval', (array) $_POST['categories'] ) : [];
-	$locked_category  = isset( $_POST['locked_category'] ) ? (int) $_POST['locked_category'] : 0;
+	$per_page        = 21;
+	$locked_category = isset( $_POST['locked_category'] ) ? (int) $_POST['locked_category'] : 0;
+	$price_range     = amelia_get_price_range( $locked_category );
+	$min_price       = isset( $_POST['min_price'] ) ? (float) $_POST['min_price'] : $price_range['min'];
+	$max_price       = isset( $_POST['max_price'] ) ? (float) $_POST['max_price'] : $price_range['max'];
+	$at_min          = $min_price <= $price_range['min'];
+	$at_max          = $max_price >= $price_range['max'];
+	$categories      = isset( $_POST['categories'] ) ? array_map( 'intval', (array) $_POST['categories'] ) : [];
 	$page        = isset( $_POST['page'] ) ? max( 1, (int) $_POST['page'] ) : 1;
 	$orderby_raw = sanitize_text_field( $_POST['orderby'] ?? 'date:DESC' );
 	[ $orderby, $order ] = array_pad( explode( ':', $orderby_raw ), 2, 'DESC' );
@@ -398,20 +424,13 @@ function amelia_filter_products() {
 	$total = (int) $query->found_posts;
 
 	wp_send_json_success( [
-		'html'    => $html,
-		'count'   => $total,
-		'hasMore' => $total > ( $page * $per_page ),
-		'page'    => $page,
-		'_debug'  => [
-			'query_ids'   => wp_list_pluck( $query->posts, 'ID' ),
-			'found_posts' => $total,
-			'args'        => [
-				'posts_per_page' => $args['posts_per_page'],
-				'paged'          => $args['paged'],
-				'orderby'        => $args['orderby'],
-				'order'          => $args['order'],
-			],
-		],
+		'html'      => $html,
+		'count'     => $total,
+		'hasMore'   => $total > ( $page * $per_page ),
+		'page'      => $page,
+		'priceMin'  => $price_range['min'],
+		'priceMax'  => $price_range['max'],
+		'priceStep' => $price_range['step'],
 	] );
 }
 add_action( 'wp_ajax_amelia_filter_products',        'amelia_filter_products' );

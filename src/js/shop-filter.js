@@ -38,7 +38,9 @@
 		if ( hi !== rawHi ) {
 			minInput.setAttribute( 'max', hi );
 			maxInput.setAttribute( 'max', hi );
-			maxInput.value = String( hi );
+			if ( parseFloat( maxInput.value ) >= rawHi ) {
+				maxInput.value = String( hi );
+			}
 		}
 
 		const min = parseFloat( minInput.value );
@@ -145,9 +147,20 @@
 				hasMore  = d.hasMore;
 				currPage = d.page;
 
-				console.log( '[Amelia] AJAX response — found_posts:', d._debug.found_posts,
-					'| IDs:', d._debug.query_ids,
-					'| args:', d._debug.args );
+				if ( ! append && d.priceMin !== undefined ) {
+					const attrs = [
+						[ minInput, 'min', d.priceMin ],
+						[ minInput, 'max', d.priceMax ],
+						[ minInput, 'step', d.priceStep ],
+						[ maxInput, 'min', d.priceMin ],
+						[ maxInput, 'max', d.priceMax ],
+						[ maxInput, 'step', d.priceStep ],
+					];
+					attrs.forEach( ( [ el, attr, val ] ) => el.setAttribute( attr, val ) );
+					if ( parseFloat( minInput.value ) < d.priceMin ) minInput.value = d.priceMin;
+					if ( parseFloat( maxInput.value ) > d.priceMax ) maxInput.value = d.priceMax;
+					updateTrack();
+				}
 
 				if ( append ) {
 					// PHP returns a full <ul>…</ul>; extract only the <li> items.
@@ -191,11 +204,6 @@
 				if ( sentinel ) sentinel.classList.remove( 'is-loading' );
 			} );
 	}
-
-	const initItems = productsWrap.querySelectorAll( 'li.product' );
-	console.log( '[Amelia] Initial DOM products:', initItems.length,
-		'| data-total:', productsWrap.dataset.total,
-		'| data-has-more:', productsWrap.dataset.hasMore );
 
 	updateTrack();
 } )();

@@ -15,7 +15,7 @@ if ( $is_shop_archive ) :
 		$shop_desc  = $shop_page ? $shop_page->post_excerpt : '';
 	}
 
-	$price_range   = amelia_get_price_range();
+	$price_range   = amelia_get_price_range( is_product_category() ? (int) get_queried_object_id() : 0 );
 	$product_cats  = amelia_get_product_categories();
 
 	remove_action( 'woocommerce_before_main_content', 'amelia_wc_before_content', 10 );
