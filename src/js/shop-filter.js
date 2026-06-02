@@ -38,9 +38,7 @@
 		if ( hi !== rawHi ) {
 			minInput.setAttribute( 'max', hi );
 			maxInput.setAttribute( 'max', hi );
-			if ( parseFloat( maxInput.value ) >= rawHi ) {
-				maxInput.value = String( hi );
-			}
+			maxInput.value = String( hi );
 		}
 
 		const min = parseFloat( minInput.value );
@@ -146,21 +144,6 @@
 				const d  = data.data;
 				hasMore  = d.hasMore;
 				currPage = d.page;
-
-				if ( ! append && d.priceMin !== undefined ) {
-					const attrs = [
-						[ minInput, 'min', d.priceMin ],
-						[ minInput, 'max', d.priceMax ],
-						[ minInput, 'step', d.priceStep ],
-						[ maxInput, 'min', d.priceMin ],
-						[ maxInput, 'max', d.priceMax ],
-						[ maxInput, 'step', d.priceStep ],
-					];
-					attrs.forEach( ( [ el, attr, val ] ) => el.setAttribute( attr, val ) );
-					if ( parseFloat( minInput.value ) < d.priceMin ) minInput.value = d.priceMin;
-					if ( parseFloat( maxInput.value ) > d.priceMax ) maxInput.value = d.priceMax;
-					updateTrack();
-				}
 
 				if ( append ) {
 					// PHP returns a full <ul>…</ul>; extract only the <li> items.
