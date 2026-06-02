@@ -3,7 +3,7 @@ import '../scss/main.scss';
 
 import { initMobileMenu }  from './modules/mobile-menu';
 import { initSearch }       from './modules/search';
-import { initCart }         from './modules/cart';
+import { initCart, initCartPage } from './modules/cart';
 import { initAnimations }   from './modules/animations';
 import { initQuantity }     from './modules/quantity';
 import { initGallery }      from './modules/gallery';
@@ -12,6 +12,7 @@ document.addEventListener( 'DOMContentLoaded', () => {
 	initMobileMenu();
 	initSearch();
 	initCart();
+	initCartPage();
 	initAnimations();
 	initQuantity();
 	initGallery();

@@ -23,6 +23,12 @@
 	}
 }
 
+.cart-page.is-loading .cart-page__layout {
+	opacity: 0.5;
+	pointer-events: none;
+	transition: opacity 0.2s;
+}
+
 .woocommerce-cart-form {
 	background: $color-white;
 	border-radius: $radius-lg;
