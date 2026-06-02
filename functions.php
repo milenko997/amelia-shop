@@ -160,8 +160,20 @@ remove_action( 'woocommerce_before_main_content', 'woocommerce_output_content_wr
 remove_action( 'woocommerce_after_main_content',  'woocommerce_output_content_wrapper_end', 10 );
 remove_action( 'woocommerce_sidebar',             'woocommerce_get_sidebar',                10 );
 
-function amelia_wc_before_content() { echo '<main id="main" class="site-main"><div class="container">'; }
-function amelia_wc_after_content()  { echo '</div></main>'; }
+function amelia_wc_before_content() {
+	if ( is_cart() || is_checkout() || is_account_page() ) {
+		echo '<main id="main" class="site-main">';
+	} else {
+		echo '<main id="main" class="site-main"><div class="container">';
+	}
+}
+function amelia_wc_after_content() {
+	if ( is_cart() || is_checkout() || is_account_page() ) {
+		echo '</main>';
+	} else {
+		echo '</div></main>';
+	}
+}
 add_action( 'woocommerce_before_main_content', 'amelia_wc_before_content', 10 );
 add_action( 'woocommerce_after_main_content',  'amelia_wc_after_content',  10 );
 
