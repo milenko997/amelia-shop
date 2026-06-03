@@ -456,6 +456,11 @@ add_action( 'wp', function () {
 	remove_action( 'woocommerce_after_single_product_summary', 'woocommerce_output_related_products',  20 );
 } );
 
+add_filter( 'woocommerce_product_tabs', function ( $tabs ) {
+	unset( $tabs['reviews'] );
+	return $tabs;
+} );
+
 add_filter( 'woocommerce_output_related_products_args', function ( $args ) {
 	$args['posts_per_page'] = 5;
 	$args['columns']        = 5;
