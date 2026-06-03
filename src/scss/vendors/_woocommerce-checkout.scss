@@ -361,3 +361,243 @@
 		width: 100%;
 	}
 }
+
+.order-received {
+	padding: 3rem 0 5rem;
+}
+
+.order-received__banner {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	text-align: center;
+	padding: 3rem 1.5rem 2.5rem;
+	background: $color-white;
+	border-radius: $radius-lg;
+	box-shadow: $shadow-sm;
+	margin-bottom: 2rem;
+}
+
+.order-received__check {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 80px;
+	height: 80px;
+	border-radius: 50%;
+	background: #f0faf4;
+	margin-bottom: 1.5rem;
+	flex-shrink: 0;
+
+	svg {
+		width: 40px;
+		height: 40px;
+		stroke: $color-success;
+	}
+}
+
+.order-received__title {
+	font-family: $font-heading;
+	font-size: clamp( 1.5rem, 3vw, 2rem );
+	font-weight: 700;
+	color: $color-secondary;
+	margin: 0 0 0.75rem;
+}
+
+.order-received__subtitle {
+	color: $color-text-light;
+	font-size: 0.95rem;
+	line-height: 1.65;
+	margin: 0 0 1.75rem;
+	max-width: 480px;
+}
+
+.order-received__shop-btn {
+	min-width: 200px;
+	background: $color-primary-dark;
+	border-color: $color-primary-dark;
+	color: $color-white;
+
+	&:hover {
+		background: $color-secondary;
+		border-color: $color-secondary;
+		color: $color-white;
+	}
+}
+
+.order-received__overview {
+	list-style: none;
+	padding: 0;
+	margin: 0 0 2rem;
+	display: grid;
+	grid-template-columns: repeat( auto-fit, minmax( 160px, 1fr ) );
+	gap: 1rem;
+
+	li {
+		background: $color-white;
+		border-radius: $radius-md;
+		box-shadow: $shadow-sm;
+		padding: 1.25rem 1.5rem;
+		display: flex;
+		flex-direction: column;
+		gap: 0.35rem;
+
+		span {
+			font-size: 0.75rem;
+			font-weight: 700;
+			letter-spacing: 0.08em;
+			text-transform: uppercase;
+			color: $color-text-light;
+		}
+
+		strong {
+			font-size: 0.95rem;
+			font-weight: 600;
+			color: $color-secondary;
+		}
+	}
+}
+
+.order-received__details {
+	display: grid;
+	grid-template-columns: 1fr 340px;
+	gap: 2rem;
+	align-items: start;
+
+	@include respond-to(lg) {
+		grid-template-columns: 1fr;
+	}
+}
+
+.order-received__failed {
+	background: $color-white;
+	border-radius: $radius-lg;
+	box-shadow: $shadow-sm;
+	padding: 2.5rem;
+	text-align: center;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 1rem;
+
+	p { color: $color-text; margin: 0; }
+}
+
+.woocommerce-order-details {
+	background: $color-white;
+	border-radius: $radius-lg;
+	box-shadow: $shadow-sm;
+	overflow: hidden;
+
+	&__title {
+		font-size: 1rem;
+		font-weight: 700;
+		letter-spacing: 0.06em;
+		text-transform: uppercase;
+		color: $color-secondary;
+		margin: 0;
+		padding: 1.25rem 1.5rem;
+		border-bottom: 1px solid $color-border;
+	}
+}
+
+table.order_details {
+	width: 100%;
+	border-collapse: collapse;
+
+	thead tr {
+		background: $color-bg-alt;
+		border-bottom: 1px solid $color-border;
+	}
+
+	th {
+		padding: 0.875rem 1.25rem;
+		font-size: 0.75rem;
+		font-weight: 700;
+		letter-spacing: 0.1em;
+		text-transform: uppercase;
+		color: $color-text-light;
+		text-align: left;
+
+		&.product-total { text-align: right; }
+	}
+
+	td {
+		padding: 1rem 1.25rem;
+		font-size: 0.9rem;
+		color: $color-text;
+		border-bottom: 1px solid $color-border;
+
+		&.product-total {
+			text-align: right;
+			font-weight: 600;
+			color: $color-secondary;
+		}
+	}
+
+	tfoot {
+		th, td {
+			padding: 0.6rem 1.25rem;
+			font-size: 0.875rem;
+			border-bottom: none;
+		}
+
+		th {
+			font-weight: 500;
+			color: $color-text-light;
+		}
+
+		td {
+			text-align: right;
+			font-weight: 600;
+			color: $color-secondary;
+		}
+
+		.order-total {
+			th { font-size: 0.95rem; font-weight: 700; color: $color-secondary; }
+			td { font-size: 1.05rem; color: $color-primary-dark; }
+		}
+	}
+}
+
+.woocommerce-customer-details {
+	background: $color-white;
+	border-radius: $radius-lg;
+	box-shadow: $shadow-sm;
+	padding: 1.5rem;
+
+	.woocommerce-column__title {
+		font-size: 1rem;
+		font-weight: 700;
+		letter-spacing: 0.06em;
+		text-transform: uppercase;
+		color: $color-secondary;
+		margin: 0 0 1rem;
+		padding-bottom: 0.75rem;
+		border-bottom: 1px solid $color-border;
+	}
+
+	address {
+		font-style: normal;
+		font-size: 0.9rem;
+		color: $color-text;
+		line-height: 1.7;
+	}
+
+	.woocommerce-customer-details--phone,
+	.woocommerce-customer-details--email {
+		margin: 0.25rem 0 0;
+		font-size: 0.875rem;
+		color: $color-text-light;
+	}
+
+	.woocommerce-columns--addresses {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 1.5rem;
+
+		@include respond-to(sm) {
+			grid-template-columns: 1fr;
+		}
+	}
+}
