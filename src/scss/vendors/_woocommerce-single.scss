@@ -46,6 +46,8 @@
 
 		img {
 			width: 100%;
+			aspect-ratio: 3 / 4;
+			max-height: 580px;
 			object-fit: cover;
 			display: block;
 			transition: transform 0.2s ease;
