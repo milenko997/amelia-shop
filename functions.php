@@ -8,6 +8,85 @@ define( 'AMELIA_BUILD',   AMELIA_DIR . '/build' );
 define( 'AMELIA_BUILD_URI', AMELIA_URI . '/build' );
 
 /* ============================================================
+   WooCommerce — Serbian Latin translations
+   ============================================================ */
+add_filter( 'gettext', function ( $translated, $original, $domain ) {
+	if ( $domain !== 'woocommerce' ) return $translated;
+
+	static $map = [
+		// Buttons
+		'Select options'                          => 'Izaberi opcije',
+		'Add to cart'                             => 'Dodaj u korpu',
+		'Read more'                               => 'Saznaj više',
+		'View cart'                               => 'Pogledaj korpu',
+		'Proceed to checkout'                     => 'Nastavi na plaćanje',
+		'Place order'                             => 'Poruči',
+		'Update cart'                             => 'Ažuriraj korpu',
+		'Apply coupon'                            => 'Primeni kupon',
+		'Continue shopping'                       => 'Nastavi kupovinu',
+		// Cart & checkout
+		'Cart'                                    => 'Korpa',
+		'Checkout'                                => 'Plaćanje',
+		'Your cart'                               => 'Vaša korpa',
+		'Cart totals'                             => 'Ukupno',
+		'Subtotal'                                => 'Međuzbir',
+		'Total'                                   => 'Ukupno',
+		'Shipping'                                => 'Dostava',
+		'Tax'                                     => 'PDV',
+		'Coupon:'                                 => 'Kupon:',
+		'Coupon code'                             => 'Kod kupona',
+		'No shipping options were found.'         => 'Nema dostupnih opcija dostave.',
+		'Your cart is currently empty.'           => 'Vaša korpa je prazna.',
+		'Product'                                 => 'Proizvod',
+		'Price'                                   => 'Cena',
+		'Quantity'                                => 'Količina',
+		'Remove this item'                        => 'Ukloni stavku',
+		// Checkout fields
+		'Billing details'                         => 'Podaci za naplatu',
+		'Order notes'                             => 'Napomena uz narudžbinu',
+		'Order notes (optional)'                  => 'Napomena (opciono)',
+		'First name'                              => 'Ime',
+		'Last name'                               => 'Prezime',
+		'Company name (optional)'                 => 'Naziv firme (opciono)',
+		'Country / Region'                        => 'Država',
+		'Street address'                          => 'Adresa',
+		'Apartment, suite, unit, etc. (optional)' => 'Stan, sprat, br. (opciono)',
+		'Town / City'                             => 'Grad',
+		'State / County'                          => 'Okrug',
+		'Postcode / ZIP'                          => 'Poštanski broj',
+		'Phone'                                   => 'Telefon',
+		'Email address'                           => 'Email adresa',
+		// Order review
+		'Your order'                              => 'Vaša narudžbina',
+		'Order summary'                           => 'Pregled narudžbine',
+		'Payment'                                 => 'Plaćanje',
+		'I have read and agree to the website'    => 'Pročitao/la sam i slažem se sa',
+		// Variations
+		'Choose an option'                        => 'Izaberi opciju',
+		// Product tabs
+		'Description'                             => 'Opis',
+		'Additional information'                  => 'Dodatne informacije',
+		'Reviews'                                 => 'Recenzije',
+		// Product
+		'Sale!'                                   => 'Akcija!',
+		'Out of stock'                            => 'Nema na stanju',
+		'In stock'                                => 'Na stanju',
+		'SKU:'                                    => 'Šifra:',
+		'Category:'                               => 'Kategorija:',
+		'Categories:'                             => 'Kategorije:',
+		'Tag:'                                    => 'Oznaka:',
+		'Tags:'                                   => 'Oznake:',
+		'Related products'                        => 'Srodni proizvodi',
+		'You may also like&hellip;'               => 'Možda vam se sviđa…',
+		// Notices
+		'has been added to your cart.'            => 'je dodat u korpu.',
+		'was successfully added to your cart.'    => 'je uspešno dodat u korpu.',
+	];
+
+	return $map[ $original ] ?? $translated;
+}, 10, 3 );
+
+/* ============================================================
    Theme Setup
    ============================================================ */
 function amelia_setup() {
