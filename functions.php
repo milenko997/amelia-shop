@@ -154,6 +154,27 @@ function amelia_sidebars() {
 add_action( 'widgets_init', 'amelia_sidebars' );
 
 /* ============================================================
+   WooCommerce — suppress "choose product options" notice on single product
+   ============================================================ */
+add_action( 'wp', function () {
+	if ( ! is_product() || ! WC()->session ) {
+		return;
+	}
+	$notices = WC()->session->get( 'wc_notices', [] );
+	if ( empty( $notices['error'] ) ) {
+		return;
+	}
+	$notices['error'] = array_values( array_filter( $notices['error'], function ( $notice ) {
+		$text = is_array( $notice ) ? ( $notice['notice'] ?? '' ) : $notice;
+		return strpos( $text, 'choose product options' ) === false;
+	} ) );
+	if ( empty( $notices['error'] ) ) {
+		unset( $notices['error'] );
+	}
+	WC()->session->set( 'wc_notices', $notices );
+} );
+
+/* ============================================================
    WooCommerce — redirect My Account to shop
    ============================================================ */
 add_action( 'template_redirect', function () {
