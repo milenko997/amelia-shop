@@ -20,6 +20,8 @@ module.exports = {
 		'blocks/contact/index':         path.resolve( __dirname, 'src/blocks/contact/index.js' ),
 		'blocks/favorites/index':       path.resolve( __dirname, 'src/blocks/favorites/index.js' ),
 		'blocks/favorites/view':        path.resolve( __dirname, 'src/blocks/favorites/view.js' ),
+		'blocks/faq/index':             path.resolve( __dirname, 'src/blocks/faq/index.js' ),
+		'blocks/faq/view':              path.resolve( __dirname, 'src/blocks/faq/view.js' ),
 	},
 
 	output: {

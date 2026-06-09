@@ -118,7 +118,7 @@ add_filter( 'block_categories_all', 'amelia_block_categories' );
    Register Gutenberg blocks
    ============================================================ */
 function amelia_register_blocks() {
-	$blocks = [ 'hero', 'category-grid', 'features-strip', 'newsletter', 'products', 'about-us', 'contact', 'favorites' ];
+	$blocks = [ 'hero', 'category-grid', 'features-strip', 'newsletter', 'products', 'about-us', 'contact', 'favorites', 'faq' ];
 
 	foreach ( $blocks as $block ) {
 		$path = AMELIA_BUILD . '/blocks/' . $block;

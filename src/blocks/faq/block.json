@@ -1,0 +1,27 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "amelia/faq",
+  "version": "1.0.0",
+  "title": "Amelia FAQ",
+  "category": "amelia",
+  "description": "Sekcija sa često postavljanim pitanjima u obliku akordeona.",
+  "textdomain": "amelia-shop",
+  "editorScript": "file:./index.js",
+  "viewScript": "file:./view.js",
+  "render": "file:./render.php",
+  "attributes": {
+    "align": { "type": "string", "default": "full" },
+    "title": { "type": "string", "default": "Često postavljana pitanja" },
+    "items": {
+      "type": "array",
+      "default": [
+        { "question": "Kako mogu da naručim?", "answer": "Izaberite proizvod, dodajte ga u korpu i završite kupovinu na stranici za naplatu." }
+      ]
+    }
+  },
+  "supports": {
+    "html":  false,
+    "align": ["wide", "full"]
+  }
+}
