@@ -56,11 +56,6 @@
 					<svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
 				</button>
 
-				<!-- Account -->
-				<a href="<?php echo esc_url( get_permalink( get_option( 'woocommerce_myaccount_page_id' ) ) ); ?>" class="header-icon-btn" aria-label="Moj nalog">
-					<svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-				</a>
-
 				<!-- Cart -->
 				<?php if ( class_exists( 'WooCommerce' ) ) : ?>
 				<a href="<?php echo esc_url( wc_get_cart_url() ); ?>" class="header-icon-btn" aria-label="Korpa">

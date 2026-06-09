@@ -154,6 +154,17 @@ function amelia_sidebars() {
 add_action( 'widgets_init', 'amelia_sidebars' );
 
 /* ============================================================
+   WooCommerce — redirect My Account to shop
+   ============================================================ */
+add_action( 'template_redirect', function () {
+	$page_id = get_option( 'woocommerce_myaccount_page_id' );
+	if ( $page_id && is_page( $page_id ) ) {
+		wp_safe_redirect( wc_get_page_permalink( 'shop' ) );
+		exit;
+	}
+} );
+
+/* ============================================================
    WooCommerce — remove default wrappers
    ============================================================ */
 remove_action( 'woocommerce_before_main_content', 'woocommerce_output_content_wrapper',     10 );
