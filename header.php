@@ -15,7 +15,7 @@
 	<!-- Promo strip -->
 	<div class="promo-strip">
 		<div class="promo-items">
-			<span class="promo-item">&#10024; Besplatna dostava za narudžbine iznad 50€</span>
+			<span class="promo-item">&#10024; Besplatna dostava za narudžbine iznad 5000</span>
 			<span class="promo-item">&#128197; Besplatni povraćaj 30 dana</span>
 			<span class="promo-item">&#128274; Sigurna kupovina</span>
 		</div>

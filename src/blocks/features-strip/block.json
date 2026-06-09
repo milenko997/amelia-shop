@@ -13,7 +13,7 @@
     "features": {
       "type": "array",
       "default": [
-        { "icon": "truck",   "title": "Besplatna dostava",  "subtitle": "Za narudžbine iznad 50€" },
+        { "icon": "truck",   "title": "Besplatna dostava",  "subtitle": "Za narudžbine iznad 5000" },
         { "icon": "refresh", "title": "Povraćaj robe",      "subtitle": "30 dana, bez komplikacija" },
         { "icon": "lock",    "title": "Sigurno plaćanje",   "subtitle": "SSL zaštićena kupovina" },
         { "icon": "phone",   "title": "Korisnička podrška", "subtitle": "Pon–Pet, 9–18h" }
