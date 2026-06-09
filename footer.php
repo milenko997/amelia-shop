@@ -34,7 +34,7 @@
 				<ul>
 					<li><a href="#">Informacije o dostavi</a></li>
 					<li><a href="#">Povraćaj i zamena</a></li>
-					<li><a href="#">Česta pitanja</a></li>
+					<li><a href="/faq">Česta pitanja</a></li>
 					<li><a href="#">Kontakt</a></li>
 				</ul>
 			</div>
