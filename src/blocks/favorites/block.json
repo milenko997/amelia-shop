@@ -1,0 +1,17 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "amelia/favorites",
+  "version": "1.0.0",
+  "title": "Amelia Sačuvani proizvodi",
+  "category": "amelia",
+  "description": "Prikazuje proizvode koje je korisnik sačuvao (omiljene).",
+  "textdomain": "amelia-shop",
+  "editorScript": "file:./index.js",
+  "viewScript": "file:./view.js",
+  "render": "file:./render.php",
+  "supports": {
+    "html": false,
+    "align": ["wide", "full"]
+  }
+}

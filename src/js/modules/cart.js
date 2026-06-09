@@ -90,16 +90,51 @@ export function initCart() {
 	document.body.addEventListener( 'added_to_cart',     updateCount );
 	document.body.addEventListener( 'removed_from_cart', updateCount );
 
-	// Wishlist toggle (visual only — no persistence)
+	const STORAGE_KEY = 'amelia_favorites';
+
+	function getFavoriteIds() {
+		try { return JSON.parse( localStorage.getItem( STORAGE_KEY ) || '[]' ); }
+		catch { return []; }
+	}
+
+	function saveFavoriteIds( ids ) {
+		localStorage.setItem( STORAGE_KEY, JSON.stringify( ids ) );
+	}
+
+	function syncAllWishlistButtons() {
+		const ids = getFavoriteIds();
+		document.querySelectorAll( '.product-wishlist[data-product-id]' ).forEach( ( btn ) => {
+			const active = ids.includes( parseInt( btn.dataset.productId, 10 ) );
+			btn.classList.toggle( 'active', active );
+			const path = btn.querySelector( 'svg path' );
+			if ( path ) path.style.fill = active ? 'var(--color-primary)' : 'none';
+		} );
+	}
+
+	syncAllWishlistButtons();
+
 	document.addEventListener( 'click', ( e ) => {
-		const btn = e.target.closest( '.product-wishlist' );
+		const btn = e.target.closest( '.product-wishlist[data-product-id]' );
 		if ( ! btn ) return;
-		btn.classList.toggle( 'active' );
-		const path = btn.querySelector( 'svg path' );
-		if ( path ) {
-			path.style.fill = btn.classList.contains( 'active' )
-				? 'var(--color-primary)'
-				: 'none';
+
+		e.preventDefault();
+		e.stopPropagation();
+
+		const id  = parseInt( btn.dataset.productId, 10 );
+		let ids   = getFavoriteIds();
+
+		if ( ids.includes( id ) ) {
+			ids = ids.filter( ( i ) => i !== id );
+		} else {
+			ids.push( id );
 		}
+
+		saveFavoriteIds( ids );
+		document.dispatchEvent( new CustomEvent( 'amelia:favorites-updated', { detail: { ids } } ) );
+
+		const active = ids.includes( id );
+		btn.classList.toggle( 'active', active );
+		const path = btn.querySelector( 'svg path' );
+		if ( path ) path.style.fill = active ? 'var(--color-primary)' : 'none';
 	} );
 }

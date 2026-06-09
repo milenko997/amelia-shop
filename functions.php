@@ -118,7 +118,7 @@ add_filter( 'block_categories_all', 'amelia_block_categories' );
    Register Gutenberg blocks
    ============================================================ */
 function amelia_register_blocks() {
-	$blocks = [ 'hero', 'category-grid', 'features-strip', 'newsletter', 'products', 'about-us', 'contact' ];
+	$blocks = [ 'hero', 'category-grid', 'features-strip', 'newsletter', 'products', 'about-us', 'contact', 'favorites' ];
 
 	foreach ( $blocks as $block ) {
 		$path = AMELIA_BUILD . '/blocks/' . $block;
@@ -201,7 +201,7 @@ function amelia_product_image_wrap_close() {
 	}
 	echo '</div>';
 
-	echo '<button class="product-wishlist" aria-label="Dodaj na listu želja">';
+	echo '<button class="product-wishlist" data-product-id="' . esc_attr( get_the_ID() ) . '" aria-label="Dodaj na listu želja">';
 	echo '<svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>';
 	echo '</button>';
 	echo '</div>';
@@ -224,6 +224,68 @@ function amelia_ajax_cart_count() {
 }
 add_action( 'wp_ajax_amelia_cart_count',        'amelia_ajax_cart_count' );
 add_action( 'wp_ajax_nopriv_amelia_cart_count', 'amelia_ajax_cart_count' );
+
+function amelia_ajax_get_favorites() {
+	check_ajax_referer( 'amelia_favorites', 'nonce' );
+
+	$raw_ids = isset( $_POST['ids'] ) ? sanitize_text_field( wp_unslash( $_POST['ids'] ) ) : '';
+	$ids     = array_filter( array_map( 'absint', explode( ',', $raw_ids ) ) );
+
+	if ( empty( $ids ) ) {
+		wp_send_json_error();
+	}
+
+	$loop = new WP_Query( [
+		'post_type'      => 'product',
+		'post_status'    => 'publish',
+		'post__in'       => $ids,
+		'orderby'        => 'post__in',
+		'posts_per_page' => count( $ids ),
+	] );
+
+	if ( ! $loop->have_posts() ) {
+		wp_send_json_error();
+	}
+
+	$html = '';
+	foreach ( $loop->posts as $post ) {
+		$product = wc_get_product( $post->ID );
+		if ( ! $product ) continue;
+
+		$img_id  = $product->get_image_id();
+		$img_url = $img_id
+			? wp_get_attachment_image_url( $img_id, 'amelia-product' )
+			: wc_placeholder_img_src( 'amelia-product' );
+		$url     = get_permalink( $product->get_id() );
+		$is_new  = strtotime( $product->get_date_created() ) > strtotime( '-30 days' );
+
+		$html .= '<li class="product">';
+		$html .= '<div class="product-image-wrap">';
+		$html .= '<a href="' . esc_url( $url ) . '">';
+		$html .= '<img src="' . esc_url( $img_url ) . '" alt="' . esc_attr( $product->get_name() ) . '" loading="lazy">';
+		$html .= '</a>';
+		$html .= '<div class="product-badges">';
+		if ( $product->is_on_sale() ) $html .= '<span class="badge badge-sale">Rasprodaja</span>';
+		if ( $is_new )                 $html .= '<span class="badge badge-new">Novo</span>';
+		$html .= '</div>';
+		$html .= '<button class="product-wishlist active" data-product-id="' . esc_attr( $product->get_id() ) . '" aria-label="Ukloni sa liste želja">';
+		$html .= '<svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z" style="fill:var(--color-primary)"/></svg>';
+		$html .= '</button>';
+		$html .= '</div>';
+		$html .= '<div class="product-info">';
+		$html .= '<h3 class="woocommerce-loop-product__title"><a href="' . esc_url( $url ) . '">' . esc_html( $product->get_name() ) . '</a></h3>';
+		$html .= '<span class="price">' . wp_kses_post( $product->get_price_html() ) . '</span>';
+		$html .= '<a href="' . esc_url( $product->add_to_cart_url() ) . '" class="button add_to_cart_button ajax_add_to_cart product_type_' . esc_attr( $product->get_type() ) . '" data-product_id="' . esc_attr( $product->get_id() ) . '" data-product_sku="' . esc_attr( $product->get_sku() ) . '" rel="nofollow">' . esc_html( $product->add_to_cart_text() ) . '</a>';
+		$html .= '</div>';
+		$html .= '</li>';
+	}
+
+	$html = '<ul class="products-grid woocommerce-loop" style="--grid-cols:4">' . $html . '</ul>';
+
+	wp_send_json_success( [ 'html' => $html ] );
+}
+add_action( 'wp_ajax_amelia_get_favorites',        'amelia_ajax_get_favorites' );
+add_action( 'wp_ajax_nopriv_amelia_get_favorites', 'amelia_ajax_get_favorites' );
 
 /* ============================================================
    Misc
