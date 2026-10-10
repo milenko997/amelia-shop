@@ -20,6 +20,13 @@
 	border-left: 4px solid;
 }
 
+// The theme templates print their own icon; hide WooCommerce's icon-font one.
+body .woocommerce-message::before,
+body .woocommerce-info::before {
+	content: none;
+	display: none;
+}
+
 .woocommerce-message {
 	@extend %notice-base;
 	background: #f0faf4;
