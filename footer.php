@@ -35,7 +35,8 @@
 			$footer_cols = [
 				'Pomoć'     => [
 					[ 'Informacije o dostavi', [ 'dostava', 'informacije-o-dostavi', 'isporuka' ] ],
-					[ 'Povraćaj i zamena',     [ 'povracaj-i-zamena', 'povracaj', 'zamena', 'reklamacije' ] ],
+					[ 'Reklamacije i povraćaj', [ 'reklamacije', 'povracaj-i-zamena', 'povracaj', 'zamena' ] ],
+					[ 'Pravo na odustanak',    [ 'pravo-na-odustanak' ] ],
 					[ 'Česta pitanja',         [ 'faq', 'cesta-pitanja' ] ],
 					[ 'Kontakt',               [ 'kontakt' ] ],
 				],
@@ -71,17 +72,25 @@
 		<!-- Footer bottom -->
 		<div class="footer-bottom">
 			<span>&copy; <?php echo esc_html( wp_date( 'Y' ) ); ?> <?php bloginfo( 'name' ); ?>. Sva prava zadržana.</span>
-			<div class="payment-icons">
-				<span class="payment-icon">VISA</span>
-				<span class="payment-icon">MC</span>
-				<span class="payment-icon">PayPal</span>
-				<span class="payment-icon">Maestro</span>
+			<?php // Only payment methods that are actually enabled in WooCommerce. ?>
+			<?php $payment_methods = amelia_payment_method_titles(); ?>
+			<?php if ( $payment_methods ) : ?>
+			<div class="payment-icons" aria-label="Načini plaćanja">
+				<?php foreach ( $payment_methods as $method ) : ?>
+				<span class="payment-icon"><?php echo esc_html( $method ); ?></span>
+				<?php endforeach; ?>
 			</div>
+			<?php endif; ?>
 			<?php $privacy_url = get_privacy_policy_url() ?: amelia_page_url_by_slugs( [ 'politika-privatnosti' ] ); ?>
 			<?php if ( $privacy_url ) : ?>
 			<a href="<?php echo esc_url( $privacy_url ); ?>">Privatnost</a>
 			<?php endif; ?>
 		</div>
+
+		<?php $company_line = amelia_footer_company_line(); ?>
+		<?php if ( $company_line ) : ?>
+		<p class="footer-company"><?php echo $company_line; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped in amelia_footer_company_line() ?></p>
+		<?php endif; ?>
 	</footer>
 
 </div><!-- #page -->

@@ -86,6 +86,7 @@ foreach ( $products as $post ) {
 	$card .= '</div>';
 	$card .= '<div class="product-info">';
 	$card .= '<h3 class="woocommerce-loop-product__title"><a href="' . esc_url( $url ) . '">' . esc_html( $product->get_name() ) . '</a></h3>';
+	$card .= wc_get_rating_html( $product->get_average_rating(), $product->get_rating_count() );
 	$card .= '<span class="price">' . wp_kses_post( $product->get_price_html() ) . '</span>';
 	$card .= '<a href="' . esc_url( $product->add_to_cart_url() ) . '" class="button add_to_cart_button ajax_add_to_cart product_type_' . esc_attr( $product->get_type() ) . '" data-product_id="' . esc_attr( $product->get_id() ) . '" data-product_sku="' . esc_attr( $product->get_sku() ) . '" rel="nofollow">' . esc_html( $product->add_to_cart_text() ) . '</a>';
 	$card .= '</div>';

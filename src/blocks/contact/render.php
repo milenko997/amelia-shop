@@ -32,16 +32,11 @@ $wrapper_attrs = get_block_wrapper_attributes( [ 'class' => $wrapper_class ] );
 
 	<div class="contact-map-col">
 		<?php if ( $map_src ) : ?>
-			<iframe
-				src="<?php echo esc_url( $map_src ); ?>"
-				width="100%"
-				height="100%"
-				style="border:0;display:block;"
-				allowfullscreen=""
-				loading="lazy"
-				referrerpolicy="no-referrer-when-downgrade"
-				title="<?php esc_attr_e( 'Google Maps', 'amelia-shop' ); ?>"
-			></iframe>
+			<?php // Google Maps loads only after a click: it sets cookies and sends the visitor's IP to Google. ?>
+			<div class="contact-map-consent" data-map-src="<?php echo esc_url( $map_src ); ?>">
+				<p>Mapa se prikazuje preko servisa Google Maps. Klikom na dugme Google dobija vašu IP adresu i može da postavi kolačiće.</p>
+				<button type="button" class="btn btn-outline" data-map-load>Prikaži mapu</button>
+			</div>
 		<?php else : ?>
 			<div class="contact-map-placeholder"></div>
 		<?php endif; ?>

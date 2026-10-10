@@ -376,6 +376,27 @@ add_action( 'wp_head', function () {
 		];
 	}
 
+	$company = function_exists( 'amelia_company' ) ? amelia_company() : [];
+	if ( isset( $company['name'] ) ) {
+		$org['legalName'] = $company['name'];
+	}
+	if ( isset( $company['address'] ) ) {
+		$org['address'] = [
+			'@type'          => 'PostalAddress',
+			'streetAddress'  => $company['address'],
+			'addressCountry' => 'RS',
+		];
+	}
+	if ( isset( $company['phone'] ) ) {
+		$org['telephone'] = $company['phone'];
+	}
+	if ( isset( $company['email'] ) ) {
+		$org['email'] = $company['email'];
+	}
+	if ( isset( $company['pib'] ) ) {
+		$org['taxID'] = $company['pib'];
+	}
+
 	$social = array_values( amelia_social_urls() );
 	if ( $social ) {
 		$org['sameAs'] = $social;
@@ -399,13 +420,3 @@ add_action( 'wp_head', function () {
 	echo '<script type="application/ld+json">' . wp_json_encode( $graph, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE ) . '</script>' . "\n";
 }, 2 );
 
-/* ============================================================
-   Performance — open the Google Fonts connections early
-   ============================================================ */
-add_filter( 'wp_resource_hints', function ( $urls, $relation ) {
-	if ( 'preconnect' === $relation && wp_style_is( 'amelia-fonts', 'enqueued' ) ) {
-		$urls[] = 'https://fonts.googleapis.com';
-		$urls[] = [ 'href' => 'https://fonts.gstatic.com', 'crossorigin' ];
-	}
-	return $urls;
-}, 10, 2 );

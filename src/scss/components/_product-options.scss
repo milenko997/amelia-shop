@@ -1,0 +1,429 @@
+@use '../abstracts/variables' as *;
+@use '../abstracts/mixins' as *;
+
+// ============================================================
+// Variation swatches (inc/swatches.php)
+// ============================================================
+
+// Rows with swatches: label above the buttons instead of beside them.
+.product-single .variations tr:has(.swatches-field) {
+	display: block;
+	margin-bottom: 0.75rem;
+
+	th.label,
+	td.value {
+		display: block;
+		width: auto;
+		padding: 0;
+	}
+
+	th.label { margin-bottom: 0.5rem; }
+}
+
+.swatch-chosen {
+	font-weight: 400;
+	color: $color-text-light;
+}
+
+// The <select> stays for WooCommerce's variation script, but is hidden.
+.swatches-field select[data-swatches] {
+	position: absolute !important;
+	width: 1px !important;
+	height: 1px !important;
+	opacity: 0 !important;
+	pointer-events: none;
+}
+
+.variation-swatches {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.5rem;
+}
+
+.swatch {
+	min-width: 3rem;
+	height: 2.75rem;
+	padding: 0 0.9rem;
+	border: 2px solid $color-border;
+	border-radius: $radius-md;
+	background: $color-white;
+	color: $color-text;
+	font-family: $font-body;
+	font-size: 0.85rem;
+	font-weight: 600;
+	cursor: pointer;
+	position: relative;
+	transition: border-color $transition, background $transition, color $transition;
+
+	&:hover:not(:disabled) { border-color: $color-primary; }
+
+	&:focus-visible {
+		outline: 2px solid $color-primary-dark;
+		outline-offset: 2px;
+	}
+
+	&.is-selected {
+		border-color: $color-secondary;
+		background: $color-secondary;
+		color: $color-white;
+	}
+
+	// Combination exists but is sold out: still selectable, crossed out.
+	&.is-out-of-stock {
+		color: $color-text-light;
+		background:
+			linear-gradient(
+				to top right,
+				transparent calc(50% - 1px),
+				$color-border calc(50% - 1px),
+				$color-border calc(50% + 1px),
+				transparent calc(50% + 1px)
+			),
+			$color-white;
+	}
+
+	// Not offered together with the current choices.
+	&:disabled {
+		opacity: 0.35;
+		cursor: not-allowed;
+	}
+}
+
+// Color circles
+.swatch--color {
+	width: 2.75rem;
+	min-width: 0;
+	padding: 0;
+	border-radius: 50%;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+
+	&.is-selected {
+		background: $color-white;
+		border-color: $color-secondary;
+	}
+
+	&.is-out-of-stock { background: $color-white; }
+	&.is-out-of-stock::after {
+		content: '';
+		position: absolute;
+		width: 2px;
+		height: 120%;
+		background: $color-text-light;
+		transform: rotate(45deg);
+	}
+}
+
+.swatch__color {
+	width: 1.9rem;
+	height: 1.9rem;
+	border-radius: 50%;
+	background: var(--swatch-color);
+	box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.12);
+}
+
+// ============================================================
+// Size guide (inc/size-guide.php)
+// ============================================================
+.size-guide-toggle {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.4rem;
+	margin-bottom: 1rem;
+	padding: 0;
+	border: none;
+	background: none;
+	color: $color-primary-dark;
+	font-family: $font-body;
+	font-size: 0.85rem;
+	font-weight: 600;
+	text-decoration: underline;
+	text-underline-offset: 3px;
+	cursor: pointer;
+
+	&:hover { color: $color-secondary; }
+
+	svg {
+		width: 20px;
+		height: 20px;
+		stroke: currentColor;
+		stroke-width: 1.6;
+		fill: none;
+	}
+}
+
+.size-guide {
+	width: min(640px, calc(100% - 2rem));
+	max-height: calc(100% - 2rem);
+	padding: 0;
+	border: none;
+	border-radius: $radius-lg;
+	box-shadow: $shadow-lg;
+	color: $color-text;
+
+	&::backdrop { background: rgba(44, 44, 44, 0.5); }
+}
+
+.size-guide__header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 1.25rem 1.5rem;
+	border-bottom: 1px solid $color-border;
+}
+
+.size-guide__title {
+	font-size: 1.25rem;
+	margin: 0;
+}
+
+.size-guide__close {
+	display: flex;
+	padding: 0.25rem;
+	border: none;
+	background: none;
+	color: $color-text;
+	cursor: pointer;
+
+	&:hover { color: $color-primary; }
+
+	svg {
+		width: 22px;
+		height: 22px;
+		stroke: currentColor;
+		stroke-width: 1.8;
+		fill: none;
+	}
+}
+
+.size-guide__table-wrap {
+	overflow-x: auto;
+	padding: 1rem 1.5rem;
+}
+
+.size-guide__table {
+	width: 100%;
+	border-collapse: collapse;
+	font-size: 0.9rem;
+
+	th,
+	td {
+		padding: 0.6rem 0.75rem;
+		text-align: center;
+		border-bottom: 1px solid $color-border;
+		white-space: nowrap;
+	}
+
+	thead th {
+		background: $color-bg-alt;
+		font-size: 0.75rem;
+		font-weight: 700;
+		letter-spacing: 0.04em;
+		text-transform: uppercase;
+		color: $color-secondary;
+	}
+
+	tbody th { font-weight: 700; }
+	tbody tr:nth-child(even) { background: $color-bg; }
+}
+
+.size-guide__note {
+	margin: 0;
+	padding: 0 1.5rem 1.5rem;
+	font-size: 0.85rem;
+	color: $color-text-light;
+	line-height: 1.6;
+}
+
+// ============================================================
+// Product reviews (WooCommerce single-product-reviews.php)
+// ============================================================
+.woocommerce-Reviews {
+	.woocommerce-Reviews-title {
+		font-size: 1.25rem;
+		margin-bottom: 1.5rem;
+	}
+
+	.commentlist {
+		list-style: none;
+		margin: 0 0 2.5rem;
+		padding: 0;
+	}
+
+	.commentlist li {
+		margin: 0;
+		padding: 1.25rem 0;
+		border-bottom: 1px solid $color-border;
+	}
+
+	.comment_container {
+		display: flex;
+		gap: 1rem;
+	}
+
+	.avatar {
+		width: 48px;
+		height: 48px;
+		border-radius: 50%;
+		flex-shrink: 0;
+	}
+
+	.comment-text { flex: 1; }
+
+	.star-rating { float: right; margin-left: 1rem; }
+
+	.meta {
+		margin-bottom: 0.35rem;
+		font-size: 0.85rem;
+		color: $color-text-light;
+	}
+
+	.woocommerce-review__author {
+		color: $color-secondary;
+		font-size: 0.95rem;
+	}
+
+	.woocommerce-review__verified {
+		font-style: normal;
+		color: $color-success;
+	}
+
+	.description p { margin: 0; }
+
+	.woocommerce-noreviews {
+		color: $color-text-light;
+	}
+}
+
+#review_form_wrapper {
+	padding: 1.75rem;
+	background: $color-bg-alt;
+	border-radius: $radius-lg;
+
+	.comment-reply-title {
+		display: block;
+		font-family: $font-heading;
+		font-size: 1.15rem;
+		font-weight: 700;
+		color: $color-secondary;
+		margin-bottom: 1rem;
+	}
+
+	.comment-notes {
+		font-size: 0.85rem;
+		color: $color-text-light;
+	}
+
+	label {
+		display: block;
+		margin-bottom: 0.35rem;
+		font-size: 0.85rem;
+		font-weight: 600;
+	}
+
+	.required { color: $color-error; }
+
+	p { margin-bottom: 1rem; }
+
+	input[type='text'],
+	input[type='email'],
+	textarea {
+		width: 100%;
+	}
+
+	.comment-form-cookies-consent {
+		display: flex;
+		gap: 0.5rem;
+		align-items: flex-start;
+
+		label {
+			font-weight: 400;
+			margin: 0;
+		}
+	}
+
+	// Rating stars (WooCommerce replaces the <select> with these links)
+	p.stars {
+		margin-bottom: 1.25rem;
+
+		a { color: $color-accent; }
+	}
+}
+
+// ============================================================
+// Free shipping progress (inc/free-shipping.php)
+// ============================================================
+.free-shipping-bar {
+	padding: 1rem 1.5rem;
+	background: $color-bg-alt;
+	border-bottom: 1px solid $color-border;
+
+	.cart-page & {
+		margin-bottom: 1.5rem;
+		border: none;
+		border-radius: $radius-md;
+	}
+}
+
+.free-shipping-bar__text {
+	margin: 0 0 0.5rem;
+	font-size: 0.85rem;
+	color: $color-text;
+
+	strong { color: $color-primary-dark; }
+	.is-complete & strong { color: $color-success; }
+}
+
+.free-shipping-bar__track {
+	height: 6px;
+	border-radius: $radius-full;
+	background: $color-border;
+	overflow: hidden;
+}
+
+.free-shipping-bar__fill {
+	display: block;
+	height: 100%;
+	border-radius: inherit;
+	background: $color-primary;
+	transition: width 0.4s ease;
+
+	.is-complete & { background: $color-success; }
+}
+
+// ============================================================
+// Legal notes (inc/legal.php)
+// ============================================================
+.price-note {
+	display: block;
+	margin: -0.75rem 0 1.25rem;
+	font-size: 0.75rem;
+	color: $color-text-light;
+
+	.price-note-row & { margin: 0; text-align: right; }
+}
+
+.price-note-row td {
+	padding-top: 0 !important;
+	border-top: none !important;
+}
+
+.checkout-legal-note {
+	margin: 0 0 1rem;
+	font-size: 0.8rem;
+	line-height: 1.6;
+	color: $color-text-light;
+
+	a { color: $color-primary-dark; text-decoration: underline; }
+}
+
+.company-details {
+	display: grid;
+	grid-template-columns: max-content 1fr;
+	gap: 0.35rem 1.25rem;
+	margin: 1rem 0 1.5rem;
+
+	dt { font-weight: 700; }
+	dd { margin: 0; }
+}

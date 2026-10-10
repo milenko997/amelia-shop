@@ -18,6 +18,7 @@
 @use 'components/forms';
 @use 'components/pagination';
 @use 'components/mini-cart';
+@use 'components/product-options';
 
 // 4. Layout
 @use 'layout/grid';
@@ -34,7 +35,6 @@
 @use 'blocks/contact';
 @use 'blocks/category-grid';
 @use 'blocks/features-strip';
-@use 'blocks/newsletter';
 @use 'blocks/products';
 @use 'blocks/favorites';
 @use 'blocks/faq';

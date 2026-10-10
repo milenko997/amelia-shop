@@ -9,6 +9,10 @@ define( 'AMELIA_BUILD_URI', AMELIA_URI . '/build' );
 
 require AMELIA_DIR . '/inc/i18n.php';
 require AMELIA_DIR . '/inc/seo.php';
+require AMELIA_DIR . '/inc/size-guide.php';
+require AMELIA_DIR . '/inc/swatches.php';
+require AMELIA_DIR . '/inc/free-shipping.php';
+require AMELIA_DIR . '/inc/legal.php';
 
 /* ============================================================
    Theme Setup
@@ -19,14 +23,13 @@ function amelia_setup() {
 	add_theme_support( 'automatic-feed-links' );
 	add_theme_support( 'title-tag' );
 	add_theme_support( 'post-thumbnails' );
-	add_theme_support( 'html5', [ 'search-form', 'gallery', 'caption', 'style', 'script' ] );
+	add_theme_support( 'html5', [ 'search-form', 'comment-form', 'comment-list', 'gallery', 'caption', 'style', 'script' ] );
 	add_theme_support( 'wp-block-styles' );
 	add_theme_support( 'align-wide' );
 	add_theme_support( 'editor-styles' );
 
 	// Page excerpt is used as the meta description.
 	add_post_type_support( 'page', 'excerpt' );
-	add_editor_style( 'https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Lato:wght@300;400;600;700&display=swap' );
 	add_editor_style( 'build/main.css' );
 
 	// WooCommerce
@@ -171,19 +174,11 @@ add_action( 'after_setup_theme', 'amelia_content_width', 0 );
    Enqueue — compiled assets from build/
    ============================================================ */
 function amelia_scripts() {
-	// Google Fonts
-	wp_enqueue_style(
-		'amelia-fonts',
-		'https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Lato:wght@300;400;600;700&display=swap',
-		[],
-		null
-	);
-
 	// Compiled theme CSS (from src/scss/main.scss via webpack)
 	wp_enqueue_style(
 		'amelia-theme',
 		AMELIA_BUILD_URI . '/main.css',
-		[ 'amelia-fonts' ],
+		[],
 		AMELIA_VERSION
 	);
 
@@ -226,7 +221,7 @@ add_filter( 'block_categories_all', 'amelia_block_categories' );
    Register Gutenberg blocks
    ============================================================ */
 function amelia_register_blocks() {
-	$blocks = [ 'hero', 'category-grid', 'features-strip', 'newsletter', 'products', 'about-us', 'contact', 'favorites', 'faq' ];
+	$blocks = [ 'hero', 'category-grid', 'features-strip', 'products', 'about-us', 'contact', 'favorites', 'faq' ];
 
 	foreach ( $blocks as $block ) {
 		$path = AMELIA_BUILD . '/blocks/' . $block;
@@ -433,6 +428,7 @@ function amelia_ajax_get_favorites() {
 		$html .= '</div>';
 		$html .= '<div class="product-info">';
 		$html .= '<h3 class="woocommerce-loop-product__title"><a href="' . esc_url( $url ) . '">' . esc_html( $product->get_name() ) . '</a></h3>';
+		$html .= wc_get_rating_html( $product->get_average_rating(), $product->get_rating_count() );
 		$html .= '<span class="price">' . wp_kses_post( $product->get_price_html() ) . '</span>';
 		$html .= '<a href="' . esc_url( $product->add_to_cart_url() ) . '" class="button add_to_cart_button ajax_add_to_cart product_type_' . esc_attr( $product->get_type() ) . '" data-product_id="' . esc_attr( $product->get_id() ) . '" data-product_sku="' . esc_attr( $product->get_sku() ) . '" rel="nofollow">' . esc_html( $product->add_to_cart_text() ) . '</a>';
 		$html .= '</div>';
@@ -692,11 +688,6 @@ add_action( 'wp', function () {
 	remove_action( 'woocommerce_after_single_product_summary', 'woocommerce_output_product_data_tabs', 10 );
 	remove_action( 'woocommerce_after_single_product_summary', 'woocommerce_upsell_display',           15 );
 	remove_action( 'woocommerce_after_single_product_summary', 'woocommerce_output_related_products',  20 );
-} );
-
-add_filter( 'woocommerce_product_tabs', function ( $tabs ) {
-	unset( $tabs['reviews'] );
-	return $tabs;
 } );
 
 add_filter( 'woocommerce_output_related_products_args', function ( $args ) {

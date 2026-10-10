@@ -4,7 +4,7 @@
  *
  * Used when Settings → Reading → "A static page" is configured.
  * The homepage content is built entirely with Gutenberg blocks
- * placed in the WordPress editor (hero, category-grid, products, newsletter…).
+ * placed in the WordPress editor (hero, category-grid, products…).
  */
 
 get_header();
