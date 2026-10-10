@@ -12,12 +12,13 @@
 	&::before,
 	&::after { display: none !important; }
 
+	// Two cards per row on tablets and phones.
 	@include respond-to(md) {
 		grid-template-columns: repeat(2, 1fr);
 		gap: 1rem;
 	}
 
-	@include respond-to(sm) { grid-template-columns: 1fr; }
+	@include respond-to(sm) { gap: 0.75rem; }
 }
 
 .woocommerce ul.products li.product,
@@ -97,6 +98,49 @@
 		font-size: 0.8rem;
 		padding: 0.65rem 1rem;
 	}
+
+	// Compact cards on phones (two per row).
+	@include respond-to(sm) {
+		border-radius: $radius-md;
+
+		&:hover { transform: none; }
+
+		.product-info { padding: 0.75rem; }
+
+		.woocommerce-loop-category__title,
+		.woocommerce-loop-product__title {
+			font-size: 0.85rem;
+			line-height: 1.3;
+			margin-bottom: 0.25rem;
+		}
+
+		.price {
+			font-size: 0.9rem;
+			margin-bottom: 0.6rem;
+
+			del { font-size: 0.75rem; }
+		}
+
+		a.button,
+		button.button,
+		span.button {
+			font-size: 0.68rem;
+			letter-spacing: 0.04em;
+			padding: 0.55rem 0.5rem;
+			white-space: normal;
+			line-height: 1.2;
+		}
+
+		.product-badges {
+			top: 0.5rem;
+			left: 0.5rem;
+		}
+
+		.badge {
+			font-size: 0.6rem;
+			padding: 0.15rem 0.45rem;
+		}
+	}
 }
 
 .product-wishlist {
@@ -122,4 +166,13 @@
 	}
 
 	svg { width: 18px; height: 18px; stroke: $color-primary-dark; fill: none; stroke-width: 1.8; }
+
+	@include respond-to(sm) {
+		top: 0.5rem;
+		right: 0.5rem;
+		width: 30px;
+		height: 30px;
+
+		svg { width: 15px; height: 15px; }
+	}
 }

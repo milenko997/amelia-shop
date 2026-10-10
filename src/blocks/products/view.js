@@ -9,8 +9,8 @@ document.addEventListener( 'DOMContentLoaded', () => {
 		const wrap = el.parentElement;
 		new Swiper( el, {
 			modules:      [ Navigation, Pagination, Autoplay ],
-			slidesPerView: 1,
-			spaceBetween:  24,
+			slidesPerView: 2,
+			spaceBetween:  12,
 			loop:          true,
 			autoplay: {
 				delay:                3500,
@@ -26,9 +26,8 @@ document.addEventListener( 'DOMContentLoaded', () => {
 				clickable: true,
 			},
 			breakpoints: {
-				480:  { slidesPerView: 2 },
-				768:  { slidesPerView: 4 },
-				1024: { slidesPerView: 5 },
+				768:  { slidesPerView: 4, spaceBetween: 24 },
+				1024: { slidesPerView: 5, spaceBetween: 24 },
 			},
 		} );
 	} );
