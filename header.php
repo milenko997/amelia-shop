@@ -27,13 +27,13 @@
 
 			<!-- Logo -->
 			<div class="site-logo">
-				<a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home">
-					<?php if ( has_custom_logo() ) : ?>
-						<?php the_custom_logo(); ?>
-					<?php else : ?>
+				<?php if ( has_custom_logo() ) : ?>
+					<?php the_custom_logo(); // outputs its own <a> ?>
+				<?php else : ?>
+					<a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home">
 						<span class="logo-text"><?php bloginfo( 'name' ); ?></span>
-					<?php endif; ?>
-				</a>
+					</a>
+				<?php endif; ?>
 			</div>
 
 			<!-- Primary nav -->
@@ -60,10 +60,7 @@
 				<?php if ( class_exists( 'WooCommerce' ) ) : ?>
 				<a href="<?php echo esc_url( wc_get_cart_url() ); ?>" class="header-icon-btn" aria-label="Korpa">
 					<svg viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
-					<?php $count = amelia_cart_count(); ?>
-					<?php if ( $count > 0 ) : ?>
-					<span class="cart-count" id="cart-count"><?php echo esc_html( $count ); ?></span>
-					<?php endif; ?>
+					<?php echo amelia_cart_count_html(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 				</a>
 				<?php endif; ?>
 
@@ -82,28 +79,3 @@
 		</div>
 	</header>
 
-<?php
-/**
- * Fallback menu — shown when no menu is assigned to the 'primary' location.
- * Auto-detects and uses the first available custom menu if one exists.
- */
-function amelia_fallback_menu( $args ) {
-	$menus = wp_get_nav_menus();
-
-	if ( ! empty( $menus ) ) {
-		$new_args = array_merge( (array) $args, [
-			'menu'        => $menus[0]->term_id,
-			'fallback_cb' => false,
-		] );
-		wp_nav_menu( $new_args );
-		return;
-	}
-
-	// No menu exists — show minimal navigation
-	echo '<ul>';
-	echo '<li><a href="' . esc_url( home_url( '/' ) ) . '">Početna</a></li>';
-	if ( class_exists( 'WooCommerce' ) ) {
-		echo '<li><a href="' . esc_url( get_permalink( wc_get_page_id( 'shop' ) ) ) . '">Prodavnica</a></li>';
-	}
-	echo '</ul>';
-}

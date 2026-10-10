@@ -9,39 +9,6 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 // ============================================================
-// Section header component
-// ============================================================
-.section-header {
-	text-align: center;
-	margin-bottom: 3rem;
-
-	.eyebrow {
-		@include eyebrow;
-		margin-bottom: 0.5rem;
-	}
-
-	h2 {
-		font-size: clamp(1.75rem, 3vw, 2.5rem);
-		margin-bottom: 0.75rem;
-	}
-
-	p {
-		color: $color-text-light;
-		max-width: 540px;
-		margin: 0 auto;
-	}
-}
-
-// ============================================================
-// Sections
-// ============================================================
-.section {
-	padding: 5rem 0;
-
-	&-alt { background: $color-bg-alt; }
-}
-
-// ============================================================
 // WooCommerce breadcrumbs
 // ============================================================
 .woocommerce-breadcrumb {

@@ -7,7 +7,7 @@
 				<span class="logo-text"><?php bloginfo( 'name' ); ?></span>
 				<p>Udobni, elegantni i kvalitetni svakodnevni artikli — donji veš, čarape i pidžame izrađeni s pažnjom.</p>
 				<div class="social-links">
-					<a href="#" class="social-link" aria-label="Instagram" target="_blank">
+					<a href="#" class="social-link" aria-label="Instagram" target="_blank" rel="noopener noreferrer">
 						<svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
 					</a>
 				</div>
@@ -34,7 +34,7 @@
 				<ul>
 					<li><a href="#">Informacije o dostavi</a></li>
 					<li><a href="#">Povraćaj i zamena</a></li>
-					<li><a href="/faq">Česta pitanja</a></li>
+					<li><a href="<?php echo esc_url( home_url( '/faq/' ) ); ?>">Česta pitanja</a></li>
 					<li><a href="#">Kontakt</a></li>
 				</ul>
 			</div>
@@ -52,7 +52,7 @@
 
 		<!-- Footer bottom -->
 		<div class="footer-bottom">
-			<span>&copy; <?php echo esc_html( date( 'Y' ) ); ?> <?php bloginfo( 'name' ); ?>. Sva prava zadržana.</span>
+			<span>&copy; <?php echo esc_html( wp_date( 'Y' ) ); ?> <?php bloginfo( 'name' ); ?>. Sva prava zadržana.</span>
 			<div class="payment-icons">
 				<span class="payment-icon">VISA</span>
 				<span class="payment-icon">MC</span>

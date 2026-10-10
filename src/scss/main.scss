@@ -7,7 +7,6 @@
 // 1. Abstracts (no CSS output — variables, mixins, functions)
 @use 'abstracts/variables';
 @use 'abstracts/mixins';
-@use 'abstracts/functions';
 
 // 2. Base
 @use 'base/reset';
@@ -45,4 +44,3 @@
 @use 'vendors/woocommerce-single';
 @use 'vendors/woocommerce-cart';
 @use 'vendors/woocommerce-checkout';
-@use 'vendors/woocommerce-account';

@@ -1,5 +1,14 @@
+function getFavoriteIds() {
+	try {
+		const ids = JSON.parse( localStorage.getItem( 'amelia_favorites' ) || '[]' );
+		return Array.isArray( ids ) ? ids : [];
+	} catch {
+		return [];
+	}
+}
+
 function syncWishlistButtons() {
-	const ids = JSON.parse( localStorage.getItem( 'amelia_favorites' ) || '[]' );
+	const ids = getFavoriteIds();
 	document.querySelectorAll( '.product-wishlist[data-product-id]' ).forEach( ( btn ) => {
 		const id     = parseInt( btn.dataset.productId, 10 );
 		const active = ids.includes( id );
@@ -14,7 +23,7 @@ function loadFavorites() {
 	const empty = document.querySelector( '.favorites-block__empty' );
 	if ( ! grid ) return;
 
-	const ids = JSON.parse( localStorage.getItem( 'amelia_favorites' ) || '[]' );
+	const ids = getFavoriteIds();
 
 	if ( ! ids.length ) {
 		grid.innerHTML = '';
@@ -46,9 +55,6 @@ function loadFavorites() {
 			if ( data.success && data.data.html ) {
 				grid.innerHTML = data.data.html;
 				syncWishlistButtons();
-				if ( window.amelia && window.amelia.initAjaxCart ) {
-					window.amelia.initAjaxCart();
-				}
 			} else {
 				grid.innerHTML = '';
 			}

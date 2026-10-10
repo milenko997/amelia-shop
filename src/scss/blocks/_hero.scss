@@ -12,14 +12,6 @@
 	@include respond-to(md) { min-height: 420px; }
 }
 
-.hero-bg {
-	position: absolute;
-	inset: 0;
-	background-size: cover;
-	background-position: center;
-	opacity: 0.25;
-}
-
 .hero-content {
 	position: relative;
 	max-width: $container;

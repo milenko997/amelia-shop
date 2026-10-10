@@ -15,7 +15,8 @@ if ( $is_shop_archive ) :
 		$shop_desc  = $shop_page ? $shop_page->post_excerpt : '';
 	}
 
-	$price_range   = amelia_get_price_range( is_product_category() ? (int) get_queried_object_id() : 0 );
+	$locked        = amelia_get_locked_term();
+	$price_range   = amelia_get_price_range( $locked['term_id'], $locked['taxonomy'] );
 	$product_cats  = amelia_get_product_categories();
 
 	remove_action( 'woocommerce_before_main_content', 'amelia_wc_before_content', 10 );
@@ -113,7 +114,6 @@ if ( $is_shop_archive ) :
 					</div>
 
 					<div id="shop-products" class="shop-products-wrap"
-						data-total="<?php echo esc_attr( $found_posts ); ?>"
 						data-has-more="<?php echo $has_more_init ? '1' : '0'; ?>">
 						<?php if ( woocommerce_product_loop() ) : ?>
 							<?php woocommerce_product_loop_start(); ?>

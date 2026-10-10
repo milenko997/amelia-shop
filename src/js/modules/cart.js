@@ -16,6 +16,8 @@ export function initCartPage() {
 		const link = e.target.closest( '.product-remove a.remove' );
 		if ( ! link ) return;
 		e.preventDefault();
+		// Keep WooCommerce's own cart.js (delegated on document) from sending a second remove request.
+		e.stopPropagation();
 		doFetch( link.href );
 	} );
 
@@ -72,7 +74,7 @@ export function initCart() {
 		fetch( ameliaData.ajaxUrl, {
 			method : 'POST',
 			headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-			body   : 'action=amelia_cart_count&nonce=' + encodeURIComponent( ameliaData.nonce ),
+			body   : 'action=amelia_cart_count',
 		} )
 			.then( ( r ) => r.json() )
 			.then( ( data ) => {
@@ -87,8 +89,13 @@ export function initCart() {
 			.catch( () => {} );
 	};
 
-	document.body.addEventListener( 'added_to_cart',     updateCount );
-	document.body.addEventListener( 'removed_from_cart', updateCount );
+	// WooCommerce fires added_to_cart via jQuery.trigger(), which native listeners never receive.
+	// jQuery handlers also catch natively dispatched events, so one binding covers both.
+	if ( window.jQuery ) {
+		window.jQuery( document.body ).on( 'added_to_cart removed_from_cart', updateCount );
+	} else {
+		document.body.addEventListener( 'removed_from_cart', updateCount );
+	}
 
 	const STORAGE_KEY = 'amelia_favorites';
 

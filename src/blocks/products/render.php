@@ -75,7 +75,7 @@ foreach ( $products as $post ) {
 		? wp_get_attachment_image_url( $img_id, 'amelia-product' )
 		: wc_placeholder_img_src( 'amelia-product' );
 	$url     = get_permalink( $product->get_id() );
-	$is_new  = strtotime( $product->get_date_created() ) > strtotime( '-30 days' );
+	$is_new  = amelia_is_new_product( $product );
 
 	$tag  = $use_slider ? 'div' : 'li';
 	$card = "<{$tag} class=\"product\">";

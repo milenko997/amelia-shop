@@ -69,7 +69,7 @@ export default function Edit( { attributes, setAttributes } ) {
 		} );
 	}
 
-	const useSlider     = selectedProducts.length > SLIDER_THRESHOLD;
+	const useSlider     = selectedProducts.length >= SLIDER_THRESHOLD;
 	const showRealCards = previewProducts && previewProducts.length > 0;
 
 	return (

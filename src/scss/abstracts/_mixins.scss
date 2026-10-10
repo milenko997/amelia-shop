@@ -41,34 +41,6 @@
 	color: $color-secondary;
 }
 
-@mixin eyebrow {
-	display: block;
-	font-size: 0.75rem;
-	font-weight: 700;
-	letter-spacing: 0.15em;
-	text-transform: uppercase;
-	color: $color-primary;
-}
-
-@mixin truncate {
-	overflow: hidden;
-	text-overflow: ellipsis;
-	white-space: nowrap;
-}
-
-// ============================================================
-// Component helpers
-// ============================================================
-@mixin card-shadow {
-	box-shadow: $shadow-sm;
-	transition: box-shadow $transition, transform $transition;
-
-	&:hover {
-		box-shadow: $shadow-md;
-		transform: translateY(-4px);
-	}
-}
-
 @mixin overlay-gradient($direction: to top) {
 	background: linear-gradient(
 		$direction,

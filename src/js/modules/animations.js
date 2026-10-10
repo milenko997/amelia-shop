@@ -13,7 +13,7 @@ export function initAnimations() {
 	if ( ! ( 'IntersectionObserver' in window ) ) return;
 
 	const targets = document.querySelectorAll(
-		'.category-card, .section-header, .feature-item'
+		'.category-card, .feature-item'
 	);
 
 	const io = new IntersectionObserver(

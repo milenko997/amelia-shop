@@ -95,8 +95,7 @@ function amelia_setup() {
 	add_theme_support( 'automatic-feed-links' );
 	add_theme_support( 'title-tag' );
 	add_theme_support( 'post-thumbnails' );
-	add_theme_support( 'html5', [ 'search-form', 'comment-form', 'comment-list', 'gallery', 'caption', 'style', 'script' ] );
-	add_theme_support( 'customize-selective-refresh-widgets' );
+	add_theme_support( 'html5', [ 'search-form', 'gallery', 'caption', 'style', 'script' ] );
 	add_theme_support( 'wp-block-styles' );
 	add_theme_support( 'align-wide' );
 	add_theme_support( 'editor-styles' );
@@ -119,17 +118,38 @@ function amelia_setup() {
 	add_theme_support( 'wc-product-gallery-slider' );
 
 	register_nav_menus( [
-		'primary'  => 'Glavni meni',
-		'footer_1' => 'Podnožje – kolona 1',
-		'footer_2' => 'Podnožje – kolona 2',
-		'footer_3' => 'Podnožje – kolona 3',
+		'primary' => 'Glavni meni',
 	] );
 
-	add_image_size( 'amelia-product',    600, 800,  true );
-	add_image_size( 'amelia-product-lg', 900, 1200, true );
-	add_image_size( 'amelia-category',   400, 533,  true );
+	add_image_size( 'amelia-product',  600, 800, true );
+	add_image_size( 'amelia-category', 400, 533, true );
 }
 add_action( 'after_setup_theme', 'amelia_setup' );
+
+/* ============================================================
+   Fallback menu — shown when no menu is assigned to 'primary'.
+   Uses the first available custom menu if one exists.
+   ============================================================ */
+function amelia_fallback_menu( $args ) {
+	$menus = wp_get_nav_menus();
+
+	if ( ! empty( $menus ) ) {
+		$new_args = array_merge( (array) $args, [
+			'menu'        => $menus[0]->term_id,
+			'fallback_cb' => false,
+		] );
+		wp_nav_menu( $new_args );
+		return;
+	}
+
+	// No menu exists — show minimal navigation
+	echo '<ul>';
+	echo '<li><a href="' . esc_url( home_url( '/' ) ) . '">Početna</a></li>';
+	if ( class_exists( 'WooCommerce' ) ) {
+		echo '<li><a href="' . esc_url( get_permalink( wc_get_page_id( 'shop' ) ) ) . '">Prodavnica</a></li>';
+	}
+	echo '</ul>';
+}
 
 /* ============================================================
    Content Width
@@ -173,12 +193,7 @@ function amelia_scripts() {
 
 	wp_localize_script( 'amelia-main', 'ameliaData', [
 		'ajaxUrl' => admin_url( 'admin-ajax.php' ),
-		'nonce'   => wp_create_nonce( 'amelia_nonce' ),
 	] );
-
-	if ( is_singular() && comments_open() && get_option( 'thread_comments' ) ) {
-		wp_enqueue_script( 'comment-reply' );
-	}
 }
 add_action( 'wp_enqueue_scripts', 'amelia_scripts' );
 
@@ -207,30 +222,6 @@ function amelia_register_blocks() {
 	}
 }
 add_action( 'init', 'amelia_register_blocks' );
-
-/* ============================================================
-   Widget Areas
-   ============================================================ */
-function amelia_sidebars() {
-	register_sidebar( [
-		'name'          => 'Bočna traka prodavnice',
-		'id'            => 'shop-sidebar',
-		'before_widget' => '<div id="%1$s" class="widget %2$s">',
-		'after_widget'  => '</div>',
-		'before_title'  => '<h3 class="widget-title">',
-		'after_title'   => '</h3>',
-	] );
-
-	register_sidebar( [
-		'name'          => 'Podnožje – kolona 1',
-		'id'            => 'footer-1',
-		'before_widget' => '<div id="%1$s" class="widget %2$s">',
-		'after_widget'  => '</div>',
-		'before_title'  => '<h4>',
-		'after_title'   => '</h4>',
-	] );
-}
-add_action( 'widgets_init', 'amelia_sidebars' );
 
 /* ============================================================
    WooCommerce — suppress "choose product options" notice on single product
@@ -292,6 +283,11 @@ add_action( 'woocommerce_after_main_content',  'amelia_wc_after_content',  10 );
 /* ============================================================
    WooCommerce — product card image wrap + badges
    ============================================================ */
+function amelia_is_new_product( $product ) {
+	$created = $product->get_date_created();
+	return $created && $created->getTimestamp() > strtotime( '-30 days' );
+}
+
 function amelia_product_image_wrap_open() {
 	echo '<div class="product-image-wrap">';
 }
@@ -307,7 +303,7 @@ function amelia_product_image_wrap_close() {
 	if ( $product->is_on_sale() ) {
 		echo '<span class="badge badge-sale">Rasprodaja</span>';
 	}
-	if ( strtotime( $product->get_date_created() ) > strtotime( '-30 days' ) ) {
+	if ( amelia_is_new_product( $product ) ) {
 		echo '<span class="badge badge-new">Novo</span>';
 	}
 	echo '</div>';
@@ -335,6 +331,17 @@ function amelia_ajax_cart_count() {
 }
 add_action( 'wp_ajax_amelia_cart_count',        'amelia_ajax_cart_count' );
 add_action( 'wp_ajax_nopriv_amelia_cart_count', 'amelia_ajax_cart_count' );
+
+function amelia_cart_count_html() {
+	$count = amelia_cart_count();
+	return '<span class="cart-count" id="cart-count"' . ( $count > 0 ? '' : ' style="display:none"' ) . '>' . esc_html( $count ) . '</span>';
+}
+
+// Refresh the header badge via WooCommerce fragments after AJAX add-to-cart.
+add_filter( 'woocommerce_add_to_cart_fragments', function ( $fragments ) {
+	$fragments['#cart-count'] = amelia_cart_count_html();
+	return $fragments;
+} );
 
 function amelia_ajax_get_favorites() {
 	check_ajax_referer( 'amelia_favorites', 'nonce' );
@@ -368,7 +375,7 @@ function amelia_ajax_get_favorites() {
 			? wp_get_attachment_image_url( $img_id, 'amelia-product' )
 			: wc_placeholder_img_src( 'amelia-product' );
 		$url     = get_permalink( $product->get_id() );
-		$is_new  = strtotime( $product->get_date_created() ) > strtotime( '-30 days' );
+		$is_new  = amelia_is_new_product( $product );
 
 		$html .= '<li class="product">';
 		$html .= '<div class="product-image-wrap">';
@@ -404,7 +411,7 @@ add_action( 'wp_ajax_nopriv_amelia_get_favorites', 'amelia_ajax_get_favorites' )
 add_filter( 'excerpt_length', fn() => 20 );
 
 function amelia_body_classes( $classes ) {
-	if ( is_woocommerce() || is_cart() || is_checkout() || is_account_page() ) {
+	if ( function_exists( 'is_woocommerce' ) && ( is_woocommerce() || is_cart() || is_checkout() || is_account_page() ) ) {
 		$classes[] = 'woo-page';
 	}
 	return $classes;
@@ -414,11 +421,11 @@ add_filter( 'body_class', 'amelia_body_classes' );
 /* ============================================================
    Shop — helper: product price range
    ============================================================ */
-function amelia_get_price_range( $term_id = 0 ) {
+function amelia_get_price_range( $term_id = 0, $taxonomy = 'product_cat' ) {
 	global $wpdb;
 
 	if ( $term_id ) {
-		$child_ids = get_term_children( (int) $term_id, 'product_cat' );
+		$child_ids = get_term_children( (int) $term_id, $taxonomy );
 		$all_ids   = array_merge( [ (int) $term_id ], is_array( $child_ids ) ? $child_ids : [] );
 		$ph        = implode( ',', array_fill( 0, count( $all_ids ), '%d' ) );
 
@@ -434,8 +441,9 @@ function amelia_get_price_range( $term_id = 0 ) {
 			   AND pm.meta_value != ''
 			   AND CAST(pm.meta_value AS DECIMAL(10,2)) > 0
 			   AND p.post_status = 'publish'
-			   AND tt.taxonomy = 'product_cat'
+			   AND tt.taxonomy = %s
 			   AND tt.term_id IN ($ph)",
+			$taxonomy,
 			...$all_ids
 		) );
 	} else {
@@ -480,10 +488,21 @@ function amelia_get_product_categories() {
 }
 
 /* ============================================================
+   Shop — helper: taxonomy term the current archive is locked to
+   (product category, tag or attribute archive)
+   ============================================================ */
+function amelia_get_locked_term() {
+	$term = is_product_taxonomy() ? get_queried_object() : null;
+	return $term instanceof WP_Term
+		? [ 'taxonomy' => $term->taxonomy, 'term_id' => (int) $term->term_id ]
+		: [ 'taxonomy' => '', 'term_id' => 0 ];
+}
+
+/* ============================================================
    Shop — enqueue async filter script
    ============================================================ */
 function amelia_shop_filter_scripts() {
-	if ( ! ( is_shop() || is_product_category() || is_product_tag() ) ) return;
+	if ( ! ( is_shop() || is_product_taxonomy() ) ) return;
 
 	$asset_file = AMELIA_BUILD . '/shop-filter.asset.php';
 	$asset      = file_exists( $asset_file ) ? require $asset_file : [ 'dependencies' => [], 'version' => AMELIA_VERSION ];
@@ -496,16 +515,14 @@ function amelia_shop_filter_scripts() {
 		true
 	);
 
-	$cat_id      = is_product_category() ? (int) get_queried_object_id() : 0;
-	$price_range = amelia_get_price_range( $cat_id );
+	$locked = amelia_get_locked_term();
 	wp_localize_script( 'amelia-shop-filter', 'ameliaShop', [
 		'ajaxUrl'    => admin_url( 'admin-ajax.php' ),
 		'nonce'      => wp_create_nonce( 'amelia_nonce' ),
 		'currency'   => html_entity_decode( get_woocommerce_currency_symbol(), ENT_QUOTES ),
 		'currPos'    => get_option( 'woocommerce_currency_pos', 'right' ),
-		'priceMin'   => $price_range['min'],
-		'priceMax'   => $price_range['max'],
-		'categoryId' => $cat_id,
+		'taxonomy'   => $locked['taxonomy'],
+		'termId'     => $locked['term_id'],
 	] );
 }
 add_action( 'wp_enqueue_scripts', 'amelia_shop_filter_scripts' );
@@ -517,23 +534,33 @@ function amelia_filter_products() {
 	check_ajax_referer( 'amelia_nonce', 'nonce' );
 
 	$per_page        = 21;
-	$locked_category = isset( $_POST['locked_category'] ) ? (int) $_POST['locked_category'] : 0;
-	$price_range     = amelia_get_price_range( $locked_category );
+	$locked_tax      = isset( $_POST['locked_taxonomy'] ) ? sanitize_key( wp_unslash( $_POST['locked_taxonomy'] ) ) : '';
+	$locked_term     = isset( $_POST['locked_term'] ) ? absint( $_POST['locked_term'] ) : 0;
+	if ( ! $locked_term || ! taxonomy_exists( $locked_tax ) || ! is_object_in_taxonomy( 'product', $locked_tax ) ) {
+		$locked_tax  = '';
+		$locked_term = 0;
+	}
+	$price_range     = $locked_term ? amelia_get_price_range( $locked_term, $locked_tax ) : amelia_get_price_range();
 	$min_price       = isset( $_POST['min_price'] ) ? (float) $_POST['min_price'] : $price_range['min'];
 	$max_price       = isset( $_POST['max_price'] ) ? (float) $_POST['max_price'] : $price_range['max'];
 	$at_min          = $min_price <= $price_range['min'];
 	$at_max          = $max_price >= $price_range['max'];
 	$categories      = isset( $_POST['categories'] ) ? array_map( 'intval', (array) $_POST['categories'] ) : [];
 	$page        = isset( $_POST['page'] ) ? max( 1, (int) $_POST['page'] ) : 1;
-	$orderby_raw = sanitize_text_field( $_POST['orderby'] ?? 'date:DESC' );
+	$orderby_raw = sanitize_text_field( wp_unslash( $_POST['orderby'] ?? 'date:DESC' ) );
 	[ $orderby, $order ] = array_pad( explode( ':', $orderby_raw ), 2, 'DESC' );
 	$order = in_array( strtoupper( $order ), [ 'ASC', 'DESC' ], true ) ? strtoupper( $order ) : 'DESC';
 
-	$meta_orderby = '';
-	if ( $orderby === 'price' ) {
-		$meta_orderby = '_price';
-		$orderby      = 'meta_value_num';
-	} elseif ( ! in_array( $orderby, [ 'date', 'title', 'popularity', 'rating', 'rand' ], true ) ) {
+	// popularity/rating are not native WP_Query orderby values — sort by their meta keys.
+	$meta_orderby_map = [
+		'price'      => '_price',
+		'popularity' => 'total_sales',
+		'rating'     => '_wc_average_rating',
+	];
+	$meta_orderby = $meta_orderby_map[ $orderby ] ?? '';
+	if ( $meta_orderby ) {
+		$orderby = 'meta_value_num';
+	} elseif ( ! in_array( $orderby, [ 'date', 'title' ], true ) ) {
 		$orderby = 'date';
 	}
 
@@ -570,16 +597,16 @@ function amelia_filter_products() {
 	// Only apply a price meta_query when the slider has actually been moved.
 	if ( ! $at_min || ! $at_max ) {
 		$price_clause = $at_max
-			? [ 'key' => '_price', 'value' => $min_price, 'compare' => '>=', 'type' => 'NUMERIC' ]
-			: [ 'key' => '_price', 'value' => [ $min_price, $max_price ], 'compare' => 'BETWEEN', 'type' => 'NUMERIC' ];
+			? [ 'key' => '_price', 'value' => $min_price, 'compare' => '>=', 'type' => 'DECIMAL(10,2)' ]
+			: [ 'key' => '_price', 'value' => [ $min_price, $max_price ], 'compare' => 'BETWEEN', 'type' => 'DECIMAL(10,2)' ];
 		$args['meta_query'] = [ 'relation' => 'AND', $price_clause ];
 	}
 
-	if ( $locked_category ) {
+	if ( $locked_term ) {
 		$args['tax_query'][] = [
-			'taxonomy' => 'product_cat',
+			'taxonomy' => $locked_tax,
 			'field'    => 'term_id',
-			'terms'    => [ $locked_category ],
+			'terms'    => [ $locked_term ],
 		];
 	}
 
@@ -614,9 +641,6 @@ function amelia_filter_products() {
 		'count'     => $total,
 		'hasMore'   => $total > ( $page * $per_page ),
 		'page'      => $page,
-		'priceMin'  => $price_range['min'],
-		'priceMax'  => $price_range['max'],
-		'priceStep' => $price_range['step'],
 	] );
 }
 add_action( 'wp_ajax_amelia_filter_products',        'amelia_filter_products' );

@@ -57,13 +57,3 @@ a.button,
 		color: $color-white;
 	}
 }
-
-.btn-secondary {
-	background: $color-secondary;
-	border-color: $color-secondary;
-
-	&:hover {
-		background: #444;
-		border-color: #444;
-	}
-}

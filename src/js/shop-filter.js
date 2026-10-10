@@ -18,6 +18,7 @@
 
 	let debounce  = null;
 	let isLoading = false;
+	let controller = null;
 	let hasMore   = productsWrap.dataset.hasMore === '1';
 	let currPage  = 1;
 
@@ -111,9 +112,17 @@
 
 	function runFilter( page, append ) {
 		clearTimeout( debounce );
-		if ( isLoading ) return;
 
-		isLoading = true;
+		// Infinite scroll waits for the in-flight request; a filter change
+		// cancels it so the user's latest selection always wins.
+		if ( isLoading ) {
+			if ( append ) return;
+			controller.abort();
+		}
+
+		isLoading  = true;
+		controller = new AbortController();
+		const currentController = controller;
 
 		if ( ! append ) {
 			productsWrap.classList.add( 'is-loading' );
@@ -128,15 +137,16 @@
 		body.append( 'max_price', maxInput.value );
 		body.append( 'orderby',   sortEl ? sortEl.value : 'date:DESC' );
 		body.append( 'page',      page );
-		if ( ameliaShop.categoryId ) {
-			body.append( 'locked_category', ameliaShop.categoryId );
+		if ( ameliaShop.termId ) {
+			body.append( 'locked_taxonomy', ameliaShop.taxonomy );
+			body.append( 'locked_term',     ameliaShop.termId );
 		}
 
 		form.querySelectorAll( 'input[name="categories[]"]:checked' ).forEach( function ( cb ) {
 			body.append( 'categories[]', cb.value );
 		} );
 
-		fetch( ameliaShop.ajaxUrl, { method: 'POST', body } )
+		fetch( ameliaShop.ajaxUrl, { method: 'POST', body, signal: currentController.signal } )
 			.then( function ( r ) { return r.json(); } )
 			.then( function ( data ) {
 				if ( ! data.success ) return;
@@ -180,8 +190,12 @@
 					countEl.textContent = n === 1 ? n + ' proizvod' : n + ' proizvoda';
 				}
 			} )
-			.catch( function ( err ) { console.error( 'Shop filter error:', err ); } )
+			.catch( function ( err ) {
+				if ( err.name !== 'AbortError' ) console.error( 'Shop filter error:', err );
+			} )
 			.finally( function () {
+				// A newer request has taken over — leave its loading state alone.
+				if ( controller !== currentController ) return;
 				isLoading = false;
 				productsWrap.classList.remove( 'is-loading' );
 				if ( sentinel ) sentinel.classList.remove( 'is-loading' );
