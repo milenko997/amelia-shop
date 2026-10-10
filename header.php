@@ -58,7 +58,7 @@
 
 				<!-- Cart -->
 				<?php if ( class_exists( 'WooCommerce' ) ) : ?>
-				<a href="<?php echo esc_url( wc_get_cart_url() ); ?>" class="header-icon-btn" aria-label="Korpa">
+				<a href="<?php echo esc_url( wc_get_cart_url() ); ?>" class="header-icon-btn" aria-label="Korpa"<?php echo amelia_show_mini_cart() ? ' id="mini-cart-toggle" aria-controls="mini-cart" aria-expanded="false" aria-haspopup="dialog"' : ''; ?>>
 					<svg viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
 					<?php echo amelia_cart_count_html(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 				</a>

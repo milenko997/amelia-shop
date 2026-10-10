@@ -89,13 +89,9 @@ export function initCart() {
 			.catch( () => {} );
 	};
 
-	// WooCommerce fires added_to_cart via jQuery.trigger(), which native listeners never receive.
-	// jQuery handlers also catch natively dispatched events, so one binding covers both.
-	if ( window.jQuery ) {
-		window.jQuery( document.body ).on( 'added_to_cart removed_from_cart', updateCount );
-	} else {
-		document.body.addEventListener( 'removed_from_cart', updateCount );
-	}
+	// AJAX add/remove responses carry the #cart-count fragment, which WooCommerce applies itself.
+	// Only the cart page refresh (initCartPage) dispatches this native event and needs a count request.
+	document.body.addEventListener( 'removed_from_cart', updateCount );
 
 	const STORAGE_KEY = 'amelia_favorites';
 

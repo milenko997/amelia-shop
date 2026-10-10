@@ -7,6 +7,7 @@ import { initCart, initCartPage } from './modules/cart';
 import { initAnimations }   from './modules/animations';
 import { initQuantity }     from './modules/quantity';
 import { initGallery }      from './modules/gallery';
+import { initMiniCart }     from './modules/mini-cart';
 
 document.addEventListener( 'DOMContentLoaded', () => {
 	initMobileMenu();
@@ -16,4 +17,5 @@ document.addEventListener( 'DOMContentLoaded', () => {
 	initAnimations();
 	initQuantity();
 	initGallery();
+	initMiniCart();
 } );

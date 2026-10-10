@@ -86,6 +86,20 @@
 
 </div><!-- #page -->
 
+<?php if ( amelia_show_mini_cart() ) : ?>
+<div class="mini-cart-overlay" id="mini-cart-overlay" hidden></div>
+<aside class="mini-cart" id="mini-cart" role="dialog" aria-modal="true" aria-labelledby="mini-cart-title" inert<?php echo amelia_cart_just_added() ? ' data-open-on-load' : ''; ?>>
+	<div class="mini-cart__header">
+		<h2 class="mini-cart__title" id="mini-cart-title">Korpa</h2>
+		<button type="button" class="mini-cart__close" id="mini-cart-close" aria-label="Zatvori korpu">
+			<svg viewBox="0 0 24 24" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+		</button>
+	</div>
+	<?php // WooCommerce cart fragments keep this container in sync after every cart change. ?>
+	<div class="widget_shopping_cart_content"><?php woocommerce_mini_cart(); ?></div>
+</aside>
+<?php endif; ?>
+
 <?php wp_footer(); ?>
 </body>
 </html>

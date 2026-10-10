@@ -157,6 +157,12 @@ function amelia_scripts() {
 		true
 	);
 
+	// Refreshes the mini cart on cached pages. Only needed once the visitor has something
+	// in the cart; AJAX add/remove responses already carry the fragments themselves.
+	if ( amelia_show_mini_cart() && ! empty( $_COOKIE['woocommerce_items_in_cart'] ) ) {
+		wp_enqueue_script( 'wc-cart-fragments' );
+	}
+
 	wp_localize_script( 'amelia-main', 'ameliaData', [
 		'ajaxUrl' => admin_url( 'admin-ajax.php' ),
 	] );
@@ -307,6 +313,27 @@ function amelia_ajax_cart_count() {
 }
 add_action( 'wp_ajax_amelia_cart_count',        'amelia_ajax_cart_count' );
 add_action( 'wp_ajax_nopriv_amelia_cart_count', 'amelia_ajax_cart_count' );
+
+/**
+ * Mini cart drawer is shown everywhere except the cart and checkout pages,
+ * where the header icon simply links to the cart.
+ */
+function amelia_show_mini_cart() {
+	return class_exists( 'WooCommerce' ) && ! is_cart() && ! is_checkout();
+}
+
+/**
+ * True on the page rendered right after a regular (non-AJAX) add to cart,
+ * e.g. the single product form, so the mini cart can open on load.
+ */
+function amelia_cart_just_added() {
+	return ! empty( $GLOBALS['amelia_cart_just_added'] );
+}
+add_action( 'woocommerce_add_to_cart', function () {
+	if ( ! wp_doing_ajax() ) {
+		$GLOBALS['amelia_cart_just_added'] = true;
+	}
+} );
 
 function amelia_cart_count_html() {
 	$count = amelia_cart_count();
