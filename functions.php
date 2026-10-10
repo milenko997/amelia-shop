@@ -79,6 +79,48 @@ function amelia_fallback_menu( $args ) {
 }
 
 /* ============================================================
+   Promo strip — texts editable in Customizer
+   ============================================================ */
+function amelia_promo_defaults() {
+	return [
+		1 => '✨ Besplatna dostava za narudžbine iznad 5000',
+		2 => '📅 Besplatni povraćaj 30 dana',
+		3 => '🔒 Sigurna kupovina',
+	];
+}
+
+add_action( 'customize_register', function ( WP_Customize_Manager $wp_customize ) {
+	$wp_customize->add_section( 'amelia_promo', [
+		'title'       => 'Promo traka',
+		'description' => 'Poruke u traci iznad header-a. Na mobilnom se smenjuju jedna po jedna. Ostavite polje prazno da sakrijete poruku.',
+		'priority'    => 150,
+	] );
+
+	foreach ( amelia_promo_defaults() as $i => $default ) {
+		$wp_customize->add_setting( "amelia_promo_{$i}", [
+			'default'           => $default,
+			'sanitize_callback' => 'sanitize_text_field',
+		] );
+		$wp_customize->add_control( "amelia_promo_{$i}", [
+			'section' => 'amelia_promo',
+			'type'    => 'text',
+			'label'   => "Poruka {$i}",
+		] );
+	}
+} );
+
+function amelia_promo_items() {
+	$items = [];
+	foreach ( amelia_promo_defaults() as $i => $default ) {
+		$text = trim( (string) get_theme_mod( "amelia_promo_{$i}", $default ) );
+		if ( '' !== $text ) {
+			$items[] = $text;
+		}
+	}
+	return $items;
+}
+
+/* ============================================================
    Footer helpers
    ============================================================ */
 

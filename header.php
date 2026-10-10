@@ -12,14 +12,17 @@
 
 <div id="page" class="site">
 
-	<!-- Promo strip -->
+	<!-- Promo strip (texts: Customizer → Promo traka) -->
+	<?php $promo_items = amelia_promo_items(); ?>
+	<?php if ( $promo_items ) : ?>
 	<div class="promo-strip">
-		<div class="promo-items">
-			<span class="promo-item">&#10024; Besplatna dostava za narudžbine iznad 5000</span>
-			<span class="promo-item">&#128197; Besplatni povraćaj 30 dana</span>
-			<span class="promo-item">&#128274; Sigurna kupovina</span>
+		<div class="promo-items promo-items--<?php echo count( $promo_items ); ?>">
+			<?php foreach ( $promo_items as $item ) : ?>
+			<span class="promo-item"><?php echo esc_html( $item ); ?></span>
+			<?php endforeach; ?>
 		</div>
 	</div>
+	<?php endif; ?>
 
 	<!-- Site header -->
 	<header id="masthead" class="site-header">

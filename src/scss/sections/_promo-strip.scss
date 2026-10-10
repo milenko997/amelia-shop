@@ -1,4 +1,5 @@
 @use '../abstracts/variables' as *;
+@use '../abstracts/mixins' as *;
 
 .promo-strip {
 	background: $color-secondary;
@@ -22,5 +23,72 @@
 .promo-item {
 	display: flex;
 	align-items: center;
+	justify-content: center;
 	gap: 0.5rem;
+}
+
+// ============================================================
+// Mobile: one slim line, messages fade in one after another
+// ============================================================
+@include respond-to(md) {
+	.promo-strip {
+		padding: 0.45rem 1rem;
+		font-size: 0.68rem;
+		letter-spacing: 0.04em;
+	}
+
+	// All messages share one grid cell, so the strip is always one line high.
+	.promo-items {
+		display: grid;
+		gap: 0;
+	}
+
+	.promo-item {
+		grid-area: 1 / 1;
+		min-width: 0;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		display: block;
+	}
+
+	.promo-items--2 .promo-item {
+		opacity: 0;
+		animation: promo-rotate-2 8s infinite;
+
+		&:nth-child(2) { animation-delay: 4s; }
+	}
+
+	.promo-items--3 .promo-item {
+		opacity: 0;
+		animation: promo-rotate-3 12s infinite;
+
+		&:nth-child(2) { animation-delay: 4s; }
+		&:nth-child(3) { animation-delay: 8s; }
+	}
+}
+
+// Each message is visible for its share of the cycle, with a short fade.
+@keyframes promo-rotate-2 {
+	0%, 100% { opacity: 0; }
+	5%, 45% { opacity: 1; }
+	50% { opacity: 0; }
+}
+
+@keyframes promo-rotate-3 {
+	0%, 100% { opacity: 0; }
+	3%, 30% { opacity: 1; }
+	33% { opacity: 0; }
+}
+
+// No animation: show only the first message.
+@media (prefers-reduced-motion: reduce) {
+	.promo-items .promo-item {
+		animation: none !important;
+		opacity: 1 !important;
+
+		&:not(:first-child) {
+			@include respond-to(md) { display: none; }
+		}
+	}
 }
