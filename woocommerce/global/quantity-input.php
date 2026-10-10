@@ -8,7 +8,7 @@ $label = ! empty( $args['product_name'] )
 <div class="quantity qty-wrap">
 	<?php do_action( 'woocommerce_before_quantity_input_field' ); ?>
 	<label class="screen-reader-text" for="<?php echo esc_attr( $input_id ); ?>"><?php echo esc_attr( $label ); ?></label>
-	<button type="button" class="qty-btn qty-minus" aria-label="<?php esc_attr_e( 'Decrease quantity', 'woocommerce' ); ?>">−</button>
+	<button type="button" class="qty-btn qty-minus" aria-label="<?php esc_attr_e( 'Smanji količinu', 'amelia-shop' ); ?>">−</button>
 	<input
 		type="<?php echo esc_attr( $type ); ?>"
 		<?php echo $readonly ? 'readonly="readonly"' : ''; ?>
@@ -31,6 +31,6 @@ $label = ! empty( $args['product_name'] )
 			autocomplete="<?php echo esc_attr( isset( $autocomplete ) ? $autocomplete : 'on' ); ?>"
 		<?php endif; ?>
 	/>
-	<button type="button" class="qty-btn qty-plus" aria-label="<?php esc_attr_e( 'Increase quantity', 'woocommerce' ); ?>">+</button>
+	<button type="button" class="qty-btn qty-plus" aria-label="<?php esc_attr_e( 'Povećaj količinu', 'amelia-shop' ); ?>">+</button>
 	<?php do_action( 'woocommerce_after_quantity_input_field' ); ?>
 </div>

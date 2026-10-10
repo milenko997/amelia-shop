@@ -259,7 +259,7 @@ add_action( 'wp_head', function () {
 		$meta[] = [ 'name', 'description', $description ];
 	}
 
-	$meta[] = [ 'property', 'og:locale', get_locale() ];
+	$meta[] = [ 'property', 'og:locale', 'sr_RS' ];
 	$meta[] = [ 'property', 'og:site_name', get_bloginfo( 'name' ) ];
 	$meta[] = [ 'property', 'og:type', $is_product ? 'product' : ( $is_article ? 'article' : 'website' ) ];
 	$meta[] = [ 'property', 'og:title', $title ];
@@ -390,7 +390,7 @@ add_action( 'wp_head', function () {
 				'@id'        => $home . '#website',
 				'url'        => $home,
 				'name'       => get_bloginfo( 'name' ),
-				'inLanguage' => str_replace( '_', '-', get_locale() ),
+				'inLanguage' => 'sr-Latn-RS',
 				'publisher'  => [ '@id' => $home . '#organization' ],
 			],
 		],

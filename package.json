@@ -7,7 +7,8 @@
     "start": "wp-scripts start",
     "build": "wp-scripts build",
     "lint:css": "wp-scripts lint-style 'src/scss/**/*.scss'",
-    "lint:js": "wp-scripts lint-js 'src/js/**/*.js' 'src/blocks/**/*.js'"
+    "lint:js": "wp-scripts lint-js 'src/js/**/*.js' 'src/blocks/**/*.js'",
+    "translations": "php bin/build-latin-translations.php"
   },
   "devDependencies": {
     "@wordpress/scripts": "^35.0.0"
