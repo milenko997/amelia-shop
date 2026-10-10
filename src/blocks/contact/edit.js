@@ -69,7 +69,7 @@ export default function Edit( { attributes, setAttributes } ) {
 						onChange={ ( v ) => setAttributes( { mapEmbed: v } ) }
 						placeholder='<iframe src="https://www.google.com/maps/embed?pb=…" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>'
 						rows={ 5 }
-						help={ mapEmbed && ! mapSrc ? '⚠ Nije pronađen src atribut — zalepi ceo <iframe> tag.' : '' }
+						help={ mapEmbed && ! mapSrc ? '⚠ Nije pronađen src atribut. Zalepi ceo <iframe> tag.' : '' }
 					/>
 				</PanelBody>
 

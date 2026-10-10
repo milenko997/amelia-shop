@@ -7,7 +7,7 @@ export default function Edit() {
 		<section { ...blockProps }>
 			<div className="container">
 				<p style={ { textAlign: 'center', padding: '2rem', color: '#888', fontSize: '0.9rem' } }>
-					<strong>Sačuvani proizvodi</strong> — prikazuju se na osnovu localStorage korisnika.
+					<strong>Sačuvani proizvodi</strong> se prikazuju na osnovu localStorage korisnika.
 				</p>
 			</div>
 		</section>

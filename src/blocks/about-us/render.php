@@ -3,6 +3,7 @@ defined( 'ABSPATH' ) || exit;
 
 $title         = $attributes['title']          ?? 'Naša priča';
 $body          = $attributes['content']        ?? '';
+$media_id      = absint( $attributes['mediaId'] ?? 0 );
 $media_url     = $attributes['mediaUrl']       ?? '';
 $media_alt     = $attributes['mediaAlt']       ?? '';
 $reversed      = ! empty( $attributes['reversed'] );
@@ -31,7 +32,9 @@ $wrapper_attrs = get_block_wrapper_attributes( [ 'class' => $wrapper_class ] );
 	</div>
 
 	<div class="about-us-image-col">
-		<?php if ( $media_url ) : ?>
+		<?php if ( $media_id && wp_attachment_is_image( $media_id ) ) : ?>
+			<?php echo wp_get_attachment_image( $media_id, 'large', false, [ 'alt' => $media_alt ?: wp_strip_all_tags( $title ), 'loading' => 'lazy' ] ); ?>
+		<?php elseif ( $media_url ) : ?>
 			<img src="<?php echo esc_url( $media_url ); ?>" alt="<?php echo esc_attr( $media_alt ); ?>" />
 		<?php else : ?>
 			<div class="about-us-image-placeholder"></div>

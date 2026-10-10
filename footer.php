@@ -5,49 +5,67 @@
 			<!-- Brand -->
 			<div class="footer-brand">
 				<span class="logo-text"><?php bloginfo( 'name' ); ?></span>
-				<p>Udobni, elegantni i kvalitetni svakodnevni artikli — donji veš, čarape i pidžame izrađeni s pažnjom.</p>
+				<p>Udoban i kvalitetan donji veš, čarape i pidžame za svaki dan, izrađeni s pažnjom.</p>
+				<?php $social = amelia_social_urls(); ?>
+				<?php if ( $social ) : ?>
 				<div class="social-links">
-					<a href="#" class="social-link" aria-label="Instagram" target="_blank" rel="noopener noreferrer">
-						<svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+					<?php foreach ( $social as $network => $url ) : ?>
+					<a href="<?php echo esc_url( $url ); ?>" class="social-link" aria-label="<?php echo esc_attr( amelia_social_networks()[ $network ] ); ?>" target="_blank" rel="noopener noreferrer me">
+						<?php echo amelia_social_icon( $network ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 					</a>
+					<?php endforeach; ?>
 				</div>
+				<?php endif; ?>
 			</div>
 
 			<!-- Footer col: Shop -->
 			<div class="footer-col">
-				<h4>Prodavnica</h4>
+				<h2 class="footer-col__title">Prodavnica</h2>
 				<ul>
 					<?php if ( class_exists( 'WooCommerce' ) ) : ?>
-					<li><a href="<?php echo esc_url( get_permalink( wc_get_page_id( 'shop' ) ) ); ?>">Svi proizvodi</a></li>
+					<li><a href="<?php echo esc_url( wc_get_page_permalink( 'shop' ) ); ?>">Svi proizvodi</a></li>
+					<?php foreach ( amelia_footer_categories() as $cat ) : ?>
+					<li><a href="<?php echo esc_url( get_term_link( $cat ) ); ?>"><?php echo esc_html( $cat->name ); ?></a></li>
+					<?php endforeach; ?>
 					<?php endif; ?>
-					<li><a href="#">Donji veš</a></li>
-					<li><a href="#">Gaće</a></li>
-					<li><a href="#">Čarape</a></li>
-					<li><a href="#">Pidžame</a></li>
-					<li><a href="#">Rasprodaja</a></li>
 				</ul>
 			</div>
 
-			<!-- Footer col: Help -->
+			<?php
+			$footer_cols = [
+				'Pomoć'     => [
+					[ 'Informacije o dostavi', [ 'dostava', 'informacije-o-dostavi', 'isporuka' ] ],
+					[ 'Povraćaj i zamena',     [ 'povracaj-i-zamena', 'povracaj', 'zamena', 'reklamacije' ] ],
+					[ 'Česta pitanja',         [ 'faq', 'cesta-pitanja' ] ],
+					[ 'Kontakt',               [ 'kontakt' ] ],
+				],
+				'Kompanija' => [
+					[ 'O nama',               [ 'o-nama' ] ],
+					[ 'Politika privatnosti', [ 'politika-privatnosti' ], get_privacy_policy_url() ],
+					[ 'Uslovi korišćenja',    [ 'uslovi-koriscenja', 'uslovi-kupovine', 'uslovi' ], function_exists( 'wc_terms_and_conditions_page_id' ) && wc_terms_and_conditions_page_id() ? get_permalink( wc_terms_and_conditions_page_id() ) : '' ],
+				],
+			];
+			foreach ( $footer_cols as $col_title => $links ) :
+				$items = [];
+				foreach ( $links as $link ) {
+					$url = ! empty( $link[2] ) ? $link[2] : amelia_page_url_by_slugs( $link[1] );
+					if ( $url ) {
+						$items[] = [ $link[0], $url ];
+					}
+				}
+				if ( ! $items ) {
+					continue;
+				}
+				?>
 			<div class="footer-col">
-				<h4>Pomoć</h4>
+				<h2 class="footer-col__title"><?php echo esc_html( $col_title ); ?></h2>
 				<ul>
-					<li><a href="#">Informacije o dostavi</a></li>
-					<li><a href="#">Povraćaj i zamena</a></li>
-					<li><a href="<?php echo esc_url( home_url( '/faq/' ) ); ?>">Česta pitanja</a></li>
-					<li><a href="#">Kontakt</a></li>
+					<?php foreach ( $items as [ $label, $url ] ) : ?>
+					<li><a href="<?php echo esc_url( $url ); ?>"><?php echo esc_html( $label ); ?></a></li>
+					<?php endforeach; ?>
 				</ul>
 			</div>
-
-			<!-- Footer col: Company -->
-			<div class="footer-col">
-				<h4>Kompanija</h4>
-				<ul>
-					<li><a href="#">O nama</a></li>
-					<li><a href="#">Politika privatnosti</a></li>
-					<li><a href="#">Uslovi korišćenja</a></li>
-				</ul>
-			</div>
+			<?php endforeach; ?>
 		</div>
 
 		<!-- Footer bottom -->
@@ -59,7 +77,10 @@
 				<span class="payment-icon">PayPal</span>
 				<span class="payment-icon">Maestro</span>
 			</div>
-			<a href="<?php echo esc_url( home_url( '/politika-privatnosti' ) ); ?>">Privatnost</a>
+			<?php $privacy_url = get_privacy_policy_url() ?: amelia_page_url_by_slugs( [ 'politika-privatnosti' ] ); ?>
+			<?php if ( $privacy_url ) : ?>
+			<a href="<?php echo esc_url( $privacy_url ); ?>">Privatnost</a>
+			<?php endif; ?>
 		</div>
 	</footer>
 

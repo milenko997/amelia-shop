@@ -12,6 +12,9 @@ get_header();
 
 <main id="main" class="site-main">
 	<?php while ( have_posts() ) : the_post(); ?>
+		<?php if ( ! preg_match( '/<h1[\s>]/i', get_the_content() ) ) : ?>
+			<h1 class="screen-reader-text"><?php bloginfo( 'name' ); ?></h1>
+		<?php endif; ?>
 		<?php the_content(); ?>
 	<?php endwhile; ?>
 </main>

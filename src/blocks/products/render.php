@@ -70,10 +70,6 @@ foreach ( $products as $post ) {
 		continue;
 	}
 
-	$img_id  = $product->get_image_id();
-	$img_url = $img_id
-		? wp_get_attachment_image_url( $img_id, 'amelia-product' )
-		: wc_placeholder_img_src( 'amelia-product' );
 	$url     = get_permalink( $product->get_id() );
 	$is_new  = amelia_is_new_product( $product );
 
@@ -81,7 +77,7 @@ foreach ( $products as $post ) {
 	$card = "<{$tag} class=\"product\">";
 	$card .= '<div class="product-image-wrap">';
 	$card .= '<a href="' . esc_url( $url ) . '">';
-	$card .= '<img src="' . esc_url( $img_url ) . '" alt="' . esc_attr( $product->get_name() ) . '" loading="lazy">';
+	$card .= amelia_product_card_image( $product );
 	$card .= '</a>';
 	$card .= '<div class="product-badges">';
 	if ( $product->is_on_sale() ) $card .= '<span class="badge badge-sale">Rasprodaja</span>';

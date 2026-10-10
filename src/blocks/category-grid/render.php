@@ -43,12 +43,11 @@ echo '<div class="categories-grid container" style="--columns:' . $columns . '">
 foreach ( $categories as $cat ) {
 	$icon      = $cat_icons[ sanitize_title( $cat->name ) ] ?? '✨';
 	$thumb_id  = get_term_meta( $cat->term_id, 'thumbnail_id', true );
-	$thumb_url = $thumb_id ? wp_get_attachment_image_url( $thumb_id, 'amelia-category' ) : '';
 	$url       = get_term_link( $cat );
 
 	echo '<a href="' . esc_url( $url ) . '" class="category-card">';
-	if ( $thumb_url ) {
-		echo '<img src="' . esc_url( $thumb_url ) . '" alt="' . esc_attr( $cat->name ) . '" loading="lazy">';
+	if ( $thumb_id ) {
+		echo wp_get_attachment_image( $thumb_id, 'amelia-category', false, [ 'alt' => $cat->name, 'loading' => 'lazy' ] );
 	}
 	echo '<div class="category-card-overlay">';
 	echo '<span class="cat-icon">' . $icon . '</span>';

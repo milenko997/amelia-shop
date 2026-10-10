@@ -20,7 +20,7 @@
 	let isLoading = false;
 	let controller = null;
 	let hasMore   = productsWrap.dataset.hasMore === '1';
-	let currPage  = 1;
+	let currPage  = parseInt( productsWrap.dataset.page, 10 ) || 1;
 
 	function fmtPrice( val ) {
 		const n   = Math.round( val ).toLocaleString( 'sr-RS' );
@@ -97,6 +97,10 @@
 	} );
 
 	if ( sentinel && 'IntersectionObserver' in window ) {
+		// Infinite scroll replaces the page links that are there for crawlers and no-JS visitors.
+		const pagination = document.getElementById( 'shop-pagination' );
+		if ( pagination ) pagination.hidden = true;
+
 		const observer = new IntersectionObserver( function ( entries ) {
 			if ( entries[ 0 ].isIntersecting && ! isLoading && hasMore ) {
 				runFilter( currPage + 1, true );

@@ -117,7 +117,7 @@ export default function Edit( { attributes, setAttributes } ) {
 				<div className="container">
 					{ useSlider && (
 						<Notice status="info" isDismissible={ false }>
-							{ selectedProducts.length } proizvoda — prikazuje se kao slider na sajtu
+							{ selectedProducts.length } proizvoda, na sajtu se prikazuje kao slider
 						</Notice>
 					) }
 
@@ -139,7 +139,7 @@ export default function Edit( { attributes, setAttributes } ) {
 											<h3 className="woocommerce-loop-product__title">
 												{ product.title.rendered }
 											</h3>
-											<span className="price">—</span>
+											<span className="price">Cena</span>
 											<span className="button">Dodaj u korpu</span>
 										</div>
 									</li>

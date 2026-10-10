@@ -7,6 +7,8 @@ define( 'AMELIA_URI',     get_template_directory_uri() );
 define( 'AMELIA_BUILD',   AMELIA_DIR . '/build' );
 define( 'AMELIA_BUILD_URI', AMELIA_URI . '/build' );
 
+require AMELIA_DIR . '/inc/seo.php';
+
 /* ============================================================
    WooCommerce — Serbian Latin translations
    ============================================================ */
@@ -99,6 +101,9 @@ function amelia_setup() {
 	add_theme_support( 'wp-block-styles' );
 	add_theme_support( 'align-wide' );
 	add_theme_support( 'editor-styles' );
+
+	// Page excerpt is used as the meta description.
+	add_post_type_support( 'page', 'excerpt' );
 	add_editor_style( 'https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Lato:wght@300;400;600;700&display=swap' );
 	add_editor_style( 'build/main.css' );
 
@@ -149,6 +154,45 @@ function amelia_fallback_menu( $args ) {
 		echo '<li><a href="' . esc_url( get_permalink( wc_get_page_id( 'shop' ) ) ) . '">Prodavnica</a></li>';
 	}
 	echo '</ul>';
+}
+
+/* ============================================================
+   Footer helpers
+   ============================================================ */
+
+/**
+ * Permalink of the first published page matching one of the slugs, or ''.
+ * Footer links are only printed for pages that exist, so there are no dead "#" links.
+ */
+function amelia_page_url_by_slugs( array $slugs ) {
+	foreach ( $slugs as $slug ) {
+		$page = get_page_by_path( $slug );
+		if ( $page && 'publish' === $page->post_status ) {
+			return get_permalink( $page );
+		}
+	}
+	return '';
+}
+
+function amelia_footer_categories() {
+	$terms = get_terms( [
+		'taxonomy'   => 'product_cat',
+		'parent'     => 0,
+		'hide_empty' => true,
+		'exclude'    => [ (int) get_option( 'default_product_cat' ) ],
+		'orderby'    => 'name',
+		'number'     => 6,
+	] );
+	return is_wp_error( $terms ) ? [] : $terms;
+}
+
+function amelia_social_icon( $network ) {
+	$paths = [
+		'instagram' => '<rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>',
+		'facebook'  => '<path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/>',
+		'tiktok'    => '<path d="M9 12a4 4 0 104 4V2a5 5 0 005 5"/>',
+	];
+	return isset( $paths[ $network ] ) ? '<svg viewBox="0 0 24 24" aria-hidden="true">' . $paths[ $network ] . '</svg>' : '';
 }
 
 /* ============================================================
@@ -283,6 +327,16 @@ add_action( 'woocommerce_after_main_content',  'amelia_wc_after_content',  10 );
 /* ============================================================
    WooCommerce — product card image wrap + badges
    ============================================================ */
+/**
+ * Responsive product card image (srcset + width/height to avoid layout shift).
+ */
+function amelia_product_card_image( $product ) {
+	$attrs = [ 'alt' => $product->get_name(), 'loading' => 'lazy' ];
+	return $product->get_image_id()
+		? wp_get_attachment_image( $product->get_image_id(), 'amelia-product', false, $attrs )
+		: wc_placeholder_img( 'amelia-product', $attrs );
+}
+
 function amelia_is_new_product( $product ) {
 	$created = $product->get_date_created();
 	return $created && $created->getTimestamp() > strtotime( '-30 days' );
@@ -370,17 +424,13 @@ function amelia_ajax_get_favorites() {
 		$product = wc_get_product( $post->ID );
 		if ( ! $product ) continue;
 
-		$img_id  = $product->get_image_id();
-		$img_url = $img_id
-			? wp_get_attachment_image_url( $img_id, 'amelia-product' )
-			: wc_placeholder_img_src( 'amelia-product' );
 		$url     = get_permalink( $product->get_id() );
 		$is_new  = amelia_is_new_product( $product );
 
 		$html .= '<li class="product">';
 		$html .= '<div class="product-image-wrap">';
 		$html .= '<a href="' . esc_url( $url ) . '">';
-		$html .= '<img src="' . esc_url( $img_url ) . '" alt="' . esc_attr( $product->get_name() ) . '" loading="lazy">';
+		$html .= amelia_product_card_image( $product );
 		$html .= '</a>';
 		$html .= '<div class="product-badges">';
 		if ( $product->is_on_sale() ) $html .= '<span class="badge badge-sale">Rasprodaja</span>';

@@ -28,7 +28,8 @@ if ( $is_shop_archive ) :
 
 	global $wp_query;
 	$found_posts   = $wp_query->found_posts ?? 0;
-	$has_more_init = ( $wp_query->max_num_pages ?? 1 ) > 1;
+	$current_page  = max( 1, (int) get_query_var( 'paged' ) );
+	$has_more_init = ( $wp_query->max_num_pages ?? 1 ) > $current_page;
 	?>
 
 	<div class="shop-hero">
@@ -114,7 +115,8 @@ if ( $is_shop_archive ) :
 					</div>
 
 					<div id="shop-products" class="shop-products-wrap"
-						data-has-more="<?php echo $has_more_init ? '1' : '0'; ?>">
+						data-has-more="<?php echo $has_more_init ? '1' : '0'; ?>"
+						data-page="<?php echo esc_attr( $current_page ); ?>">
 						<?php if ( woocommerce_product_loop() ) : ?>
 							<?php woocommerce_product_loop_start(); ?>
 							<?php while ( have_posts() ) : the_post(); ?>
@@ -136,6 +138,24 @@ if ( $is_shop_archive ) :
 						<?php endif; ?>
 					</div>
 					<div id="shop-load-sentinel" class="shop-load-sentinel"></div>
+
+					<?php
+					// Crawlable page links; shop-filter.js hides them once infinite scroll takes over.
+					$pagination = paginate_links( [
+						'base'      => esc_url_raw( str_replace( 999999999, '%#%', get_pagenum_link( 999999999, false ) ) ),
+						'format'    => '',
+						'current'   => $current_page,
+						'total'     => (int) $wp_query->max_num_pages,
+						'prev_text' => '&larr;',
+						'next_text' => '&rarr;',
+						'type'      => 'list',
+					] );
+					if ( $pagination ) :
+						?>
+					<nav id="shop-pagination" class="woocommerce-pagination" aria-label="<?php esc_attr_e( 'Stranice proizvoda', 'amelia-shop' ); ?>">
+						<?php echo $pagination; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+					</nav>
+					<?php endif; ?>
 
 				</div>
 
