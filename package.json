@@ -10,9 +10,9 @@
     "lint:js": "wp-scripts lint-js 'src/js/**/*.js' 'src/blocks/**/*.js'"
   },
   "devDependencies": {
-    "@wordpress/scripts": "^30.0.0"
+    "@wordpress/scripts": "^35.0.0"
   },
   "dependencies": {
-    "swiper": "^12.1.4"
+    "swiper": "^14.3.0"
   }
 }
