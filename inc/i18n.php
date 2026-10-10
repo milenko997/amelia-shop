@@ -133,3 +133,9 @@ add_filter( 'gettext_with_context', function ( $translated, $original, $context,
 	}
 	return $translated;
 }, 10, 4 );
+
+// WooCommerce hardcodes the dinar symbol in Cyrillic ("рсд"); show it in Latin everywhere
+// (prices, cart, checkout, emails, shop price filter).
+add_filter( 'woocommerce_currency_symbol', function ( $symbol, $currency ) {
+	return 'RSD' === $currency ? 'RSD' : $symbol;
+}, 10, 2 );
