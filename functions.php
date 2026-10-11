@@ -179,7 +179,8 @@ function amelia_scripts() {
 		'amelia-theme',
 		AMELIA_BUILD_URI . '/main.css',
 		[],
-		AMELIA_VERSION
+		// Changes on every build, so browsers fetch the new CSS after a deploy.
+		file_exists( AMELIA_BUILD . '/main.css' ) ? (string) filemtime( AMELIA_BUILD . '/main.css' ) : AMELIA_VERSION
 	);
 
 	// Compiled theme JS (from src/js/main.js via webpack)
