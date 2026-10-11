@@ -14,6 +14,10 @@ require AMELIA_DIR . '/inc/swatches.php';
 require AMELIA_DIR . '/inc/free-shipping.php';
 require AMELIA_DIR . '/inc/legal.php';
 require AMELIA_DIR . '/inc/contact-form.php';
+require AMELIA_DIR . '/inc/stock-alerts.php';
+require AMELIA_DIR . '/inc/mini-cart-recommendations.php';
+require AMELIA_DIR . '/inc/sale-banner.php';
+require AMELIA_DIR . '/inc/card-payments.php';
 
 /* ============================================================
    Theme Setup

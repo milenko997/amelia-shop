@@ -37,6 +37,7 @@
 					[ 'Informacije o dostavi', [ 'dostava', 'informacije-o-dostavi', 'isporuka' ] ],
 					[ 'Reklamacije i povraćaj', [ 'reklamacije', 'povracaj-i-zamena', 'povracaj', 'zamena' ] ],
 					[ 'Pravo na odustanak',    [ 'pravo-na-odustanak' ] ],
+					[ 'Plaćanje karticama',    [ 'placanje-karticama' ] ],
 					[ 'Česta pitanja',         [ 'faq', 'cesta-pitanja' ] ],
 					[ 'Kontakt',               [ 'kontakt' ] ],
 				],
@@ -86,6 +87,8 @@
 			<a href="<?php echo esc_url( $privacy_url ); ?>">Privatnost</a>
 			<?php endif; ?>
 		</div>
+
+		<?php echo amelia_card_logos(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped in amelia_card_logos() ?>
 
 		<?php $company_line = amelia_footer_company_line(); ?>
 		<?php if ( $company_line ) : ?>

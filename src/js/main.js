@@ -20,6 +20,8 @@ import { initGallery }      from './modules/gallery';
 import { initMiniCart }     from './modules/mini-cart';
 import { initSwatches }     from './modules/swatches';
 import { initSizeGuide }    from './modules/size-guide';
+import { initStockAlert }   from './modules/stock-alert';
+import { initSaleBanner }   from './modules/sale-banner';
 import { initMapConsent }   from './modules/map-consent';
 
 document.addEventListener( 'DOMContentLoaded', () => {
@@ -33,5 +35,7 @@ document.addEventListener( 'DOMContentLoaded', () => {
 	initMiniCart();
 	initSwatches();
 	initSizeGuide();
+	initStockAlert();
+	initSaleBanner();
 	initMapConsent();
 } );

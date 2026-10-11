@@ -12,6 +12,8 @@
 
 <div id="page" class="site">
 
+	<?php amelia_sale_banner(); // Customizer → Akcijska traka ?>
+
 	<!-- Promo strip (texts: Customizer → Promo traka) -->
 	<?php $promo_items = amelia_promo_items(); ?>
 	<?php if ( $promo_items ) : ?>
