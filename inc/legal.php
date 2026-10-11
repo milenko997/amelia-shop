@@ -3,7 +3,6 @@
  * Legal requirements for online sales in Serbia (Zakon o zaštiti potrošača,
  * Zakon o elektronskoj trgovini, ZZPL):
  * - seller details (name, address, PIB, MB, contact) editable in Customizer and shown in the footer
- * - price note (VAT included / seller not in the VAT system)
  * - right of withdrawal and complaints info at checkout and in customer emails
  * - footer payment methods taken from the enabled WooCommerce gateways
  */
@@ -41,16 +40,6 @@ add_action( 'customize_register', function ( WP_Customize_Manager $wp_customize 
 		] );
 	}
 
-	$wp_customize->add_setting( 'amelia_company_vat', [
-		'default'           => true,
-		'sanitize_callback' => 'wp_validate_boolean',
-	] );
-	$wp_customize->add_control( 'amelia_company_vat', [
-		'section'     => 'amelia_company',
-		'type'        => 'checkbox',
-		'label'       => 'Firma je u sistemu PDV-a',
-		'description' => 'Uključeno: „Cene su sa uračunatim PDV-om“. Isključeno: „Prodavac nije u sistemu PDV-a“.',
-	] );
 } );
 
 /**
@@ -67,11 +56,6 @@ function amelia_company() {
 	return $data;
 }
 
-function amelia_price_note() {
-	return get_theme_mod( 'amelia_company_vat', true )
-		? 'Sve cene su izražene u dinarima, sa uračunatim PDV-om.'
-		: 'Sve cene su izražene u dinarima. Prodavac nije u sistemu PDV-a.';
-}
 
 /* ============================================================
    [amelia_podaci_o_firmi] — seller details block for legal pages
@@ -149,19 +133,6 @@ function amelia_payment_method_titles() {
 	}
 	return $titles;
 }
-
-/* ============================================================
-   Price note — product page, cart and checkout totals
-   ============================================================ */
-add_action( 'woocommerce_single_product_summary', function () {
-	echo '<p class="price-note">' . esc_html( amelia_price_note() ) . '</p>';
-}, 11 );
-
-$amelia_totals_note = function () {
-	echo '<tr class="price-note-row"><td colspan="2"><span class="price-note">' . esc_html( amelia_price_note() ) . '</span></td></tr>';
-};
-add_action( 'woocommerce_cart_totals_after_order_total', $amelia_totals_note );
-add_action( 'woocommerce_review_order_after_order_total', $amelia_totals_note );
 
 /* ============================================================
    Right of withdrawal and complaints — checkout and emails
