@@ -1,0 +1,22 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "amelia/contact-form",
+  "version": "1.0.0",
+  "title": "Amelia Kontakt forma",
+  "category": "amelia",
+  "description": "Kontakt forma koja poruke šalje na email prodavnice.",
+  "textdomain": "amelia-shop",
+  "editorScript": "file:./index.js",
+  "viewScript": "file:./view.js",
+  "render": "file:./render.php",
+  "attributes": {
+    "title":       { "type": "string", "default": "Pišite nam" },
+    "description": { "type": "string", "default": "Imate pitanje o porudžbini, veličini ili proizvodu? Popunite formu i odgovorićemo vam u najkraćem roku." },
+    "buttonText":  { "type": "string", "default": "Pošalji poruku" }
+  },
+  "supports": {
+    "html":  false,
+    "align": ["wide", "full"]
+  }
+}

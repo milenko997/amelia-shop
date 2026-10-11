@@ -13,6 +13,7 @@ require AMELIA_DIR . '/inc/size-guide.php';
 require AMELIA_DIR . '/inc/swatches.php';
 require AMELIA_DIR . '/inc/free-shipping.php';
 require AMELIA_DIR . '/inc/legal.php';
+require AMELIA_DIR . '/inc/contact-form.php';
 
 /* ============================================================
    Theme Setup
@@ -222,7 +223,7 @@ add_filter( 'block_categories_all', 'amelia_block_categories' );
    Register Gutenberg blocks
    ============================================================ */
 function amelia_register_blocks() {
-	$blocks = [ 'hero', 'category-grid', 'features-strip', 'products', 'about-us', 'contact', 'favorites', 'faq' ];
+	$blocks = [ 'hero', 'category-grid', 'features-strip', 'products', 'about-us', 'contact', 'contact-form', 'favorites', 'faq' ];
 
 	foreach ( $blocks as $block ) {
 		$path = AMELIA_BUILD . '/blocks/' . $block;

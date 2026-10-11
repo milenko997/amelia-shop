@@ -1,0 +1,145 @@
+@use '../abstracts/variables' as *;
+@use '../abstracts/mixins' as *;
+
+.contact-form-block {
+	padding: 4rem 1.5rem;
+}
+
+.contact-form-block__inner {
+	max-width: 720px;
+	margin: 0 auto;
+}
+
+.contact-form-block__title {
+	font-size: clamp(1.75rem, 3vw, 2.25rem);
+	margin-bottom: 0.75rem;
+	text-align: center;
+}
+
+.contact-form-block__desc {
+	max-width: 540px;
+	margin: 0 auto 2rem;
+	text-align: center;
+	color: $color-text-light;
+	line-height: 1.7;
+}
+
+.contact-form {
+	display: grid;
+	gap: 1.25rem;
+	padding: 2rem;
+	background: $color-white;
+	border-radius: $radius-lg;
+	box-shadow: $shadow-sm;
+
+	@include respond-to(sm) { padding: 1.25rem; }
+}
+
+.contact-form__row {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 1.25rem;
+
+	@include respond-to(sm) { grid-template-columns: 1fr; }
+}
+
+.contact-form__field {
+	display: flex;
+	flex-direction: column;
+	gap: 0.4rem;
+
+	label {
+		font-size: 0.875rem;
+		font-weight: 600;
+		color: $color-secondary;
+	}
+
+	input,
+	textarea {
+		width: 100%;
+		padding: 0.75rem 1rem;
+		border: 2px solid $color-border;
+		border-radius: $radius-md;
+		background: $color-white;
+		color: $color-text;
+		font-size: 0.95rem;
+		transition: border-color $transition;
+
+		&:focus {
+			outline: none;
+			border-color: $color-primary;
+		}
+
+		&[aria-invalid='true'] { border-color: $color-error; }
+	}
+
+	textarea { resize: vertical; min-height: 140px; }
+
+	.required { color: $color-error; }
+}
+
+.contact-form__optional {
+	font-weight: 400;
+	color: $color-text-light;
+}
+
+.contact-form__error {
+	font-size: 0.8rem;
+	color: $color-error;
+
+	&:empty { display: none; }
+}
+
+.contact-form__footer {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 1rem 1.5rem;
+}
+
+.contact-form__submit.is-loading {
+	opacity: 0.6;
+	cursor: wait;
+}
+
+.contact-form__privacy {
+	flex: 1;
+	min-width: 220px;
+	margin: 0;
+	font-size: 0.8rem;
+	color: $color-text-light;
+	line-height: 1.5;
+
+	a { color: $color-primary-dark; text-decoration: underline; }
+}
+
+.contact-form__notice {
+	margin: 0;
+	padding: 0.9rem 1.1rem;
+	border-left: 4px solid;
+	border-radius: $radius-md;
+	font-size: 0.9rem;
+
+	&--success {
+		background: #f0faf4;
+		border-color: $color-success;
+		color: #1a6b3c;
+	}
+
+	&--error {
+		background: #fff5f5;
+		border-color: $color-error;
+		color: $color-error;
+	}
+}
+
+// Honeypot: off-screen for people, still in the form for bots.
+.contact-form__hp {
+	position: absolute !important;
+	left: -9999px;
+	width: 1px;
+	height: 1px;
+	overflow: hidden;
+}
+
+.contact-form__row--full { grid-template-columns: 1fr; }
