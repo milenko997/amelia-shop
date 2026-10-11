@@ -69,8 +69,7 @@ add_action( 'woocommerce_single_product_summary', function () {
 	?>
 	<div class="stock-alert" id="obavesti-me" data-stock-alert<?php echo $for_variation && ! $status ? ' hidden' : ''; ?>>
 		<p class="stock-alert__title">Nema na stanju? Javićemo vam čim stigne.</p>
-		<form class="stock-alert__form" method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" novalidate>
-			<input type="hidden" name="action" value="amelia_stock_alert">
+		<form class="stock-alert__form" method="post" action="<?php echo esc_url( rest_url( 'amelia/v1/stock-alert' ) ); ?>" data-token-url="<?php echo esc_url( rest_url( 'amelia/v1/token' ) ); ?>" novalidate>
 			<input type="hidden" name="product_id" value="<?php echo esc_attr( $for_variation ? '' : $product->get_id() ); ?>">
 			<input type="hidden" name="redirect" value="<?php echo esc_url( get_permalink( $product->get_id() ) ); ?>">
 			<?php amelia_contact_form_token_fields(); ?>
@@ -170,8 +169,14 @@ function amelia_handle_stock_alert() {
 
 	amelia_stock_alert_respond( 'prijavljeno' );
 }
-add_action( 'admin_post_nopriv_amelia_stock_alert', 'amelia_handle_stock_alert' );
-add_action( 'admin_post_amelia_stock_alert', 'amelia_handle_stock_alert' );
+// REST API instead of admin-post.php, see the note in inc/contact-form.php.
+add_action( 'rest_api_init', function () {
+	register_rest_route( 'amelia/v1', '/stock-alert', [
+		'methods'             => 'POST',
+		'callback'            => 'amelia_handle_stock_alert',
+		'permission_callback' => '__return_true',
+	] );
+} );
 
 /* ============================================================
    Back in stock → send emails in the background

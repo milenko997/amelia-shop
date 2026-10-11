@@ -32,8 +32,7 @@ $rows = [ [ 'name', 'email' ], [ 'phone', 'order' ], [ 'message' ] ];
 			<p class="contact-form-block__desc"><?php echo wp_kses_post( $description ); ?></p>
 		<?php endif; ?>
 
-		<form class="contact-form" data-amelia-contact method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" novalidate>
-			<input type="hidden" name="action" value="amelia_contact">
+		<form class="contact-form" data-amelia-contact method="post" action="<?php echo esc_url( rest_url( 'amelia/v1/contact' ) ); ?>" data-token-url="<?php echo esc_url( rest_url( 'amelia/v1/token' ) ); ?>" novalidate>
 			<input type="hidden" name="redirect" value="<?php echo esc_url( get_permalink() ?: home_url( '/' ) ); ?>">
 			<?php amelia_contact_form_token_fields(); ?>
 

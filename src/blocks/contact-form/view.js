@@ -6,8 +6,7 @@ const GENERIC_ERROR = 'Poruka nije poslata. Pokušajte ponovo ili nas kontaktira
 
 // Pages can be served from a cache for days; get a fresh signed timestamp first.
 function refreshToken( form ) {
-	const url = `${ form.action }?action=amelia_contact_token`;
-	return fetch( url, { credentials: 'same-origin', cache: 'no-store' } )
+	return fetch( form.dataset.tokenUrl, { credentials: 'same-origin', cache: 'no-store' } )
 		.then( ( r ) => r.json() )
 		.then( ( res ) => {
 			if ( res.success ) {

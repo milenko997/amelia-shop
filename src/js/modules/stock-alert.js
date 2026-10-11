@@ -25,7 +25,7 @@ export function initStockAlert() {
 	const pageAge = Date.now() / 1000 - Number( form.elements.ts.value );
 	if ( pageAge > 12 * 3600 ) {
 		form.addEventListener( 'focusin', () => {
-			fetch( `${ form.action }?action=amelia_contact_token`, { credentials: 'same-origin', cache: 'no-store' } )
+			fetch( form.dataset.tokenUrl, { credentials: 'same-origin', cache: 'no-store' } )
 				.then( ( r ) => r.json() )
 				.then( ( res ) => {
 					if ( res.success ) {
@@ -78,7 +78,14 @@ export function initStockAlert() {
 					showStatus( 'error', message );
 				}
 			} )
-			.catch( () => showStatus( 'error', 'Prijava nije uspela. Proverite internet i pokušajte ponovo.' ) )
+			.catch( ( err ) => {
+				showStatus(
+					'error',
+					err.message === 'server'
+						? 'Prijava trenutno nije moguća. Pokušajte ponovo kasnije.'
+						: 'Prijava nije uspela zbog problema sa vezom. Proverite internet i pokušajte ponovo.'
+				);
+			} )
 			.finally( () => {
 				submit.disabled = false;
 			} );

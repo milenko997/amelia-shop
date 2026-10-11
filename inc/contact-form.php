@@ -5,6 +5,11 @@
  * Works with and without JavaScript: view.js posts via fetch and gets JSON back,
  * a plain form post is redirected back to the page with ?kontakt=poslato or ?kontakt=<reason>.
  *
+ * Endpoints live in the REST API (/wp-json/amelia/v1/...), not in /wp-admin/admin-post.php:
+ * for logged-in users admin-post.php runs admin_init, where plugins (setup wizards etc.) may
+ * redirect, and hosts like Loopia filter POST requests to /wp-admin/. The handlers read $_POST,
+ * which PHP fills for REST requests too, and answer with wp_send_json_* / a redirect.
+ *
  * Spam protection without captcha: a hidden honeypot field, a signed render timestamp
  * (bots that submit instantly or replay old forms are rejected) and a per-IP rate limit.
  * No nonce, and view.js fetches a fresh timestamp before submitting, so the form keeps
@@ -59,13 +64,24 @@ function amelia_contact_form_token_fields() {
 	);
 }
 
-// Fresh token for pages served from a cache (fetched by view.js before submitting).
+// Fresh token for pages served from a cache (fetched by the form scripts before submitting).
 function amelia_contact_form_send_token() {
 	nocache_headers();
 	wp_send_json_success( amelia_contact_form_token() );
 }
-add_action( 'admin_post_nopriv_amelia_contact_token', 'amelia_contact_form_send_token' );
-add_action( 'admin_post_amelia_contact_token', 'amelia_contact_form_send_token' );
+
+add_action( 'rest_api_init', function () {
+	register_rest_route( 'amelia/v1', '/token', [
+		'methods'             => 'GET',
+		'callback'            => 'amelia_contact_form_send_token',
+		'permission_callback' => '__return_true',
+	] );
+	register_rest_route( 'amelia/v1', '/contact', [
+		'methods'             => 'POST',
+		'callback'            => 'amelia_handle_contact_form',
+		'permission_callback' => '__return_true',
+	] );
+} );
 
 function amelia_contact_form_recipient() {
 	$company = function_exists( 'amelia_company' ) ? amelia_company() : [];
@@ -176,5 +192,3 @@ function amelia_handle_contact_form() {
 
 	amelia_contact_form_respond( $mailed ? 'poslato' : 'slanje' );
 }
-add_action( 'admin_post_nopriv_amelia_contact', 'amelia_handle_contact_form' );
-add_action( 'admin_post_amelia_contact', 'amelia_handle_contact_form' );
